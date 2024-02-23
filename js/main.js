@@ -12,16 +12,11 @@ const creditsMenu = `<div class="menu">
     <button class="retour">Menu principal</button>
 </div>`;
 
-const playButton = document.querySelector('.playButton');
-playButton.addEventListener('click', () => {
-    //
-});
+const gameCanvas = `<canvas id="gameCanvas" width="800" height="600"></canvas>`;
 
-const optionsButton = document.querySelector('.optionsButton');
-optionsButton.addEventListener('click', () => displayOptions());
-
-const creditsButton = document.querySelector('.creditsButton');
-creditsButton.addEventListener('click', () => displayCredits());
+document.querySelector('.playButton').addEventListener('click', () => displayGame());
+document.querySelector('.optionsButton').addEventListener('click', () => displayOptions());
+document.querySelector('.creditsButton').addEventListener('click', () => displayCredits());
 
 function displayOptions(){
     document.querySelector('.menu').innerHTML = optionsMenu;
@@ -37,6 +32,11 @@ function displayCredits(){
 
 function displayMenu(){
     document.querySelector('.menu').innerHTML = mainMenu;
+    document.querySelector('.playButton').addEventListener('click', () => displayGame());
     document.querySelector('.optionsButton').addEventListener('click', () => displayOptions());
     document.querySelector('.creditsButton').addEventListener('click', () => displayCredits());
+}
+
+function displayGame(){
+    document.querySelector('body').innerHTML = gameCanvas;
 }
