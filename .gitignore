@@ -1,0 +1,8 @@
+.vscode/
+node_modules/
+build/
+.babelrc
+.prettierrc
+package-lock.json
+package.json
+webpack.config.js
