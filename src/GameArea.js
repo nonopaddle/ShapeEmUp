@@ -1,10 +1,6 @@
-import { Entity } from './entity/Entity.js';
-
 export class GameArea {
 	entities = [];
-	constructor() {
-		this.interval = setInterval(this.tick_event.bind(this), this.delta * 1000);
-	}
+	constructor() {}
 
 	setCanvas(canvas) {
 		this.canvas = canvas;
