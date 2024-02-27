@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { Entity } from './Entity.js';
 import { error } from 'node:console';
 
