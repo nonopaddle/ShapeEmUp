@@ -1,4 +1,7 @@
+import { Entity } from './entity/Entity.js';
+
 export class GameArea {
+	entities = [];
 	constructor() {
 		this.interval = setInterval(this.tick_event.bind(this), this.delta * 1000);
 	}
@@ -13,6 +16,10 @@ export class GameArea {
 			this.canvas.height = this.canvas.clientHeight;
 		}
 		this.render();
+	}
+
+	add_entity(entity) {
+		this.entities.push(entity);
 	}
 
 	render() {

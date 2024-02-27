@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { GameArea } from './GameArea.js';
+import { Entity } from './entity/Entity.js';
 
 describe('GameArea tests', () => {
 	it('should be able to add an entity', () => {
@@ -15,6 +16,6 @@ describe('GameArea tests', () => {
 		assert.strictEqual(10, ga.entities[1].pos.x);
 		assert.strictEqual(15, ga.entities[1].pos.y);
 		assert.strictEqual(10, ga.entities[1].size.x);
-		assert.strictEqual(12, ga.entities[1].size.y);
+		assert.strictEqual(20, ga.entities[1].size.y);
 	});
 });
