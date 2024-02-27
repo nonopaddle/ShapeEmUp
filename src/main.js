@@ -54,8 +54,14 @@ function displayGame() {
 }
 
 import { GameArea } from './GameArea.js';
+import { Entity } from './entity/Entity.js';
+import { Renderer } from './entity/view/Renderer.js';
 
 export const myGameArea = new GameArea(document);
+Renderer.set_canvas(document.querySelector('.canvas'));
 
-//myGameArea.addComponent(obstacle);
-//myGameArea.addPlayer(playerDatas);
+myGameArea.add_entity(new Entity(100, 200, 10, 20, 'red'));
+myGameArea.add_entity(new Entity(200, 300, 100, 100, 'yellow'));
+
+Renderer.render();
+myGameArea.start();
