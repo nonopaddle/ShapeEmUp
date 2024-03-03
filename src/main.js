@@ -1,7 +1,7 @@
 import { GameArea } from './GameArea.js';
+import { MouseControls } from './controller/MouseControls.js';
 import { Entity } from './entity/Entity.js';
-import { DynamicEntity } from './entity/DynamicEntity.js';
-import { Renderer } from './entity/view/Renderer.js';
+import { Renderer } from './view/Renderer.js';
 
 const mainMenu = `<div class="menu">
     <button class="playButton">Jouer</button>
@@ -58,8 +58,10 @@ function displayGame() {
 	document.querySelector('body').innerHTML = gameCanvas;
 }
 
+const canvas = document.querySelector('.canvas');
 export const myGameArea = new GameArea(document);
-Renderer.set_canvas(document.querySelector('.canvas'));
+Renderer.set_canvas(canvas);
+MouseControls.set_canvas(canvas);
 
 myGameArea.add_entity(new Entity(100, 200, 10, 20, 'red'));
 myGameArea.add_entity(new Entity(200, 300, 100, 100, 'yellow'));

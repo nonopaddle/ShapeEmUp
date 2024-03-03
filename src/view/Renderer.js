@@ -1,4 +1,4 @@
-import { myGameArea } from '../../main.js';
+import { myGameArea } from '../main.js';
 
 export class Renderer {
 	static canvas;
