@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { DynamicEntity } from './DynamicEntity.js';
-import { error } from 'node:console';
 
 describe('Dynamic entity tests', () => {
 	it('can move', () => {
