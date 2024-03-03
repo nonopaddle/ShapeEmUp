@@ -4,7 +4,11 @@ import { DynamicEntity } from './DynamicEntity.js';
 
 describe('Dynamic entity tests', () => {
 	it('can move', () => {
-		const de = new DynamicEntity(25, 25, 40, 40);
+		datas = {
+			pos: { x: 25, y: 25 },
+			size: { x: 40, y: 40 },
+		};
+		const de = new DynamicEntity(datas);
 		assert.strictEqual(25, de.pos.x);
 		assert.strictEqual(25, de.pos.y);
 		const randX = Math.random() * 100,

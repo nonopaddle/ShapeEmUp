@@ -4,7 +4,12 @@ import { LivingEntity } from './LivingEntity.js';
 
 describe('LivingEntity tests', () => {
 	it('has HPs', () => {
-		const le = new LivingEntity(100, 25, 25, 40, 40, 'red');
+		const datas = {
+			pos: { x: 25, y: 25 },
+			size: { x: 40, y: 40 },
+			default_hp: 100,
+		};
+		const le = new LivingEntity(datas);
 		assert.strictEqual(100, le.HP);
 	});
 });

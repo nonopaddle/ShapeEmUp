@@ -1,10 +1,7 @@
 import { Entity } from './Entity.js';
 
 export class DynamicEntity extends Entity {
-	constructor(x, y, width, height, color) {
-		super(x, y, width, height, color);
-		this.speed = { x: x, y: y };
-	}
+	speed = { x: 0, y: 0 };
 
 	move() {
 		this.pos.x += this.speed.x;
