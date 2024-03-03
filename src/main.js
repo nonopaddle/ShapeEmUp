@@ -1,3 +1,8 @@
+import { GameArea } from './GameArea.js';
+import { Entity } from './entity/Entity.js';
+import { DynamicEntity } from './entity/DynamicEntity.js';
+import { Renderer } from './entity/view/Renderer.js';
+
 const mainMenu = `<div class="menu">
     <button class="playButton">Jouer</button>
     <button class="optionsButton">Options</button>
@@ -52,10 +57,6 @@ function displayMenu() {
 function displayGame() {
 	document.querySelector('body').innerHTML = gameCanvas;
 }
-
-import { GameArea } from './GameArea.js';
-import { Entity } from './entity/Entity.js';
-import { Renderer } from './entity/view/Renderer.js';
 
 export const myGameArea = new GameArea(document);
 Renderer.set_canvas(document.querySelector('.canvas'));
