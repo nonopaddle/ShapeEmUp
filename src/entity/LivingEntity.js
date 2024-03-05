@@ -5,4 +5,6 @@ export class LivingEntity extends DynamicEntity {
 		super(datas);
 		this.HP = datas.default_hp;
 	}
+
+	hurt(damages) {}
 }

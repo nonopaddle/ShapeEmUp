@@ -63,8 +63,19 @@ export const myGameArea = new GameArea(document);
 Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
 
-myGameArea.add_entity(new Entity(100, 200, 10, 20, 'red'));
-myGameArea.add_entity(new Entity(200, 300, 100, 100, 'yellow'));
+const d1 = {
+		pos: { x: 100, y: 200 },
+		size: { x: 10, y: 20 },
+		color: 'red',
+	},
+	d2 = {
+		pos: { x: 200, y: 300 },
+		size: { x: 100, y: 100 },
+		color: 'yellow',
+	};
+
+myGameArea.add_entity(new Entity(d1));
+myGameArea.add_entity(new Entity(d2));
 
 Renderer.render();
 myGameArea.start();

@@ -4,7 +4,7 @@ import { DynamicEntity } from './DynamicEntity.js';
 
 describe('Dynamic entity tests', () => {
 	it('can move', () => {
-		datas = {
+		const datas = {
 			pos: { x: 25, y: 25 },
 			size: { x: 40, y: 40 },
 		};
