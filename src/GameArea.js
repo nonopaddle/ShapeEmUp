@@ -1,6 +1,5 @@
-export class GameArea {
+class GameArea {
 	entities = [];
-	constructor() {}
 
 	add_entity(entity) {
 		this.entities.push(entity);
@@ -11,6 +10,9 @@ export class GameArea {
 	}
 
 	tick_event() {
+		this.entities.forEach(entity => entity.update());
 		console.log('tick');
 	}
 }
+
+export default new GameArea();

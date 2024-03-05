@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { LivingEntity } from './LivingEntity.js';
-import { GameArea } from '../GameArea.js';
+import gameArea from '../GameArea.js';
 
 describe('LivingEntity tests', () => {
 	it('has HPs', () => {
@@ -32,14 +32,13 @@ describe('LivingEntity tests', () => {
 			default_hp: 100,
 		};
 		const le = new LivingEntity(datas);
+		gameArea.add_entity(le);
 
-		const ga = new GameArea();
-		ga.add_entity(le);
-
-		assert.strictEqual(1, ga.entities.length);
-		assert.strictEqual(le, ga.entities[0]);
+		assert.strictEqual(1, gameArea.entities.length);
+		assert.strictEqual(le, gameArea.entities[0]);
 		le.hurt(100);
-		assert(!ga.entities.includes(le));
-		assert.strictEqual(0, ga.entities.length);
+		gameArea.tick_event();
+		assert(!gameArea.entities.includes(le));
+		assert.strictEqual(0, gameArea.entities.length);
 	});
 });
