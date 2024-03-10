@@ -16,4 +16,6 @@ export class Entity {
 		ctx.fillRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
 		ctx.strokeRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
 	}
+
+	update(){}
 }

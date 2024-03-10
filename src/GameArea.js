@@ -11,8 +11,8 @@ class GameArea {
 
 	tick_event() {
 		this.entities.forEach(entity => entity.update());
-		console.log('tick');
+		//console.log('tick');
 	}
 }
 
-export default new GameArea();
+export const gameArea = new GameArea();

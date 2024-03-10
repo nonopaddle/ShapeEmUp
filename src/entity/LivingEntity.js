@@ -1,5 +1,5 @@
 import { DynamicEntity } from './DynamicEntity.js';
-import gameArea from '../GameArea.js';
+import { gameArea } from '../GameArea.js';
 
 export class LivingEntity extends DynamicEntity {
 	constructor(datas) {
@@ -8,6 +8,7 @@ export class LivingEntity extends DynamicEntity {
 	}
 
 	update() {
+		super.update();
 		if (this.HP <= 0) {
 			this.die();
 		}
