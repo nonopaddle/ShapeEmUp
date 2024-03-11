@@ -12,6 +12,7 @@ export class DynamicEntity extends Entity {
 	move() {
 		this.pos.x += this.speed.x;
 		this.pos.y += this.speed.y;
+		/*
 		if (this.pos.x <= 0)
 			throw new Error(
 				"L'entité dynamique ne peut pas se déplacer dans des x négatifs !"
@@ -20,6 +21,7 @@ export class DynamicEntity extends Entity {
 			throw new Error(
 				"L'entité dynamique ne peut pas se déplacer dans des y négatifs !"
 			);
+		*/
 	}
 
 	setSpeed(speedX, speedY) {
