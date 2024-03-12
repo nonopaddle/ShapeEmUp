@@ -1,4 +1,4 @@
-import { gameArea } from './GameArea.js';
+import GameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
 import { Entity } from './entity/Entity.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
@@ -66,22 +66,22 @@ Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
 
 const d1 = {
-	pos: { x: 100, y: 200 },
-	size: { x: 10, y: 20 },
-	speed: { x: 0, y: 0 },
-	color: 'red',
-},
-d2 = {
-	pos: { x: 200, y: 300 },
-	size: { x: 100, y: 100 },
-	speed: { x: 0, y: 0 },
-	color: 'yellow',
-};
+		pos: { x: 100, y: 200 },
+		size: { x: 10, y: 20 },
+		speed: { x: 0, y: 0 },
+		color: 'red',
+	},
+	d2 = {
+		pos: { x: 200, y: 300 },
+		size: { x: 100, y: 100 },
+		speed: { x: 0, y: 0 },
+		color: 'yellow',
+	};
 
 export const player = new PlayerEntity(d2);
 
-gameArea.add_entity(new Entity(d1));
-gameArea.add_entity(player);
+GameArea.add_entity(new Entity(d1));
+GameArea.add_entity(player);
 
 Renderer.render();
-gameArea.start();
+GameArea.start();

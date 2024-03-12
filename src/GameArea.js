@@ -15,4 +15,4 @@ class GameArea {
 	}
 }
 
-export const gameArea = new GameArea();
+export default new GameArea();

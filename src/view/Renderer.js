@@ -1,4 +1,4 @@
-import { gameArea } from '../GameArea.js';
+import GameArea from '../GameArea.js';
 
 export class Renderer {
 	static canvas;
@@ -17,7 +17,7 @@ export class Renderer {
 	static render() {
 		if (this.context == undefined) throw new Error('context is null !');
 		this.clear();
-		gameArea.entities.forEach(entity => entity.render(this.context));
+		GameArea.entities.forEach(entity => entity.render(this.context));
 		requestAnimationFrame(this.render.bind(this));
 	}
 

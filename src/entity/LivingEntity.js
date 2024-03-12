@@ -1,5 +1,5 @@
 import { DynamicEntity } from './DynamicEntity.js';
-import { gameArea } from '../GameArea.js';
+import GameArea from '../GameArea.js';
 
 export class LivingEntity extends DynamicEntity {
 	constructor(datas) {
@@ -19,9 +19,9 @@ export class LivingEntity extends DynamicEntity {
 	}
 
 	die() {
-		gameArea.entities.forEach((entity, index) => {
+		GameArea.entities.forEach((entity, index) => {
 			if (entity === this) {
-				gameArea.entities.splice(index, 1);
+				GameArea.entities.splice(index, 1);
 			}
 		});
 	}
