@@ -1,4 +1,4 @@
-import { gameArea } from './GameArea.js';
+import gameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
 import { Entity } from './entity/Entity.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';

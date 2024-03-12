@@ -3,12 +3,6 @@ import { Entity } from './Entity.js';
 export class DynamicEntity extends Entity {
 	speed = { x: 0, y: 0 };
 
-	constructor(datas) {
-		super(datas);
-		this.speed.x = datas.speed.x;
-		this.speed.y = datas.speed.y;
-	}
-
 	move() {
 		this.pos.x += this.speed.x;
 		this.pos.y += this.speed.y;

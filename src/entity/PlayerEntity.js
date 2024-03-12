@@ -1,7 +1,7 @@
 import { LivingEntity } from "./LivingEntity.js";
 import { KeyBoardControls } from "../controller/KeyboardControls.js";
 import { MouseControls } from "../controller/MouseControls.js";
-import { gameArea } from "../GameArea.js";
+import gameArea from "../GameArea.js";
 import { DynamicEntity } from "./DynamicEntity.js";
 
 export class PlayerEntity extends LivingEntity {

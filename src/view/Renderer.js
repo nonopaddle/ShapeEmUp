@@ -1,4 +1,4 @@
-import { gameArea } from '../GameArea.js';
+import gameArea from '../GameArea.js';
 
 export class Renderer {
 	static canvas;
