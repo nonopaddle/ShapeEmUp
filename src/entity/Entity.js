@@ -13,8 +13,8 @@ export class Entity {
 	render(ctx) {
 		ctx.fillStyle = this.color;
 		ctx.lineWidth = 2;
-		ctx.fillRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
-		ctx.strokeRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
+		ctx.fillRect(this.pos.x-this.size.x/2, this.pos.y-this.size.y/2, this.size.x, this.size.y);
+		ctx.strokeRect(this.pos.x-this.size.x/2, this.pos.y-this.size.y/2, this.size.x, this.size.y);
 	}
 
 	update(){}

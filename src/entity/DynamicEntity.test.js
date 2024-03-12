@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { DynamicEntity } from './DynamicEntity.js';
+import { Vector2 } from '../math/Vector2.js';
 
 describe('Dynamic entity tests', () => {
 	it('can move', () => {
@@ -11,11 +12,11 @@ describe('Dynamic entity tests', () => {
 		const de = new DynamicEntity(datas);
 		assert.strictEqual(25, de.pos.x);
 		assert.strictEqual(25, de.pos.y);
-		const randX = Math.random() * 100,
-			randY = Math.random() * 100;
-		de.setSpeed(randX, randY);
+		const randSpeed = new Vector2(Math.random() * 100, Math.random() * 100);
+		de.setSpeed(randSpeed.x, randSpeed.y);
+		randSpeed.normalize().multiplyScalar(10);
 		de.move();
-		assert.strictEqual(25 + randX, de.pos.x);
-		assert.strictEqual(25 + randY, de.pos.y);
+		assert.strictEqual(25 + randSpeed.x, de.pos.x);
+		assert.strictEqual(25 + randSpeed.y, de.pos.y);
 	});
 });
