@@ -40,28 +40,19 @@ export class PlayerEntity extends LivingEntity {
 
 	is_shooting() {
 		if (MouseControls.controls.left && this.cooldown <= 0) {
-			GameArea.entities.push(
-				new DynamicEntity({
-					pos: {
-						x: this.pos.x + this.size.x / 2,
-						y: this.pos.y + this.size.y / 2,
-					},
-					size: { x: 10, y: 10 },
-					color: 'blue',
-					speed: {
-						x: -(
-							this.pos.x +
-							this.size.x / 2 -
-							MouseControls.controls.current_coords.x
-						),
-						y: -(
-							this.pos.y +
-							this.size.y / 2 -
-							MouseControls.controls.current_coords.y
-						),
-					},
-				})
-			);
+			const bullet = new DynamicEntity({
+				pos: {
+					x: this.pos.x,
+					y: this.pos.y,
+				},
+				size: { x: 10, y: 10 },
+				color: 'blue',
+			});
+			bullet.setSpeed(
+				-(this.pos.x  - MouseControls.controls.current_coords.x),
+				-(this.pos.y  - MouseControls.controls.current_coords.y)
+				);
+			GameArea.entities.push(bullet);
 			this.cooldown = 20;
 		}
 	}

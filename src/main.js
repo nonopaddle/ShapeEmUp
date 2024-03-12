@@ -80,7 +80,6 @@ const d1 = {
 
 export const player = new PlayerEntity(d2);
 
-GameArea.add_entity(new Entity(d1));
 GameArea.add_entity(player);
 
 Renderer.render();
