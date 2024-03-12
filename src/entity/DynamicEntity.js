@@ -5,11 +5,16 @@ export class DynamicEntity extends Entity {
 	constructor(datas) {
 		super(datas);
 		this.speedV = new Vector2(0, 0);
+		if (datas.speedMult) {
+			this.speedMult = datas.speedMult;
+		} else {
+			this.speedMult = 1;
+		}
 	}
 
 	move() {
 		this.speedV.normalize();
-		this.speedV.multiplyScalar(10);
+		this.speedV.multiplyScalar(this.speedMult);
 		this.pos.x += this.speedV.x;
 		this.pos.y += this.speedV.y;
 		/*

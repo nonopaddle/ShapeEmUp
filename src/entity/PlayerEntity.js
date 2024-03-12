@@ -1,8 +1,8 @@
-import { LivingEntity } from "./LivingEntity.js";
-import { KeyBoardControls } from "../controller/KeyboardControls.js";
-import { MouseControls } from "../controller/MouseControls.js";
-import { DynamicEntity } from "./DynamicEntity.js";
-import gameArea from "../GameArea.js";
+import { LivingEntity } from './LivingEntity.js';
+import { KeyBoardControls } from '../controller/KeyboardControls.js';
+import { MouseControls } from '../controller/MouseControls.js';
+import { ProjectileEntity } from './ProjectileEntity.js';
+import gameArea from '../GameArea.js';
 
 export class PlayerEntity extends LivingEntity {
 	constructor(datas) {
@@ -12,13 +12,15 @@ export class PlayerEntity extends LivingEntity {
 	}
 
 	update() {
-		super.update();
-		this.is_moving();
+		this.move();
 		this.is_shooting();
 		this.cooldown -= 1;
+		if (this.HP <= 0) {
+			this.die();
+		}
 	}
 
-	is_moving() {
+	move() {
 		if (KeyBoardControls.keymap.z) {
 			this.speedV.setY(-1);
 		} else if (KeyBoardControls.keymap.s) {
@@ -34,24 +36,30 @@ export class PlayerEntity extends LivingEntity {
 			this.speedV.setX(0);
 		}
 		this.speedV.normalize();
+		this.speedV.multiplyScalar(10);
 		this.pos.x += this.speedV.x;
 		this.pos.y += this.speedV.y;
 	}
 
 	is_shooting() {
 		if (MouseControls.controls.left && this.cooldown <= 0) {
-			const bullet = new DynamicEntity({
+			const bullet = new ProjectileEntity({
 				pos: {
 					x: this.pos.x,
 					y: this.pos.y,
 				},
 				size: { x: 10, y: 10 },
+				speedMult: 25,
+				friendly: true,
+				owner: this,
+				damage: 2,
+				penetration: 1,
 				color: 'blue',
 			});
 			bullet.setSpeed(
-				-(this.pos.x  - MouseControls.controls.current_coords.x),
-				-(this.pos.y  - MouseControls.controls.current_coords.y)
-				);
+				-(this.pos.x - MouseControls.controls.current_coords.x),
+				-(this.pos.y - MouseControls.controls.current_coords.y)
+			);
 			gameArea.entities.push(bullet);
 			this.cooldown = 20;
 		}
