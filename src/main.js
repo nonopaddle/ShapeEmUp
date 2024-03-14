@@ -1,62 +1,31 @@
 import gameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
+import { MainMenuView } from './view/MainMenuView.js';
+import { PlayMenuView } from './view/PlayMenuView.js';
+import { CustomisationView } from './view/CustomisationView.js'
+import { WaitingRoomView } from './view/WaitingRoomView.js'
 import { Renderer } from './view/Renderer.js';
+import { Router } from './view/Router.js';
 
-const mainMenu = `<div class="menu">
-    <button class="playButton">Jouer</button>
-    <button class="optionsButton">Options</button>
-    <button class="creditsButton">Crédits</button>
-</div>`;
-const optionsMenu = `<div class="menu">
-    <h3>Options</h3>
-    <button class="retour">Menu principal</button>
-</div>`;
-const creditsMenu = `<div class="menu">
-    <h3>Crédits</h3>
-    <button class="retour">Menu principal</button>
-</div>`;
 
-const gameCanvas = `<canvas id="gameCanvas" width="800" height="600"></canvas>`;
+const mainMenuView = new MainMenuView(document.querySelector('.main_menu'));
+const playMenuView = new PlayMenuView(document.querySelector('.play_menu'));
+const customisationView = new CustomisationView(document.querySelector('.waiting_room'));
+const waitingRoomView = new WaitingRoomView(document.querySelector('.waiting_room'));
+const mainGameView = new WaitingRoomView(document.querySelector('.main_game'));
+const routes = [
+	{ path: '/main_menu', view: mainMenuView},
+	{ path: '/play_menu', view: playMenuView},
+	{ path: '/waiting_room', view: waitingRoomView},
+	{ path: '/customisation', view: customisationView},
+	{ path: '/main_game', view: mainGameView},
+];
 
-document
-	.querySelector('.playButton')
-	.addEventListener('click', () => displayGame());
-document
-	.querySelector('.optionsButton')
-	.addEventListener('click', () => displayOptions());
-document
-	.querySelector('.creditsButton')
-	.addEventListener('click', () => displayCredits());
+Router.routes = routes;
+Router.navigate('/main_menu');
 
-function displayOptions() {
-	document.querySelector('.menu').innerHTML = optionsMenu;
-	const retourButton = document.querySelector('.retour');
-	retourButton.addEventListener('click', () => displayMenu());
-}
 
-function displayCredits() {
-	document.querySelector('.menu').innerHTML = creditsMenu;
-	const retourButton = document.querySelector('.retour');
-	retourButton.addEventListener('click', () => displayMenu());
-}
-
-function displayMenu() {
-	document.querySelector('.menu').innerHTML = mainMenu;
-	document
-		.querySelector('.playButton')
-		.addEventListener('click', () => displayGame());
-	document
-		.querySelector('.optionsButton')
-		.addEventListener('click', () => displayOptions());
-	document
-		.querySelector('.creditsButton')
-		.addEventListener('click', () => displayCredits());
-}
-
-function displayGame() {
-	document.querySelector('body').innerHTML = gameCanvas;
-}
 
 const canvas = document.querySelector('.canvas');
 //export const gameArea = new GameArea(document);

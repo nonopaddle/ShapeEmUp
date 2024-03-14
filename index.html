@@ -6,12 +6,33 @@
         <script src="build/main.bundle.js" defer></script>
     </head>
     <body>
-        <h1>Shoot Them Up (il faut trouver un nom)</h1>
-        <div class="menu">
-            <button class="playButton">Jouer</button>
-            <button class="optionsButton">Options</button>
-            <button class="creditsButton">Crédits</button>
-        </div>
-        <canvas class="canvas"></canvas>
+        <section class="main_menu">
+            <h1>Shoot Them Up (il faut trouver un nom)</h1>
+            <a class="playButton" href="/play_menu">Play</a>
+            <a class="scoresButton" href="/">Scores</a>
+            <a class="creditsButton" href="/credits">Credits</a>
+        </section>
+        <section class="play_menu">
+            <a class="create_new_game">new game</a>
+            <a class="join_game">join game</a>
+        </section>
+        <section class="waiting_room">
+            This is the waiting room
+        </section>
+        <section class="customisation">
+            This is the customisation
+            <a href="/main_game"></a>
+            
+        </section>
+        <section class="main_game">
+            This is the main game
+            <canvas class="canvas"></canvas>
+        </section>
+        <section class="scores">
+
+        </section>
+        <section class="credits">
+
+        </section>
     </body>
 </html>
