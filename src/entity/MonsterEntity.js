@@ -2,8 +2,13 @@ import { LivingEntity } from './LivingEntity.js';
 import { player } from '../main.js';
 
 export class MonsterEntity extends LivingEntity {
-	constructor(datas) {
+	constructor(datas, pl) {
 		super(datas);
+		if (pl) {
+			this.playerAggro = pl;
+		} else {
+			this.playerAggro = player;
+		}
 	}
 
 	update() {
@@ -13,19 +18,19 @@ export class MonsterEntity extends LivingEntity {
 	}
 
 	is_moving() {
-		this.speedV.setX(player.pos.x - this.pos.x);
-		this.speedV.setY(player.pos.y - this.pos.y);
+		this.speedV.setX(this.playerAggro.pos.x - this.pos.x);
+		this.speedV.setY(this.playerAggro.pos.y - this.pos.y);
 		this.speedV.normalize();
 	}
 
 	attack() {
 		if (
-			this.pos.x >= player.pos.x - player.size.x &&
-			this.pos.x <= player.pos.x + player.size.x &&
-			this.pos.y >= player.pos.y - player.size.y &&
-			this.pos.y <= player.pos.y + player.size.y
+			this.pos.x >= this.playerAggro.pos.x - this.playerAggro.size.x &&
+			this.pos.x <= this.playerAggro.pos.x + this.playerAggro.size.x &&
+			this.pos.y >= this.playerAggro.pos.y - this.playerAggro.size.y &&
+			this.pos.y <= this.playerAggro.pos.y + this.playerAggro.size.y
 		) {
-			player.hurt(1);
+			this.playerAggro.hurt(1);
 		}
 	}
 }

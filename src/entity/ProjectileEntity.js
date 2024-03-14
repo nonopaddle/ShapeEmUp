@@ -1,5 +1,8 @@
 import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
+import { LivingEntity } from './LivingEntity.js';
+import { MonsterEntity } from './MonsterEntity.js';
+import { PlayerEntity } from './PlayerEntity.js';
 
 export class ProjectileEntity extends DynamicEntity {
 	entityShot = [];
@@ -28,7 +31,7 @@ export class ProjectileEntity extends DynamicEntity {
 				!this.entityShot.includes(entity)
 			) {
 				entity.hurt(this.damage);
-				if (this.penetration > 0) {
+				if (this.penetration != 0) {
 					this.penetration -= 1;
 					this.entityShot.push(entity);
 				} else {

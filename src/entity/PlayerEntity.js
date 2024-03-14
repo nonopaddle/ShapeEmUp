@@ -3,12 +3,14 @@ import { KeyBoardControls } from '../controller/KeyboardControls.js';
 import { MouseControls } from '../controller/MouseControls.js';
 import { ProjectileEntity } from './ProjectileEntity.js';
 import gameArea from '../GameArea.js';
+import { Vector2 } from '../math/Vector2.js';
 
 export class PlayerEntity extends LivingEntity {
 	constructor(datas) {
 		super(datas);
 		this.player_speed = 10;
 		this.cooldown = 0;
+		this.shootDirection = new Vector2(0, 0);
 	}
 
 	update() {
@@ -42,26 +44,36 @@ export class PlayerEntity extends LivingEntity {
 	}
 
 	is_shooting() {
+		this.updateDirection(
+			-(this.pos.x - MouseControls.controls.current_coords.x),
+			-(this.pos.y - MouseControls.controls.current_coords.y)
+		);
 		if (MouseControls.controls.left && this.cooldown <= 0) {
-			const bullet = new ProjectileEntity({
-				pos: {
-					x: this.pos.x,
-					y: this.pos.y,
-				},
-				size: { x: 10, y: 10 },
-				speedMult: 25,
-				friendly: true,
-				owner: this,
-				damage: 2,
-				penetration: 1,
-				color: 'blue',
-			});
-			bullet.setSpeed(
-				-(this.pos.x - MouseControls.controls.current_coords.x),
-				-(this.pos.y - MouseControls.controls.current_coords.y)
-			);
-			gameArea.entities.push(bullet);
-			this.cooldown = 20;
+			this.shoot();
 		}
+	}
+
+	updateDirection(x, y) {
+		this.shootDirection.setX(x);
+		this.shootDirection.setY(y);
+	}
+
+	shoot() {
+		const bullet = new ProjectileEntity({
+			pos: {
+				x: this.pos.x,
+				y: this.pos.y,
+			},
+			size: { x: 10, y: 10 },
+			speedMult: 25,
+			friendly: true,
+			owner: this,
+			damage: 2,
+			penetration: -1,
+			color: 'blue',
+		});
+		bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
+		gameArea.entities.push(bullet);
+		this.cooldown = 20;
 	}
 }

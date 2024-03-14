@@ -2,6 +2,7 @@ import gameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
 import { MonsterEntity } from './entity/MonsterEntity.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
+import { randInt } from './math/MathUtils.js';
 import { Renderer } from './view/Renderer.js';
 
 const mainMenu = `<div class="menu">
@@ -68,7 +69,7 @@ MouseControls.set_canvas(canvas);
 const d1 = {
 		pos: { x: 200, y: 300 },
 		size: { x: 100, y: 100 },
-		default_hp: 100,
+		default_hp: 500,
 		color: 'yellow',
 	},
 	d2 = {
@@ -89,8 +90,20 @@ const d1 = {
 export const player = new PlayerEntity(d1);
 
 gameArea.add_entity(player);
-gameArea.add_entity(new MonsterEntity(d2));
-gameArea.add_entity(new MonsterEntity(d3));
+//gameArea.add_entity(new MonsterEntity(d2));
+//gameArea.add_entity(new MonsterEntity(d3));
+
+for (let i = 0; i < 25; i++) {
+	gameArea.add_entity(
+		new MonsterEntity({
+			pos: { x: randInt(400, 1920), y: randInt(0, 1080) },
+			size: { x: 25, y: 25 },
+			default_hp: 10,
+			speedMult: randInt(1, 3),
+			color: 'red',
+		})
+	);
+}
 
 Renderer.render();
 gameArea.start();
