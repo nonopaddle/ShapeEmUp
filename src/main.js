@@ -69,7 +69,7 @@ MouseControls.set_canvas(canvas);
 const d1 = {
 	pos: { x: 200, y: 300 },
 	size: { x: 100, y: 100 },
-	default_hp: 1,
+	default_hp: 500,
 	color: 'yellow',
 };
 
@@ -84,7 +84,7 @@ for (let i = 0; i < 25; i++) {
 		new MonsterEntity({
 			pos: { x: randInt(400, 1920), y: randInt(0, 1080) },
 			size: { x: 25, y: 25 },
-			default_hp: 1,
+			default_hp: 50,
 			speedMult: randInt(1, 3),
 			color: 'red',
 		})

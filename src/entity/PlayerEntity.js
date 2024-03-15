@@ -39,8 +39,14 @@ export class PlayerEntity extends LivingEntity {
 			-(this.pos.x - MouseControls.controls.current_coords.x),
 			-(this.pos.y - MouseControls.controls.current_coords.y)
 		);
-		if (MouseControls.controls.left && this.cooldown <= 0) {
-			this.shoot();
+		if (this.cooldown <= 0) {
+			if (MouseControls.controls.left) {
+				this.shoot(0);
+			} else if (MouseControls.controls.right) {
+				this.shoot(1);
+			} else if (MouseControls.controls.middle) {
+				this.shoot(2);
+			}
 		}
 	}
 
@@ -49,23 +55,60 @@ export class PlayerEntity extends LivingEntity {
 		this.shootDirection.setY(y);
 	}
 
-	shoot() {
-		const bullet = new ProjectileEntity({
-			pos: {
-				x: this.pos.x,
-				y: this.pos.y,
-			},
-			size: { x: 10, y: 10 },
-			speedMult: 25,
-			friendly: true,
-			owner: this,
-			damage: 2,
-			penetration: -1,
-			color: 'blue',
-		});
+	shoot(bool) {
+		let data;
+		if (bool == 0) {
+			data = {
+				pos: {
+					x: this.pos.x,
+					y: this.pos.y,
+				},
+				size: { x: 10, y: 10 },
+				speedMult: 25,
+				friendly: true,
+				owner: this,
+				damage: 5,
+				penetration: 1,
+				color: 'blue',
+				ttl: 2000,
+			};
+			this.cooldown = 20;
+		} else if (bool == 1) {
+			data = {
+				pos: {
+					x: this.pos.x,
+					y: this.pos.y,
+				},
+				size: { x: 25, y: 25 },
+				speedMult: 10,
+				friendly: true,
+				owner: this,
+				damage: 25,
+				penetration: 0,
+				color: 'orange',
+				ttl: 30,
+			};
+			this.cooldown = 50;
+		} else if (bool == 2) {
+			data = {
+				pos: {
+					x: this.pos.x,
+					y: this.pos.y,
+				},
+				size: { x: 30, y: 10 },
+				speedMult: 50,
+				friendly: true,
+				owner: this,
+				damage: 1,
+				penetration: -1,
+				color: 'green',
+				ttl: 30,
+			};
+			this.cooldown = 2;
+		}
+		const bullet = new ProjectileEntity(data);
 		bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
 		gameArea.entities.push(bullet);
-		this.cooldown = 20;
 		return bullet;
 	}
 }

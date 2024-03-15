@@ -25,33 +25,16 @@ export class ProjectileEntity extends DynamicEntity {
 				}
 			})
 		);
+		this.ttl = datas.ttl;
 	}
 
 	update() {
+		this.ttl -= 1;
+		if (this.ttl == 0) {
+			this.die();
+			return;
+		}
 		super.update();
-		//this.is_hitting();
-	}
-
-	is_hitting() {
-		gameArea.entities.forEach(entity => {
-			if (
-				entity != this &&
-				entity != this.owner &&
-				this.pos.x >= entity.pos.x - entity.size.x &&
-				this.pos.x <= entity.pos.x + entity.size.x &&
-				this.pos.y >= entity.pos.y - entity.size.y &&
-				this.pos.y <= entity.pos.y + entity.size.y &&
-				!this.entityShot.includes(entity)
-			) {
-				entity.hurt(this.damage);
-				if (this.penetration != 0) {
-					this.penetration -= 1;
-					this.entityShot.push(entity);
-				} else {
-					this.die();
-				}
-			}
-		});
 	}
 
 	die() {
