@@ -1,8 +1,5 @@
 import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
-import { LivingEntity } from './LivingEntity.js';
-import { MonsterEntity } from './MonsterEntity.js';
-import { PlayerEntity } from './PlayerEntity.js';
 
 export class ProjectileEntity extends DynamicEntity {
 	entityShot = [];

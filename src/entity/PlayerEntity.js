@@ -23,20 +23,10 @@ export class PlayerEntity extends LivingEntity {
 	}
 
 	move() {
-		if (KeyBoardControls.keymap.z) {
-			this.speedV.setY(-1);
-		} else if (KeyBoardControls.keymap.s) {
-			this.speedV.setY(1);
-		} else {
-			this.speedV.setY(0);
-		}
-		if (KeyBoardControls.keymap.q) {
-			this.speedV.setX(-1);
-		} else if (KeyBoardControls.keymap.d) {
-			this.speedV.setX(1);
-		} else {
-			this.speedV.setX(0);
-		}
+		const xSpeed = -(KeyBoardControls.keymap.q - KeyBoardControls.keymap.d);
+		const ySpeed = -(KeyBoardControls.keymap.z - KeyBoardControls.keymap.s);
+		this.speedV.setX(xSpeed);
+		this.speedV.setY(ySpeed);
 		this.speedV.normalize();
 		this.speedV.multiplyScalar(10);
 		this.pos.x += this.speedV.x;
@@ -75,5 +65,6 @@ export class PlayerEntity extends LivingEntity {
 		bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
 		gameArea.entities.push(bullet);
 		this.cooldown = 20;
+		return bullet;
 	}
 }

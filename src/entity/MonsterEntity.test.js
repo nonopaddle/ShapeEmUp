@@ -3,6 +3,8 @@ import { describe, it } from 'node:test';
 import { MonsterEntity } from './MonsterEntity.js';
 import { PlayerEntity } from './PlayerEntity.js';
 
+// à finir quand le côté serveur sera opérationnel
+
 describe('Monster entity tests', () => {
 	it('go toward player', () => {
 		const PDatas = {
@@ -13,8 +15,8 @@ describe('Monster entity tests', () => {
 			pos: { x: 2, y: 2 },
 			size: { x: 1, y: 1 },
 		};
-		const pe = new PlayerEntity(PDatas);
-		const me = new MonsterEntity(MDatas, pe);
+		const pt = new PlayerEntity(PDatas);
+		const me = new MonsterEntity(MDatas, pt);
 		me.update();
 		assert.strictEqual(me.pos.x, 1);
 		assert.strictEqual(me.pos.y, 1);
