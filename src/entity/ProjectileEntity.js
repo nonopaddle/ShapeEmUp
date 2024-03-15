@@ -1,5 +1,6 @@
 import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
+import { Action } from './action/Action.js';
 
 export class ProjectileEntity extends DynamicEntity {
 	entityShot = [];
@@ -9,11 +10,26 @@ export class ProjectileEntity extends DynamicEntity {
 		this.damage = datas.damage;
 		this.owner = datas.owner;
 		this.penetration = datas.penetration;
+		this.hitbox.addLayer('bullet');
+		this.hitbox.addMask(
+			'monster',
+			new Action('monsterColision', (source, target) => {
+				if (!source.entityShot.includes(target)) {
+					target.hurt(source.damage);
+					if (source.penetration != 0) {
+						source.penetration -= 1;
+						source.entityShot.push(target);
+					} else {
+						source.die();
+					}
+				}
+			})
+		);
 	}
 
 	update() {
 		super.update();
-		this.is_hitting();
+		//this.is_hitting();
 	}
 
 	is_hitting() {

@@ -67,25 +67,11 @@ Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
 
 const d1 = {
-		pos: { x: 200, y: 300 },
-		size: { x: 100, y: 100 },
-		default_hp: 500,
-		color: 'yellow',
-	},
-	d2 = {
-		pos: { x: 500, y: 500 },
-		size: { x: 25, y: 25 },
-		default_hp: 10,
-		speedMult: 3,
-		color: 'red',
-	},
-	d3 = {
-		pos: { x: 750, y: 750 },
-		size: { x: 25, y: 25 },
-		default_hp: 10,
-		speedMult: 3,
-		color: 'red',
-	};
+	pos: { x: 200, y: 300 },
+	size: { x: 100, y: 100 },
+	default_hp: 1,
+	color: 'yellow',
+};
 
 export const player = new PlayerEntity(d1);
 
@@ -98,7 +84,7 @@ for (let i = 0; i < 25; i++) {
 		new MonsterEntity({
 			pos: { x: randInt(400, 1920), y: randInt(0, 1080) },
 			size: { x: 25, y: 25 },
-			default_hp: 10,
+			default_hp: 1,
 			speedMult: randInt(1, 3),
 			color: 'red',
 		})

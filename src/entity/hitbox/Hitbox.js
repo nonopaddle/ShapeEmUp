@@ -8,10 +8,13 @@ export class Hitbox {
 	}
 
 	update() {
-		this.origin = this.owner.pos;
+		//this.origin = this.owner.pos;
 	}
 
 	addMask(layer, action) {
+		if (this.masks[layer] == undefined) {
+			this.masks[layer] = [];
+		}
 		this.masks[layer].push(action);
 	}
 
@@ -24,4 +27,6 @@ export class Hitbox {
 			action.call(this.owner, target);
 		});
 	}
+
+	render(ctx) {}
 }

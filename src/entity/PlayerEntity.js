@@ -11,10 +11,11 @@ export class PlayerEntity extends LivingEntity {
 		this.player_speed = 10;
 		this.cooldown = 0;
 		this.shootDirection = new Vector2(0, 0);
+		this.hitbox.addLayer('player');
 	}
 
 	update() {
-		this.move();
+		super.update();
 		this.is_shooting();
 		this.cooldown -= 1;
 		if (this.HP <= 0) {

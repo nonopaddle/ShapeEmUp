@@ -12,6 +12,11 @@ export class DynamicEntity extends Entity {
 		}
 	}
 
+	update() {
+		super.update();
+		this.move();
+	}
+
 	move() {
 		this.speedV.normalize();
 		this.speedV.multiplyScalar(this.speedMult);
@@ -33,12 +38,5 @@ export class DynamicEntity extends Entity {
 
 	setSpeed(speedX, speedY) {
 		this.speedV.set(speedX, speedY);
-	}
-
-	update() {
-		super.update();
-		if (this.speedV.x != 0 || this.speedV.y != 0) {
-			this.move();
-		}
 	}
 }

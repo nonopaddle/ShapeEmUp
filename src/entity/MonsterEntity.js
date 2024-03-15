@@ -1,5 +1,6 @@
 import { LivingEntity } from './LivingEntity.js';
 import { player } from '../main.js';
+import { Action } from './action/Action.js';
 
 export class MonsterEntity extends LivingEntity {
 	constructor(datas, pl) {
@@ -9,12 +10,19 @@ export class MonsterEntity extends LivingEntity {
 		} else {
 			this.playerAggro = player;
 		}
+		this.hitbox.addLayer('monster');
+		this.hitbox.addMask(
+			'player',
+			new Action('hurtplayer', (source, target) => {
+				target.hurt(1);
+			})
+		);
 	}
 
 	update() {
 		super.update();
 		this.is_moving();
-		this.attack();
+		//this.attack();
 	}
 
 	is_moving() {
