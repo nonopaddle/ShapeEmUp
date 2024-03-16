@@ -3,29 +3,32 @@ import { MouseControls } from './controller/MouseControls.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
 import { MainMenuView } from './view/MainMenuView.js';
 import { PlayMenuView } from './view/PlayMenuView.js';
-import { CustomisationView } from './view/CustomisationView.js'
-import { WaitingRoomView } from './view/WaitingRoomView.js'
+import { WaitingRoomView } from './view/WaitingRoomView.js';
 import { Renderer } from './view/Renderer.js';
 import { Router } from './view/Router.js';
-
+import { ScoresView } from './view/ScoresView.js';
+import { CreditsView } from './view/CreditsView.js';
+import { MainGameView } from './view/MainGameView.js';
 
 const mainMenuView = new MainMenuView(document.querySelector('.main_menu'));
 const playMenuView = new PlayMenuView(document.querySelector('.play_menu'));
-const customisationView = new CustomisationView(document.querySelector('.waiting_room'));
-const waitingRoomView = new WaitingRoomView(document.querySelector('.waiting_room'));
-const mainGameView = new WaitingRoomView(document.querySelector('.main_game'));
+const waitingRoomView = new WaitingRoomView(
+	document.querySelector('.waiting_room')
+);
+const mainGameView = new MainGameView(document.querySelector('.main_game'));
+const scoresView = new ScoresView(document.querySelector('.scores'));
+const creditsView = new CreditsView(document.querySelector('.credits'));
 const routes = [
-	{ path: '/main_menu', view: mainMenuView},
-	{ path: '/play_menu', view: playMenuView},
-	{ path: '/waiting_room', view: waitingRoomView},
-	{ path: '/customisation', view: customisationView},
-	{ path: '/main_game', view: mainGameView},
+	{ path: '/main_menu', view: mainMenuView },
+	{ path: '/play_menu', view: playMenuView },
+	{ path: '/waiting_room', view: waitingRoomView },
+	{ path: '/main_game', view: mainGameView },
+	{ path: '/scores', view: scoresView },
+	{ path: '/credits', view: creditsView },
 ];
 
 Router.routes = routes;
 Router.navigate('/main_menu');
-
-
 
 const canvas = document.querySelector('.canvas');
 //export const gameArea = new GameArea(document);
@@ -49,6 +52,3 @@ const d1 = {
 export const player = new PlayerEntity(d2);
 
 gameArea.add_entity(player);
-
-Renderer.render();
-gameArea.start();

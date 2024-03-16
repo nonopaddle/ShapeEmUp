@@ -8,31 +8,30 @@
     <body>
         <section class="main_menu">
             <h1>Shoot Them Up (il faut trouver un nom)</h1>
-            <a class="playButton" href="/play_menu">Play</a>
-            <a class="scoresButton" href="/">Scores</a>
-            <a class="creditsButton" href="/credits">Credits</a>
+            <div class="buttons">
+                <a class="playButton" href="/play_menu">Play</a>
+                <a class="scoresButton" href="/scores">Scores</a>
+                <a class="creditsButton" href="/credits">Credits</a>
+            </div>
         </section>
         <section class="play_menu">
-            <a class="create_new_game">new game</a>
-            <a class="join_game">join game</a>
+            <a class="createNewGameButton" href="/waiting_room">new game</a>
+            <a class="joinGameButton" href="/waiting_room">join game</a>
         </section>
         <section class="waiting_room">
             This is the waiting room
-        </section>
-        <section class="customisation">
-            This is the customisation
-            <a href="/main_game"></a>
-            
+            <a class="customisation" href="/main_game">LAUNCH</a>
         </section>
         <section class="main_game">
             This is the main game
             <canvas class="canvas"></canvas>
+            <a href="/main_menu">HOME</a>
         </section>
         <section class="scores">
-
+            <a href="/main_menu">HOME</a>
         </section>
         <section class="credits">
-
+            <a href="/main_menu">HOME</a>
         </section>
     </body>
 </html>

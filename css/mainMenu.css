@@ -15,6 +15,46 @@ body > section {
     display: none;
 }
 
-section.active {
+.active {
     display: block;
+}
+
+.active h1 {
+    color: lightskyblue;
+    text-align: center;
+}
+
+.active .buttons {
+    width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.active a {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: xx-large;
+    text-decoration: none;
+    background-color: lightcyan;
+    color: lightskyblue;
+    border: solid 2px;
+    border-radius: 20px;
+    width: inherit;
+    height: 50px;
+}
+
+.active a:hover {
+    background-color: lightyellow;
+}
+
+.active .canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
