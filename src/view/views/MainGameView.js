@@ -1,5 +1,5 @@
-import gameArea from '../GameArea.js';
-import { Renderer } from './Renderer.js';
+import gameArea from '../../GameArea.js';
+import { Renderer } from '../rendering/Renderer.js';
 import { View } from './View.js';
 
 export class MainGameView extends View {

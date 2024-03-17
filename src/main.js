@@ -1,14 +1,14 @@
 import gameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
-import { MainMenuView } from './view/MainMenuView.js';
-import { PlayMenuView } from './view/PlayMenuView.js';
-import { WaitingRoomView } from './view/WaitingRoomView.js';
-import { Renderer } from './view/Renderer.js';
-import { Router } from './view/Router.js';
-import { ScoresView } from './view/ScoresView.js';
-import { CreditsView } from './view/CreditsView.js';
-import { MainGameView } from './view/MainGameView.js';
+import { MainMenuView } from './view/views/MainMenuView.js';
+import { PlayMenuView } from './view/views/PlayMenuView.js';
+import { WaitingRoomView } from './view/views/WaitingRoomView.js';
+import { Renderer } from './view/rendering/Renderer.js';
+import { Router } from './view/views/Router.js';
+import { ScoresView } from './view/views/ScoresView.js';
+import { CreditsView } from './view/views/CreditsView.js';
+import { MainGameView } from './view/views/MainGameView.js';
 
 const mainMenuView = new MainMenuView(document.querySelector('.main_menu'));
 const playMenuView = new PlayMenuView(document.querySelector('.play_menu'));
@@ -28,7 +28,7 @@ const routes = [
 ];
 
 Router.routes = routes;
-Router.navigate('/main_menu');
+Router.navigate('/waiting_room');
 
 const canvas = document.querySelector('.canvas');
 //export const gameArea = new GameArea(document);
