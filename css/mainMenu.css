@@ -23,6 +23,10 @@ body > section {
     color: lightskyblue;
     text-align: center;
 }
+.active h2 {
+    color: lightskyblue;
+    text-align: center;
+}
 
 .active .buttons {
     width: 500px;
@@ -63,15 +67,19 @@ body > section {
     width: 500px;
     margin: 0 auto;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
 }
 
 .avatars_list canvas {
     background-color: lightcyan;
-    border: solid 2px;
+    border: solid 2px lightskyblue;
     border-radius: 20px;
 }
 .avatars_list canvas:hover {
     background-color: lightyellow;
+}
+.avatars_list .selected {
+    border-color: lightyellow;
 }

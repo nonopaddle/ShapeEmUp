@@ -16,6 +16,7 @@ export class MainGameView extends View {
 	hide() {
 		super.hide();
 		gameArea.stop_loop();
+		gameArea.entities = [];
 		Renderer.stop_rendering();
 	}
 }

@@ -1,4 +1,5 @@
 import gameArea from '../../GameArea.js';
+import { avatarsList } from './AvatarList.js';
 
 export class Renderer {
 	static canvas;
@@ -19,6 +20,7 @@ export class Renderer {
 		if (this.context == undefined) throw new Error('context is null !');
 		this.clear();
 		gameArea.entities.forEach(entity => entity.render(this.context));
+		this.#renderPlayers(this.context);
 		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
 	}
 
@@ -28,5 +30,14 @@ export class Renderer {
 	}
 	static clear() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	static #renderPlayers(ctx) {
+		const players = gameArea.get_players();
+		players.forEach(player => {
+			if(player.nickname == null) return;
+			const avatar = avatarsList.filter(avatar => avatar.selectedBy == player.nickname)[0];
+			avatar.draw(ctx, player.pos, 1);
+		});
 	}
 }

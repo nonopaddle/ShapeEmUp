@@ -9,6 +9,7 @@ export class PlayerEntity extends LivingEntity {
 		super(datas);
 		this.player_speed = 10;
 		this.cooldown = 0;
+		this.nickname = datas.nickname;
 	}
 
 	update() {

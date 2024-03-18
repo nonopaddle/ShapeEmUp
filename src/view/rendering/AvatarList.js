@@ -11,6 +11,7 @@ export const avatarsList = [
 			ctx.strokeRect(origin.x - size / 2, origin.y - size / 2, size, size);
 			ctx.closePath();
 		},
+		selectedBy: null
 	},
 	{
 		label: 'green_circle',
@@ -25,6 +26,7 @@ export const avatarsList = [
 			ctx.fill();
 			ctx.stroke();
 		},
+		selectedBy: null
 	},
 	{
 		label: 'orange_triangle',
@@ -47,6 +49,7 @@ export const avatarsList = [
 			ctx.closePath();
 			ctx.save();
 		},
+		selectedBy: null
 	},
 	{
 		label: 'red_pentagone',
@@ -71,5 +74,6 @@ export const avatarsList = [
 			ctx.closePath();
 			ctx.save();
 		},
+		selectedBy: null
 	},
 ];

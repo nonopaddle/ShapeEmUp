@@ -28,7 +28,14 @@ const routes = [
 ];
 
 Router.routes = routes;
-Router.navigate('/waiting_room');
+Router.navigate('/main_menu');
+
+export const userName = // récupère le nom de l'utilisateur
+	// soit en sessionStorage
+	sessionStorage.getItem('userName') ||
+	// soit depuis la popup de prompt
+	window.prompt('veuillez entrer votre nom', '');
+
 
 const canvas = document.querySelector('.canvas');
 //export const gameArea = new GameArea(document);
@@ -36,19 +43,3 @@ const canvas = document.querySelector('.canvas');
 Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
 
-const d1 = {
-		pos: { x: 100, y: 200 },
-		size: { x: 10, y: 20 },
-		speed: { x: 0, y: 0 },
-		color: 'red',
-	},
-	d2 = {
-		pos: { x: 200, y: 300 },
-		size: { x: 100, y: 100 },
-		speed: { x: 0, y: 0 },
-		color: 'yellow',
-	};
-
-export const player = new PlayerEntity(d2);
-
-gameArea.add_entity(player);

@@ -1,3 +1,5 @@
+import { PlayerEntity } from "./entity/PlayerEntity.js";
+
 class GameArea {
 	entities = [];
 	#main_loop;
@@ -18,6 +20,11 @@ class GameArea {
 
 	tick_event() {
 		this.entities.forEach(entity => entity.update());
+	}
+
+	get_players() {
+		const players = this.entities.filter(entity => entity instanceof PlayerEntity);
+		return players;
 	}
 }
 
