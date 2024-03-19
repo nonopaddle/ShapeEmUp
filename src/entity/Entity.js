@@ -3,8 +3,8 @@ import { CircleHitbox } from './hitbox/CircleHitbox.js';
 
 export class Entity {
 	constructor(datas) {
-		if (datas.pos.x <= 0) throw new Error('La valeur de x est négative !');
-		if (datas.pos.y <= 0) throw new Error('La valeur de y est négative !');
+		//if (datas.pos.x <= 0) throw new Error('La valeur de x est négative !');
+		//if (datas.pos.y <= 0) throw new Error('La valeur de y est négative !');
 		if (datas.size.x <= 0) throw new Error('La valeur de width est négative !');
 		if (datas.size.y <= 0)
 			throw new Error('La valeur de height est négative !');

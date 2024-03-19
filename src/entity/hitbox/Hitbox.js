@@ -11,11 +11,13 @@ export class Hitbox {
 		//this.origin = this.owner.pos;
 	}
 
-	addMask(layer, action) {
+	addMask(layer, ...action) {
 		if (this.masks[layer] == undefined) {
 			this.masks[layer] = [];
 		}
-		this.masks[layer].push(action);
+		for (let i = 0; i < action.length; i++) {
+			this.masks[layer].push(action[i]);
+		}
 	}
 
 	addLayer(layer) {
