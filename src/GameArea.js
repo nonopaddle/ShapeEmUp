@@ -1,6 +1,7 @@
-import { PlayerEntity } from "./entity/PlayerEntity.js";
+import { PlayerEntity } from './entity/PlayerEntity.js';
 
 class GameArea {
+	difficulty = 1;
 	entities = [];
 	#main_loop;
 
@@ -23,7 +24,9 @@ class GameArea {
 	}
 
 	get_players() {
-		const players = this.entities.filter(entity => entity instanceof PlayerEntity);
+		const players = this.entities.filter(
+			entity => entity instanceof PlayerEntity
+		);
 		return players;
 	}
 }

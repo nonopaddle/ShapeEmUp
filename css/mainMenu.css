@@ -65,7 +65,7 @@ body > section {
 
 .avatars_list {
     width: 500px;
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -76,10 +76,18 @@ body > section {
     background-color: lightcyan;
     border: solid 2px lightskyblue;
     border-radius: 20px;
+    cursor: pointer;
 }
 .avatars_list canvas:hover {
     background-color: lightyellow;
 }
 .avatars_list .selected {
     border-color: lightyellow;
+}
+
+.difficulty {
+    color: lightcyan;
+    border-radius: 16px;
+    display: flex;
+    margin: 0 auto;
 }

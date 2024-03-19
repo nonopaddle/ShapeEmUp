@@ -9,6 +9,7 @@ import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
 import { LoginView } from './view/views/LoginView.js';
 
+sessionStorage.setItem('nickname', 'nono');
 const loginView = new LoginView(document.querySelector('.login'));
 const mainMenuView = new MainMenuView(document.querySelector('.main_menu'));
 const playMenuView = new PlayMenuView(document.querySelector('.play_menu'));
@@ -29,7 +30,7 @@ const routes = [
 ];
 
 Router.routes = routes;
-Router.navigate('/login');
+Router.navigate('/waiting_room');
 
 const canvas = document.querySelector('.canvas');
 //export const gameArea = new GameArea(document);

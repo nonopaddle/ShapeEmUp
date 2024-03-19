@@ -20,6 +20,27 @@ export class WaitingRoomView extends View {
 			avatar.draw(ctx, { x: canvas.width / 2, y: canvas.height / 2 }, 2);
 		});
 
+		const difficultySlider = this.element.querySelector('.difficulty');
+		const difficultyDisplay = this.element.querySelector('.difficulty_display');
+		difficultySlider.addEventListener('input', event => {
+			gameArea.difficulty = event.target.value;
+			console.log(gameArea.difficulty);
+			switch (gameArea.difficulty) {
+				case '0':
+					console.log('ha');
+					difficultyDisplay.innerHTML = 'DIFFICULTY : EASY';
+					break;
+				case '1':
+					difficultyDisplay.innerHTML = 'DIFFICULTY : NORMAL';
+					break;
+				case '2':
+					difficultyDisplay.innerHTML = 'DIFFICULTY : HARD';
+					break;
+				default:
+					break;
+			}
+		});
+
 		const launchButton = this.element.querySelector('.launch');
 		launchButton.addEventListener('click', event => {
 			event.preventDefault();
