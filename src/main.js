@@ -11,26 +11,26 @@ import { LoginView } from './view/views/LoginView.js';
 
 sessionStorage.setItem('nickname', 'nono');
 const loginView = new LoginView(document.querySelector('.login'));
-const mainMenuView = new MainMenuView(document.querySelector('.main_menu'));
-const playMenuView = new PlayMenuView(document.querySelector('.play_menu'));
+const mainMenuView = new MainMenuView(document.querySelector('.main-menu'));
+const playMenuView = new PlayMenuView(document.querySelector('.play-menu'));
 const waitingRoomView = new WaitingRoomView(
-	document.querySelector('.waiting_room')
+	document.querySelector('.waiting-room')
 );
-const mainGameView = new MainGameView(document.querySelector('.main_game'));
+const mainGameView = new MainGameView(document.querySelector('.main-game'));
 const scoresView = new ScoresView(document.querySelector('.scores'));
 const creditsView = new CreditsView(document.querySelector('.credits'));
 const routes = [
 	{ path: '/login', view: loginView },
-	{ path: '/main_menu', view: mainMenuView },
-	{ path: '/play_menu', view: playMenuView },
-	{ path: '/waiting_room', view: waitingRoomView },
-	{ path: '/main_game', view: mainGameView },
+	{ path: '/main-menu', view: mainMenuView },
+	{ path: '/play-menu', view: playMenuView },
+	{ path: '/waiting-room', view: waitingRoomView },
+	{ path: '/main-game', view: mainGameView },
 	{ path: '/scores', view: scoresView },
 	{ path: '/credits', view: creditsView },
 ];
 
 Router.routes = routes;
-Router.navigate('/waiting_room');
+Router.navigate('/login');
 
 const canvas = document.querySelector('.canvas');
 //export const gameArea = new GameArea(document);

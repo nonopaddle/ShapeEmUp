@@ -47,12 +47,16 @@ body > section {
     color: lightskyblue;
     border: solid 2px;
     border-radius: 20px;
-    width: inherit;
+    width: 500px;
     height: 50px;
 }
 
 .active a:hover {
     background-color: lightyellow;
+}
+
+.play-menu {
+
 }
 
 .active .canvas {
@@ -63,7 +67,7 @@ body > section {
     height: 100%;
 }
 
-.avatars_list {
+.avatars-list {
     width: 500px;
     margin: 20px auto;
     display: flex;
@@ -72,16 +76,16 @@ body > section {
     gap: 10px;
 }
 
-.avatars_list canvas {
+.avatars-list canvas {
     background-color: lightcyan;
-    border: solid 2px lightskyblue;
+    border: solid 3px lightskyblue;
     border-radius: 20px;
     cursor: pointer;
 }
-.avatars_list canvas:hover {
-    background-color: lightyellow;
+.avatars-list canvas:hover {
+    background-color: lightskyblue;
 }
-.avatars_list .selected {
+.avatars-list .selected {
     border-color: lightyellow;
 }
 
@@ -90,4 +94,48 @@ body > section {
     border-radius: 16px;
     display: flex;
     margin: 0 auto;
+}
+
+.login-form {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-nickname-input {
+    width: 500px;
+    height: 50px;
+    text-align: center;
+    font-size: xx-large;
+    background-color: lightcyan;
+    border: solid 3px lightskyblue;
+    border-radius: 10px;
+}
+.login-nickname-input:focus {
+    outline: none;
+}
+
+.login-button {
+    width: 100px;
+    height: 50px;
+    margin-left: 10px;
+    background-color: lightgrey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 3px lightslategrey;
+    border-radius: 10px;
+    transition: all 0.1s;
+}
+
+.login-active {
+    background-color: lightcyan;
+    border-color: lightskyblue;
+}
+
+.login-active:hover {
+    cursor: pointer;
+    background-color: lightskyblue;
+    color: white;
 }

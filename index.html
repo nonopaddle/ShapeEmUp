@@ -7,40 +7,41 @@
     </head>
     <body>
         <section class="login">
-            <form action="">
-                <input type="text" name="nickname" class="nickname_input">
-                <input type="button" name="identify" class="identify">
+            <h1>WHO ARE YOU ?</h1>
+            <form action="" class="login-form">
+                <input type="text" name="nickname" class="login-nickname-input">
+                <div class="login-button">LOGIN</div>
             </form>
         </section>
-        <section class="main_menu">
+        <section class="main-menu">
             <h1>Shoot Them Up (il faut trouver un nom)</h1>
             <div class="buttons">
-                <a class="playButton" href="/play_menu">Play</a>
+                <a class="playButton" href="/play-menu">Play</a>
                 <a class="scoresButton" href="/scores">Scores</a>
                 <a class="creditsButton" href="/credits">Credits</a>
             </div>
         </section>
-        <section class="play_menu">
-            <a class="createNewGameButton" href="/waiting_room">new game</a>
-            <a class="joinGameButton" href="/waiting_room">join game</a>
+        <section class="play-menu">
+            <a class="createNewGameButton" href="/waiting-room">new game</a>
+            <a class="joinGameButton" href="/waiting-room">join game</a>
         </section>
-        <section class="waiting_room">
+        <section class="waiting-room">
             <h2>CHOOSE AN AVATAR</h2>
-            <div class="avatars_list"></div>
-            <h2 class="difficulty_display">DIFFICULTY : NORMAL</h2>
+            <div class="avatars-list"></div>
+            <h2 class="difficulty-display">DIFFICULTY : NORMAL</h2>
             <input type="range" name="difficulty" class="difficulty" min="0" max="2" >
-            <a class="launch" href="/main_game">LAUNCH</a>
+            <a class="launch" href="/main-game">LAUNCH</a>
         </section>
-        <section class="main_game">
+        <section class="main-game">
             This is the main game
             <canvas class="canvas"></canvas>
-            <a href="/main_menu">HOME</a>
+            <a href="/main-menu">HOME</a>
         </section>
         <section class="scores">
-            <a href="/main_menu">HOME</a>
+            <a href="/main-menu">HOME</a>
         </section>
         <section class="credits">
-            <a href="/main_menu">HOME</a>
+            <a href="/main-menu">HOME</a>
         </section>
     </body>
 </html>

@@ -7,7 +7,7 @@ export class WaitingRoomView extends View {
 	#buttonsize = { x: 200, y: 200 };
 	constructor(element) {
 		super(element);
-		const avatarListContainer = this.element.querySelector('.avatars_list');
+		const avatarListContainer = this.element.querySelector('.avatars-list');
 		avatarsList.forEach(avatar => {
 			avatarListContainer.innerHTML += `<canvas class="${avatar.label}">`;
 		});
@@ -21,7 +21,7 @@ export class WaitingRoomView extends View {
 		});
 
 		const difficultySlider = this.element.querySelector('.difficulty');
-		const difficultyDisplay = this.element.querySelector('.difficulty_display');
+		const difficultyDisplay = this.element.querySelector('.difficulty-display');
 		difficultySlider.addEventListener('input', event => {
 			gameArea.difficulty = event.target.value;
 			console.log(gameArea.difficulty);
