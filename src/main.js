@@ -6,7 +6,7 @@ import { Spawner } from './entity/Spawner.js';
 import { randInt } from './math/MathUtils.js';
 import { Renderer } from './view/Renderer.js';
 import { WeaponEntity } from './entity/WeaponEntity.js';
-import { weaponType } from './WeaponType.js';
+import { weaponList } from './weapons/WeaponList.js';
 
 const mainMenu = `<div class="menu">
     <button class="playButton">Jouer</button>
@@ -80,12 +80,28 @@ export const player = new Player(playerD);
 
 gameArea.add_entity(player);
 
-const weaponD = {
+let weaponD = {
 	pos: { x: 750, y: 450 },
 	size: { x: 25, y: 25 },
 	default_hp: 500,
 	color: 'purple',
-	type: weaponType.active,
+	weapon: weaponList.gun,
+};
+gameArea.add_entity(new WeaponEntity(weaponD));
+weaponD = {
+	pos: { x: 650, y: 450 },
+	size: { x: 25, y: 25 },
+	default_hp: 500,
+	color: 'purple',
+	weapon: weaponList.bigGun,
+};
+gameArea.add_entity(new WeaponEntity(weaponD));
+weaponD = {
+	pos: { x: 550, y: 450 },
+	size: { x: 25, y: 25 },
+	default_hp: 500,
+	color: 'purple',
+	weapon: weaponList.laser,
 };
 gameArea.add_entity(new WeaponEntity(weaponD));
 

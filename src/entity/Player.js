@@ -1,14 +1,21 @@
 import { LivingEntity } from './LivingEntity.js';
 import { KeyBoardControls } from '../controller/KeyboardControls.js';
 import { MouseControls } from '../controller/MouseControls.js';
-import { Projectile } from './Projectile.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 import { Action } from './action/Action.js';
-import { weaponType } from '../WeaponType.js';
+import { weaponType } from '../weapons/WeaponType.js';
+import { weaponList } from '../weapons/WeaponList.js';
+import { Weapon } from '../weapons/Weapon.js';
 
 export class Player extends LivingEntity {
-	weapons = { active1: null, active2: null, ultimate: null, passive: null };
+	weapons = {
+		active1: weaponList.null,
+		active2: weaponList.null,
+		passive: weaponList.null,
+		ultimate: weaponList.null,
+	};
+
 	constructor(datas) {
 		super(datas);
 		this.player_speed = 10;
@@ -21,19 +28,29 @@ export class Player extends LivingEntity {
 		this.hitbox.addMask(
 			'weapon',
 			new Action('pickWeapon', (source, target) => {
-				if (target.type == weaponType.active) {
-					if (source.weapons.active1 == null) {
-						source.weapons.active1 = target;
+				if (target.weapon.type == weaponType.active) {
+					if (source.weapons.active1 == weaponList.null) {
+						target.weapon.owner = source;
+						source.weapons.active1 = new Weapon(target.weapon);
 						target.die();
-					} else if (source.weapons.active2 == null) {
-						source.weapons.active2 = target;
+					} else if (source.weapons.active2 == weaponList.null) {
+						target.weapon.owner = source;
+						source.weapons.active2 = new Weapon(target.weapon);
 						target.die();
 					}
-				} else if (target.type == weaponType.ultimate) {
-					source.weapons.ultimate = target;
+				} else if (
+					source.weapons.passive == weaponList.null &&
+					target.weapon.type == weaponType.passive
+				) {
+					target.weapon.owner = source;
+					source.weapons.passive = new Weapon(target.weapon);
 					target.die();
-				} else if (target.type == weaponType.passive) {
-					source.weapons.passive = target;
+				} else if (
+					source.weapons.ultimate == weaponList.null &&
+					target.weapon.type == weaponType.ultimate
+				) {
+					target.weapon.owner = source;
+					source.weapons.ultimate = new Weapon(target.weapon);
 					target.die();
 				}
 			})
@@ -49,6 +66,11 @@ export class Player extends LivingEntity {
 			this.xp -= this.xpToLevelUp;
 			this.xpToLevelUp += 10;
 		}
+		Object.values(this.weapons).forEach(element => {
+			if (element != weaponList.null) {
+				element.update();
+			}
+		});
 	}
 
 	move() {
@@ -84,60 +106,26 @@ export class Player extends LivingEntity {
 	}
 
 	shoot(bool) {
-		let data;
-		if (bool == 0) {
-			data = {
-				pos: {
-					x: this.pos.x,
-					y: this.pos.y,
-				},
-				size: { x: 10, y: 10 },
-				speedMult: 25,
-				friendly: true,
-				owner: this,
-				damage: 10,
-				penetration: 1,
-				color: 'blue',
-				ttl: 2000,
-			};
-			this.cooldown = 20;
-		} else if (bool == 1) {
-			data = {
-				pos: {
-					x: this.pos.x,
-					y: this.pos.y,
-				},
-				size: { x: 25, y: 25 },
-				speedMult: 10,
-				friendly: true,
-				owner: this,
-				damage: 25,
-				penetration: 0,
-				color: 'orange',
-				ttl: 30,
-			};
-			this.cooldown = 50;
-		} else if (bool == 2) {
-			data = {
-				pos: {
-					x: this.pos.x,
-					y: this.pos.y,
-				},
-				size: { x: 30, y: 10 },
-				speedMult: 50,
-				friendly: true,
-				owner: this,
-				damage: 1,
-				penetration: -1,
-				color: 'green',
-				ttl: 30,
-			};
-			this.cooldown = 2;
+		const w = [weaponList.null, weaponList.null, weaponList.null];
+		if (bool == 0 && this.weapons.active1 != weaponList.null) {
+			w[0] = this.weapons.active1;
 		}
-		const bullet = new Projectile(data);
-		bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
-		gameArea.entities.push(bullet);
-		return bullet;
+		if (bool == 1 && this.weapons.active2 != weaponList.null) {
+			w[1] = this.weapons.active2;
+		}
+		if (bool == 2 && this.weapons.ultimate != weaponList.null) {
+			w[2] = this.weapons.ultimate;
+		}
+		w.forEach(weapon => {
+			if (weapon != weaponList.null) {
+				weapon.bullet.pos = this.pos;
+				const bullet = weapon.shoot();
+				if (bullet != undefined) {
+					bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
+					gameArea.entities.push(bullet);
+				}
+			}
+		});
 	}
 
 	render(ctx) {

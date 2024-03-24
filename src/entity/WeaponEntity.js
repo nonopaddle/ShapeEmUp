@@ -9,7 +9,7 @@ export class WeaponEntity extends Entity {
 	constructor(datas) {
 		super(datas);
 		this.size = new Vector2(10, 10);
-		this.type = datas.type;
+		this.weapon = datas.weapon;
 		this.hitbox.addLayer('weapon');
 	}
 
