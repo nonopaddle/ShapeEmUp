@@ -5,6 +5,8 @@ import { Player } from './entity/Player.js';
 import { Spawner } from './entity/Spawner.js';
 import { randInt } from './math/MathUtils.js';
 import { Renderer } from './view/Renderer.js';
+import { WeaponEntity } from './entity/WeaponEntity.js';
+import { weaponType } from './WeaponType.js';
 
 const mainMenu = `<div class="menu">
     <button class="playButton">Jouer</button>
@@ -67,16 +69,25 @@ const canvas = document.querySelector('.canvas');
 Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
 
-const datas = {
+const playerD = {
 	pos: { x: 900, y: 450 },
 	size: { x: 100, y: 100 },
 	default_hp: 500,
 	color: 'yellow',
 };
 
-export const player = new Player(datas);
+export const player = new Player(playerD);
 
 gameArea.add_entity(player);
+
+const weaponD = {
+	pos: { x: 750, y: 450 },
+	size: { x: 25, y: 25 },
+	default_hp: 500,
+	color: 'purple',
+	type: weaponType.active,
+};
+gameArea.add_entity(new WeaponEntity(weaponD));
 
 gameArea.add_entity(
 	new Spawner({

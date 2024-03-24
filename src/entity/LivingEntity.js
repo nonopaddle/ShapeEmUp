@@ -47,6 +47,7 @@ export class LivingEntity extends DynamicEntity {
 
 	hurt(damages) {
 		this.HP -= damages;
+		return this.HP <= 0;
 	}
 
 	die() {

@@ -4,6 +4,8 @@ import { MouseControls } from '../controller/MouseControls.js';
 import { Projectile } from './Projectile.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
+import { Action } from './action/Action.js';
+import { weaponType } from '../WeaponType.js';
 
 export class Player extends LivingEntity {
 	weapons = { active1: null, active2: null, ultimate: null, passive: null };
@@ -11,14 +13,42 @@ export class Player extends LivingEntity {
 		super(datas);
 		this.player_speed = 10;
 		this.cooldown = 0;
+		this.xp = 0;
+		this.xpToLevelUp = 10;
+		this.level = 1;
 		this.shootDirection = new Vector2(0, 0);
 		this.hitbox.addLayer('player');
+		this.hitbox.addMask(
+			'weapon',
+			new Action('pickWeapon', (source, target) => {
+				if (target.type == weaponType.active) {
+					if (source.weapons.active1 == null) {
+						source.weapons.active1 = target;
+						target.die();
+					} else if (source.weapons.active2 == null) {
+						source.weapons.active2 = target;
+						target.die();
+					}
+				} else if (target.type == weaponType.ultimate) {
+					source.weapons.ultimate = target;
+					target.die();
+				} else if (target.type == weaponType.passive) {
+					source.weapons.passive = target;
+					target.die();
+				}
+			})
+		);
 	}
 
 	update() {
 		super.update();
 		this.is_shooting();
 		this.cooldown -= 1;
+		if (this.xp >= this.xpToLevelUp) {
+			this.level += 1;
+			this.xp -= this.xpToLevelUp;
+			this.xpToLevelUp += 10;
+		}
 	}
 
 	move() {
@@ -108,5 +138,11 @@ export class Player extends LivingEntity {
 		bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
 		gameArea.entities.push(bullet);
 		return bullet;
+	}
+
+	render(ctx) {
+		super.render(ctx);
+		ctx.fillText(this.level, this.pos.x - 5, this.pos.y);
+		ctx.fillText(this.xp, this.pos.x - 5, this.pos.y + 20);
 	}
 }

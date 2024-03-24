@@ -1,7 +1,6 @@
 import { Entity } from './Entity.js';
 import { Monster } from './Monster.js';
 import { Vector2 } from '../math/Vector2.js';
-import { CircleHitbox } from './hitbox/CircleHitbox.js';
 import gameArea from '../GameArea.js';
 import { randInt } from '../math/MathUtils.js';
 import { difficulty } from '../Difficulty.js';
@@ -12,9 +11,7 @@ export class Spawner extends Entity {
 
 	constructor(datas) {
 		super(datas);
-		this.pos = new Vector2(datas.pos.x, datas.pos.y);
 		this.size = new Vector2(10, 10);
-		this.hitbox = new CircleHitbox(this, this.pos, datas.size.x / 2);
 		this.spawnCooldown = randInt(75, 200);
 	}
 
@@ -34,7 +31,7 @@ export class Spawner extends Entity {
 	}
 
 	spawn_monster() {
-		const randMult = randInt(1, 10);
+		const randMult = randInt(1, 3);
 		const datas = {
 			pos: { x: this.pos.x, y: this.pos.y },
 			size: { x: 20 * (randMult / 1.5), y: 20 * (randMult / 1.5) },

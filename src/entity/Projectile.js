@@ -14,7 +14,9 @@ export class Projectile extends DynamicEntity {
 			'monster',
 			new Action('monsterColision', (source, target) => {
 				if (!source.entityShot.includes(target)) {
-					target.hurt(source.damage);
+					if (target.hurt(source.damage)) {
+						source.owner.xp += target.difficulty;
+					}
 					if (source.penetration != 0) {
 						source.penetration -= 1;
 						source.entityShot.push(target);
