@@ -1,7 +1,8 @@
 import gameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
-import { MonsterEntity } from './entity/MonsterEntity.js';
-import { PlayerEntity } from './entity/PlayerEntity.js';
+import { difficulty } from './Difficulty.js';
+import { Player } from './entity/Player.js';
+import { Spawner } from './entity/Spawner.js';
 import { randInt } from './math/MathUtils.js';
 import { Renderer } from './view/Renderer.js';
 
@@ -66,30 +67,61 @@ const canvas = document.querySelector('.canvas');
 Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
 
-const d1 = {
-	pos: { x: 200, y: 300 },
+const datas = {
+	pos: { x: 900, y: 450 },
 	size: { x: 100, y: 100 },
 	default_hp: 500,
 	color: 'yellow',
 };
 
-export const player = new PlayerEntity(d1);
+export const player = new Player(datas);
 
 gameArea.add_entity(player);
-//gameArea.add_entity(new MonsterEntity(d2));
-//gameArea.add_entity(new MonsterEntity(d3));
 
-for (let i = 0; i < 25; i++) {
-	gameArea.add_entity(
-		new MonsterEntity({
-			pos: { x: randInt(400, 1920), y: randInt(0, 1080) },
-			size: { x: 25, y: 25 },
-			default_hp: 50,
-			speedMult: randInt(1, 3),
-			color: 'red',
-		})
-	);
-}
+gameArea.add_entity(
+	new Spawner({
+		pos: { x: 25, y: 25 },
+		size: { x: 10, y: 10 },
+		default_hp: 50,
+		speedMult: randInt(1, 3),
+		damage: 5,
+		color: 'red',
+		difficulty: difficulty.hard,
+	})
+);
+gameArea.add_entity(
+	new Spawner({
+		pos: { x: 1890, y: 25 },
+		size: { x: 10, y: 10 },
+		default_hp: 50,
+		speedMult: randInt(1, 3),
+		damage: 5,
+		color: 'red',
+		difficulty: difficulty.hard,
+	})
+);
+gameArea.add_entity(
+	new Spawner({
+		pos: { x: 25, y: 940 },
+		size: { x: 10, y: 10 },
+		default_hp: 50,
+		speedMult: randInt(1, 3),
+		damage: 5,
+		color: 'red',
+		difficulty: difficulty.hard,
+	})
+);
+gameArea.add_entity(
+	new Spawner({
+		pos: { x: 1890, y: 940 },
+		size: { x: 10, y: 10 },
+		default_hp: 50,
+		speedMult: randInt(1, 3),
+		damage: 5,
+		color: 'red',
+		difficulty: difficulty.hard,
+	})
+);
 
 Renderer.render();
 gameArea.start();

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { MonsterEntity } from './MonsterEntity.js';
-import { PlayerEntity } from './PlayerEntity.js';
+import { Monster } from './Monster.js';
+import { Player } from './Player.js';
 
 // à finir quand le côté serveur sera opérationnel
 
@@ -16,8 +16,8 @@ describe('Projectile entity tests', () => {
 			size: { x: 1, y: 1 },
 			default_hp: 10,
 		};
-		const pt = new PlayerEntity(PDatas);
-		const me = new MonsterEntity(MDatas, pt);
+		const pt = new Player(PDatas);
+		const me = new Monster(MDatas, pt);
 		pt.updateDirection(1, 0);
 		const bullet = pt.shoot();
 		assert.strictEqual(me.HP, 10);

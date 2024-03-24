@@ -2,12 +2,11 @@ import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
 import { Action } from './action/Action.js';
 
-export class ProjectileEntity extends DynamicEntity {
+export class Projectile extends DynamicEntity {
 	entityShot = [];
 
 	constructor(datas) {
 		super(datas);
-		this.damage = datas.damage;
 		this.owner = datas.owner;
 		this.penetration = datas.penetration;
 		this.hitbox.addLayer('bullet');

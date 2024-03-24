@@ -1,11 +1,12 @@
 import { LivingEntity } from './LivingEntity.js';
 import { KeyBoardControls } from '../controller/KeyboardControls.js';
 import { MouseControls } from '../controller/MouseControls.js';
-import { ProjectileEntity } from './ProjectileEntity.js';
+import { Projectile } from './Projectile.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 
-export class PlayerEntity extends LivingEntity {
+export class Player extends LivingEntity {
+	weapons = { active1: null, active2: null, ultimate: null, passive: null };
 	constructor(datas) {
 		super(datas);
 		this.player_speed = 10;
@@ -18,9 +19,6 @@ export class PlayerEntity extends LivingEntity {
 		super.update();
 		this.is_shooting();
 		this.cooldown -= 1;
-		if (this.HP <= 0) {
-			this.die();
-		}
 	}
 
 	move() {
@@ -67,7 +65,7 @@ export class PlayerEntity extends LivingEntity {
 				speedMult: 25,
 				friendly: true,
 				owner: this,
-				damage: 5,
+				damage: 10,
 				penetration: 1,
 				color: 'blue',
 				ttl: 2000,
@@ -106,7 +104,7 @@ export class PlayerEntity extends LivingEntity {
 			};
 			this.cooldown = 2;
 		}
-		const bullet = new ProjectileEntity(data);
+		const bullet = new Projectile(data);
 		bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
 		gameArea.entities.push(bullet);
 		return bullet;

@@ -5,6 +5,7 @@ export class DynamicEntity extends Entity {
 	constructor(datas) {
 		super(datas);
 		this.speedV = new Vector2(0, 0);
+		this.damage = datas.damage;
 		if (datas.speedMult) {
 			this.speedMult = datas.speedMult;
 		} else {

@@ -4,8 +4,8 @@ import gameArea from '../GameArea.js';
 export class LivingEntity extends DynamicEntity {
 	constructor(datas) {
 		super(datas);
-		this.HP = datas.default_hp;
 		this.maxHP = datas.default_hp;
+		this.HP = this.maxHP;
 	}
 
 	update() {
