@@ -10,6 +10,8 @@ export class PlayerEntity extends LivingEntity {
 		super(datas);
 		this.player_speed = 10;
 		this.cooldown = 0;
+		this.nickname = datas.nickname;
+
 		this.shootDirection = new Vector2(0, 0);
 		this.hitbox.addLayer('player');
 	}

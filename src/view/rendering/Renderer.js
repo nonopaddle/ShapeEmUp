@@ -1,8 +1,10 @@
-import gameArea from '../GameArea.js';
+import gameArea from '../../GameArea.js';
+import { avatarsList } from './AvatarList.js';
 
 export class Renderer {
 	static canvas;
 	static context;
+	static #reqAnim;
 	static set_canvas(canvas) {
 		this.canvas = canvas;
 		this.context = this.canvas.getContext('2d');
@@ -14,14 +16,28 @@ export class Renderer {
 		}
 	}
 
-	static render() {
+	static start_rendering() {
 		if (this.context == undefined) throw new Error('context is null !');
 		this.clear();
 		gameArea.entities.forEach(entity => entity.render(this.context));
-		requestAnimationFrame(this.render.bind(this));
+		this.#renderPlayers(this.context);
+		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
 	}
 
+	static stop_rendering() {
+		window.cancelAnimationFrame(this.#reqAnim);
+		console.log('stopped rendering');
+	}
 	static clear() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	static #renderPlayers(ctx) {
+		const players = gameArea.get_players();
+		players.forEach(player => {
+			if(player.nickname == null) return;
+			const avatar = avatarsList.filter(avatar => avatar.selectedBy == player.nickname)[0];
+			avatar.draw(ctx, player.pos, 1);
+		});
 	}
 }
