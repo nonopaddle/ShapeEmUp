@@ -2,9 +2,12 @@ import { Entity } from './Entity.js';
 import { Vector2 } from '../math/Vector2.js';
 
 export class DynamicEntity extends Entity {
+	vectors = [];
+
 	constructor(datas) {
 		super(datas);
 		this.speedV = new Vector2(0, 0);
+		this.velocity = new Vector2(0, 0);
 		if (datas.speedMult) {
 			this.speedMult = datas.speedMult;
 		} else {
@@ -15,6 +18,10 @@ export class DynamicEntity extends Entity {
 	update() {
 		super.update();
 		this.move();
+		this.vectors.forEach(v => {
+			this.velocity.add(v);
+		});
+		this.vectors = [];
 	}
 
 	move() {
@@ -38,5 +45,13 @@ export class DynamicEntity extends Entity {
 
 	setSpeed(speedX, speedY) {
 		this.speedV.set(speedX, speedY);
+	}
+
+	apply_impluse_vector(vector) {
+		this.vectors.push(vector);
+	}
+
+	apply_vector_once(vector) {
+		this.pos.add(vector);
 	}
 }

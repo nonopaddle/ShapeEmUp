@@ -3,6 +3,8 @@ import { PlayerEntity } from './entity/PlayerEntity.js';
 class GameArea {
 	difficulty = 1;
 	entities = [];
+	delta = 1000 / 60;
+	friction = 60;
 	#main_loop;
 
 	add_entity(entity) {
@@ -10,7 +12,7 @@ class GameArea {
 	}
 
 	start_loop() {
-		this.#main_loop = setInterval(this.tick_event.bind(this), 1000 / 60);
+		this.#main_loop = setInterval(this.tick_event.bind(this), this.delta);
 		console.log('loop started');
 	}
 

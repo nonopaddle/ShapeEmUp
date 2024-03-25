@@ -20,20 +20,34 @@ export class PlayerEntity extends LivingEntity {
 		super.update();
 		this.is_shooting();
 		this.cooldown -= 1;
-		if (this.HP <= 0) {
-			this.die();
-		}
+		this.move(gameArea.delta, gameArea.friction);
 	}
 
-	move() {
-		const xSpeed = -(KeyBoardControls.keymap.q - KeyBoardControls.keymap.d);
-		const ySpeed = -(KeyBoardControls.keymap.z - KeyBoardControls.keymap.s);
-		this.speedV.setX(xSpeed);
-		this.speedV.setY(ySpeed);
-		this.speedV.normalize();
-		this.speedV.multiplyScalar(10);
-		this.pos.x += this.speedV.x;
-		this.pos.y += this.speedV.y;
+	#input_direction() {
+		const i = new Vector2(0, 0);
+		if (KeyBoardControls.keymap.z) i.y -= 1;
+		if (KeyBoardControls.keymap.s) i.y += 1;
+		if (KeyBoardControls.keymap.q) i.x -= 1;
+		if (KeyBoardControls.keymap.d) i.x += 1;
+		i.normalize();
+		return i;
+	}
+
+	move(delta, friction) {
+		const direction = this.#input_direction();
+		if (direction.length() == 0) {
+			if (this.speedV.length() > delta * friction) {
+				this.speedV.sub(this.speedV.multiplyScalar(delta * friction));
+			} else {
+				this.speedV.set(0, 0);
+			}
+		} else {
+			const i = direction.multiplyScalar(
+				this.speedV.length() + this.player_speed
+			);
+			i.limit_distance(5 * this.speedMult);
+			this.pos.add(i);
+		}
 	}
 
 	is_shooting() {

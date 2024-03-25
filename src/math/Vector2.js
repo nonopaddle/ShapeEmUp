@@ -365,6 +365,11 @@ class Vector2 {
 
 		return this;
 	}
+
+	limit_distance(max) {
+		if (this.length() <= max) return this;
+		return this.normalize().multiplyScalar(max);
+	}
 }
 
 export { Vector2 };

@@ -8,7 +8,10 @@ import { ScoresView } from './view/views/ScoresView.js';
 import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
 import { LoginView } from './view/views/LoginView.js';
-import { Renderer } from './view/Renderer.js';
+import { PlayerEntity } from './entity/PlayerEntity.js';
+import { MonsterEntity } from './entity/MonsterEntity.js';
+import gameArea from './GameArea.js';
+import { randInt } from './math/MathUtils.js';
 
 sessionStorage.setItem('nickname', 'nono');
 const loginView = new LoginView(document.querySelector('.login'));
@@ -64,5 +67,5 @@ for (let i = 0; i < 25; i++) {
 	);
 }
 
-Renderer.render();
-gameArea.start();
+Renderer.start_rendering();
+gameArea.start_loop();
