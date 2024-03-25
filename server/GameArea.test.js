@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { Entity } from './entity/Entity.js';
+import { Entity } from '../src/entity/Entity.js';
 import gameArea from './GameArea.js';
 
 describe('GameArea tests', () => {

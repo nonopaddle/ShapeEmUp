@@ -1,6 +1,6 @@
 import { LivingEntity } from './LivingEntity.js';
-import { KeyBoardControls } from '../controller/KeyboardControls.js';
-import { MouseControls } from '../controller/MouseControls.js';
+import { KeyBoardControls } from '../../client/src/controller/KeyboardControls.js';
+import { MouseControls } from '../../client/src/controller/MouseControls.js';
 import { ProjectileEntity } from './ProjectileEntity.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
