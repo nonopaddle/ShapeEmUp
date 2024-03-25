@@ -6,12 +6,42 @@
         <script src="build/main.bundle.js" defer></script>
     </head>
     <body>
-        <h1>Shoot Them Up (il faut trouver un nom)</h1>
-        <div class="menu">
-            <button class="playButton">Jouer</button>
-            <button class="optionsButton">Options</button>
-            <button class="creditsButton">Crédits</button>
-        </div>
-        <canvas class="canvas"></canvas>
+        <section class="login">
+            <h1>WHO ARE YOU ?</h1>
+            <form action="" class="login-form">
+                <input type="text" name="nickname" class="login-nickname-input">
+                <div class="login-button">LOGIN</div>
+            </form>
+        </section>
+        <section class="main-menu">
+            <h1>Shoot Them Up (il faut trouver un nom)</h1>
+            <div class="buttons">
+                <a class="playButton" href="/play-menu">Play</a>
+                <a class="scoresButton" href="/scores">Scores</a>
+                <a class="creditsButton" href="/credits">Credits</a>
+            </div>
+        </section>
+        <section class="play-menu">
+            <a class="createNewGameButton" href="/waiting-room">new game</a>
+            <a class="joinGameButton" href="/waiting-room">join game</a>
+        </section>
+        <section class="waiting-room">
+            <h2>CHOOSE AN AVATAR</h2>
+            <div class="avatars-list"></div>
+            <h2 class="difficulty-display">DIFFICULTY : NORMAL</h2>
+            <input type="range" name="difficulty" class="difficulty" min="0" max="2" >
+            <a class="launch" href="/main-game">LAUNCH</a>
+        </section>
+        <section class="main-game">
+            This is the main game
+            <canvas class="canvas"></canvas>
+            <a href="/main-menu">HOME</a>
+        </section>
+        <section class="scores">
+            <a href="/main-menu">HOME</a>
+        </section>
+        <section class="credits">
+            <a href="/main-menu">HOME</a>
+        </section>
     </body>
 </html>

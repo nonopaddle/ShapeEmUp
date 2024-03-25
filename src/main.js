@@ -1,62 +1,40 @@
-import gameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
+import { MainMenuView } from './view/views/MainMenuView.js';
+import { PlayMenuView } from './view/views/PlayMenuView.js';
+import { WaitingRoomView } from './view/views/WaitingRoomView.js';
+import { Renderer } from './view/rendering/Renderer.js';
+import { Router } from './view/views/Router.js';
+import { ScoresView } from './view/views/ScoresView.js';
+import { CreditsView } from './view/views/CreditsView.js';
+import { MainGameView } from './view/views/MainGameView.js';
+import { LoginView } from './view/views/LoginView.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
-import { Renderer } from './view/Renderer.js';
+import { MonsterEntity } from './entity/MonsterEntity.js';
+import gameArea from './GameArea.js';
+import { randInt } from './math/MathUtils.js';
 
-const mainMenu = `<div class="menu">
-    <button class="playButton">Jouer</button>
-    <button class="optionsButton">Options</button>
-    <button class="creditsButton">Crédits</button>
-</div>`;
-const optionsMenu = `<div class="menu">
-    <h3>Options</h3>
-    <button class="retour">Menu principal</button>
-</div>`;
-const creditsMenu = `<div class="menu">
-    <h3>Crédits</h3>
-    <button class="retour">Menu principal</button>
-</div>`;
+sessionStorage.setItem('nickname', 'nono');
+const loginView = new LoginView(document.querySelector('.login'));
+const mainMenuView = new MainMenuView(document.querySelector('.main-menu'));
+const playMenuView = new PlayMenuView(document.querySelector('.play-menu'));
+const waitingRoomView = new WaitingRoomView(
+	document.querySelector('.waiting-room')
+);
+const mainGameView = new MainGameView(document.querySelector('.main-game'));
+const scoresView = new ScoresView(document.querySelector('.scores'));
+const creditsView = new CreditsView(document.querySelector('.credits'));
+const routes = [
+	{ path: '/login', view: loginView },
+	{ path: '/main-menu', view: mainMenuView },
+	{ path: '/play-menu', view: playMenuView },
+	{ path: '/waiting-room', view: waitingRoomView },
+	{ path: '/main-game', view: mainGameView },
+	{ path: '/scores', view: scoresView },
+	{ path: '/credits', view: creditsView },
+];
 
-const gameCanvas = `<canvas id="gameCanvas" width="800" height="600"></canvas>`;
-
-document
-	.querySelector('.playButton')
-	.addEventListener('click', () => displayGame());
-document
-	.querySelector('.optionsButton')
-	.addEventListener('click', () => displayOptions());
-document
-	.querySelector('.creditsButton')
-	.addEventListener('click', () => displayCredits());
-
-function displayOptions() {
-	document.querySelector('.menu').innerHTML = optionsMenu;
-	const retourButton = document.querySelector('.retour');
-	retourButton.addEventListener('click', () => displayMenu());
-}
-
-function displayCredits() {
-	document.querySelector('.menu').innerHTML = creditsMenu;
-	const retourButton = document.querySelector('.retour');
-	retourButton.addEventListener('click', () => displayMenu());
-}
-
-function displayMenu() {
-	document.querySelector('.menu').innerHTML = mainMenu;
-	document
-		.querySelector('.playButton')
-		.addEventListener('click', () => displayGame());
-	document
-		.querySelector('.optionsButton')
-		.addEventListener('click', () => displayOptions());
-	document
-		.querySelector('.creditsButton')
-		.addEventListener('click', () => displayCredits());
-}
-
-function displayGame() {
-	document.querySelector('body').innerHTML = gameCanvas;
-}
+Router.routes = routes;
+Router.navigate('/login');
 
 const canvas = document.querySelector('.canvas');
 //export const gameArea = new GameArea(document);
@@ -65,21 +43,29 @@ Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
 
 const d1 = {
-		pos: { x: 100, y: 200 },
-		size: { x: 10, y: 20 },
-		speed: { x: 0, y: 0 },
-		color: 'red',
-	},
-	d2 = {
-		pos: { x: 200, y: 300 },
-		size: { x: 100, y: 100 },
-		speed: { x: 0, y: 0 },
-		color: 'yellow',
-	};
+	pos: { x: 200, y: 300 },
+	size: { x: 100, y: 100 },
+	default_hp: 500,
+	color: 'yellow',
+};
 
-export const player = new PlayerEntity(d2);
+export const player = new PlayerEntity(d1);
 
 gameArea.add_entity(player);
+//gameArea.add_entity(new MonsterEntity(d2));
+//gameArea.add_entity(new MonsterEntity(d3));
 
-Renderer.render();
-gameArea.start();
+for (let i = 0; i < 25; i++) {
+	gameArea.add_entity(
+		new MonsterEntity({
+			pos: { x: randInt(400, 1920), y: randInt(0, 1080) },
+			size: { x: 25, y: 25 },
+			default_hp: 50,
+			speedMult: randInt(1, 3),
+			color: 'red',
+		})
+	);
+}
+
+Renderer.start_rendering();
+gameArea.start_loop();

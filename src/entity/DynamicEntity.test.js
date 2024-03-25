@@ -12,9 +12,12 @@ describe('Dynamic entity tests', () => {
 		const de = new DynamicEntity(datas);
 		assert.strictEqual(25, de.pos.x);
 		assert.strictEqual(25, de.pos.y);
-		const randSpeed = new Vector2(Math.random() * 100, Math.random() * 100);
-		de.setSpeed(randSpeed.x, randSpeed.y);
+		const randSpeed = new Vector2(
+			Math.floor(Math.random(0, 99)),
+			Math.floor(Math.random(0, 99))
+		);
 		randSpeed.normalize().multiplyScalar(10);
+		de.setSpeed(randSpeed.x, randSpeed.y);
 		de.move();
 		assert.strictEqual(25 + randSpeed.x, de.pos.x);
 		assert.strictEqual(25 + randSpeed.y, de.pos.y);
