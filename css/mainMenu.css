@@ -55,10 +55,6 @@ body > section {
     background-color: lightyellow;
 }
 
-.play-menu {
-
-}
-
 .active .canvas {
     position: absolute;
     top: 0;
