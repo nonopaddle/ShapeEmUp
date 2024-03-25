@@ -1,6 +1,6 @@
 .vscode/
-build/
 node_modules/
+build/
 .babelrc
 .prettierrc
 package-lock.json

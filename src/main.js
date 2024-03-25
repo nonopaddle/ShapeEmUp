@@ -8,6 +8,7 @@ import { ScoresView } from './view/views/ScoresView.js';
 import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
 import { LoginView } from './view/views/LoginView.js';
+import { Renderer } from './view/Renderer.js';
 
 sessionStorage.setItem('nickname', 'nono');
 const loginView = new LoginView(document.querySelector('.login'));
@@ -37,3 +38,31 @@ const canvas = document.querySelector('.canvas');
 //export const gameArea = GameArea;
 Renderer.set_canvas(canvas);
 MouseControls.set_canvas(canvas);
+
+const d1 = {
+	pos: { x: 200, y: 300 },
+	size: { x: 100, y: 100 },
+	default_hp: 500,
+	color: 'yellow',
+};
+
+export const player = new PlayerEntity(d1);
+
+gameArea.add_entity(player);
+//gameArea.add_entity(new MonsterEntity(d2));
+//gameArea.add_entity(new MonsterEntity(d3));
+
+for (let i = 0; i < 25; i++) {
+	gameArea.add_entity(
+		new MonsterEntity({
+			pos: { x: randInt(400, 1920), y: randInt(0, 1080) },
+			size: { x: 25, y: 25 },
+			default_hp: 50,
+			speedMult: randInt(1, 3),
+			color: 'red',
+		})
+	);
+}
+
+Renderer.render();
+gameArea.start();
