@@ -1,12 +1,13 @@
 import { LivingEntity } from './LivingEntity.js';
-import { KeyBoardControls } from '../../client/src/controller/KeyboardControls.js';
-import { MouseControls } from '../../client/src/controller/MouseControls.js';
-import { ProjectileEntity } from './ProjectileEntity.js';
-import gameArea from '../GameArea.js';
+//import { KeyBoardControls } from '../../client/src/controller/KeyboardControls.js';
+//import { MouseControls } from '../../client/src/controller/MouseControls.js';
+//import { ProjectileEntity } from './ProjectileEntity.js';
+//import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 
 export class PlayerEntity extends LivingEntity {
-	constructor(datas) {
+	input = new Vector2(0, 0);
+	constructor(datas, socket) {
 		super(datas);
 		this.player_speed = 10;
 		this.cooldown = 0;
@@ -14,6 +15,14 @@ export class PlayerEntity extends LivingEntity {
 
 		this.shootDirection = new Vector2(0, 0);
 		this.hitbox.addLayer('player');
+
+		this.socket = socket;
+		if (this.socket != undefined) {
+			this.socket.on('disconnect', () => {
+				console.log(`${this.nickname} s'est déconnecté(e)`);
+				this.die();
+			});
+		}
 	}
 
 	update() {
@@ -25,6 +34,7 @@ export class PlayerEntity extends LivingEntity {
 		}
 	}
 
+	/*
 	move() {
 		const xSpeed = -(KeyBoardControls.keymap.q - KeyBoardControls.keymap.d);
 		const ySpeed = -(KeyBoardControls.keymap.z - KeyBoardControls.keymap.s);
@@ -51,6 +61,7 @@ export class PlayerEntity extends LivingEntity {
 			}
 		}
 	}
+	
 
 	updateDirection(x, y) {
 		this.shootDirection.setX(x);
@@ -113,4 +124,5 @@ export class PlayerEntity extends LivingEntity {
 		gameArea.entities.push(bullet);
 		return bullet;
 	}
+	*/
 }

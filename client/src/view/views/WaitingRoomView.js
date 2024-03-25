@@ -1,5 +1,6 @@
 import { View } from './View.js';
 import { avatarsList } from '../rendering/AvatarList.js';
+import Connection from '../../Connection.js';
 
 export class WaitingRoomView extends View {
 	#buttonsize = { x: 200, y: 200 };
@@ -51,6 +52,12 @@ export class WaitingRoomView extends View {
 			//const player = new PlayerEntity(d1);
 			//gameArea.add_entity(player);
 			console.log(avatarsList);
+		});
+
+		const disconnectButton = this.element.querySelector('.disconnect');
+		disconnectButton.addEventListener('click', event => {
+			event.preventDefault();
+			Connection.disconnect();
 		});
 	}
 
