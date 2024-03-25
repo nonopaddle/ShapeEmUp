@@ -1,4 +1,4 @@
-import { MouseControls } from '../client/controller/MouseControls.js';
+import { MouseControls } from './controller/MouseControls.js';
 import { MainMenuView } from './view/views/MainMenuView.js';
 import { PlayMenuView } from './view/views/PlayMenuView.js';
 import { WaitingRoomView } from './view/views/WaitingRoomView.js';

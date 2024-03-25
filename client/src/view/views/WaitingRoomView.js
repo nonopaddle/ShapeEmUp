@@ -1,7 +1,5 @@
 import { View } from './View.js';
 import { avatarsList } from '../rendering/AvatarList.js';
-import gameArea from '../../GameArea.js';
-import { PlayerEntity } from '../../entity/PlayerEntity.js';
 
 export class WaitingRoomView extends View {
 	#buttonsize = { x: 200, y: 200 };
@@ -23,7 +21,8 @@ export class WaitingRoomView extends View {
 		const difficultySlider = this.element.querySelector('.difficulty');
 		const difficultyDisplay = this.element.querySelector('.difficulty-display');
 		difficultySlider.addEventListener('input', event => {
-			gameArea.difficulty = event.target.value;
+			event.preventDefault();
+			/*gameArea.difficulty = event.target.value;
 			console.log(gameArea.difficulty);
 			switch (gameArea.difficulty) {
 				case '0':
@@ -38,7 +37,7 @@ export class WaitingRoomView extends View {
 					break;
 				default:
 					break;
-			}
+			}*/
 		});
 
 		const launchButton = this.element.querySelector('.launch');
@@ -49,8 +48,8 @@ export class WaitingRoomView extends View {
 				size: { x: 10, y: 20 },
 				nickname: sessionStorage.getItem('nickname'),
 			};
-			const player = new PlayerEntity(d1);
-			gameArea.add_entity(player);
+			//const player = new PlayerEntity(d1);
+			//gameArea.add_entity(player);
 			console.log(avatarsList);
 		});
 	}

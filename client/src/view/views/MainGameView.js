@@ -1,4 +1,3 @@
-import gameArea from '../../GameArea.js';
 import { Renderer } from '../rendering/Renderer.js';
 import { View } from './View.js';
 
@@ -15,8 +14,8 @@ export class MainGameView extends View {
 
 	hide() {
 		super.hide();
-		gameArea.stop_loop();
-		gameArea.entities = [];
+		//gameArea.stop_loop();
+		//gameArea.entities = [];
 		Renderer.stop_rendering();
 	}
 }
