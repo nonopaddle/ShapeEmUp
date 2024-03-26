@@ -81,9 +81,13 @@ body > section {
 .avatars-list canvas:hover {
     background-color: lightskyblue;
 }
-.avatars-list .selected {
-    border-color: lightyellow;
+.avatars-list .selected-by-me {
+    background-color: lightskyblue;
 }
+.avatars-list .selected-by-other {
+    background-color: tomato;
+}
+
 
 .difficulty {
     color: lightcyan;

@@ -1,6 +1,8 @@
-import { View } from './View.js';
-import { avatarsList } from '../rendering/AvatarList.js';
+import { View, setNavigationToHref } from './View.js';
+import { avatarsList } from '../rendering/textures.js';
 import Connection from '../../Connection.js';
+import { Router } from './Router.js';
+import { Renderer } from '../rendering/Renderer.js';
 
 export class WaitingRoomView extends View {
 	#buttonsize = { x: 200, y: 200 };
@@ -10,9 +12,18 @@ export class WaitingRoomView extends View {
 		avatarsList.forEach(avatar => {
 			avatarListContainer.innerHTML += `<canvas class="${avatar.label}">`;
 		});
+
 		avatarsList.forEach(avatar => {
 			const canvas = avatarListContainer.querySelector(`.${avatar.label}`);
-			canvas.addEventListener('click', this.selection.bind(this));
+
+			canvas.addEventListener('click', event => {
+				event.preventDefault();
+				Connection.socket.emit('selection avatar', {
+					avatar: avatar.label,
+					playerNickname: sessionStorage.getItem('nickname'),
+				});
+			});
+
 			canvas.width = this.#buttonsize.x;
 			canvas.height = this.#buttonsize.y;
 			const ctx = canvas.getContext('2d');
@@ -42,19 +53,20 @@ export class WaitingRoomView extends View {
 		});
 
 		const launchButton = this.element.querySelector('.launch');
+		launchButton.removeEventListener('click', setNavigationToHref);
 		launchButton.addEventListener('click', event => {
 			event.preventDefault();
-			const d1 = {
-				pos: { x: 100, y: 200 },
-				size: { x: 10, y: 20 },
-				nickname: sessionStorage.getItem('nickname'),
-			};
-			//const player = new PlayerEntity(d1);
-			//gameArea.add_entity(player);
-			console.log(avatarsList);
+			Connection.socket.emit('launch');
+			Connection.socket.on('launch fail', () => console.log('launch fail'));
+			Connection.socket.on('launch success', () => {
+				Router.navigate('/main-game');
+				Renderer.start_rendering();
+				console.log('start rendering');
+			});
 		});
 
 		const disconnectButton = this.element.querySelector('.disconnect');
+		disconnectButton.removeEventListener('click', setNavigationToHref);
 		disconnectButton.addEventListener('click', event => {
 			event.preventDefault();
 			Connection.disconnect();
@@ -68,7 +80,7 @@ export class WaitingRoomView extends View {
 		this.element
 			.querySelectorAll('canvas')
 			.forEach(canvas => canvas.classList.remove('selected'));
-		avatarsList.forEach(avatar => (avatar.selectedBy = null));
+		avatarsList.forEach(avatar => (avatar.owner = null));
 
 		if (canvas.classList.length == 2) return;
 
@@ -76,8 +88,26 @@ export class WaitingRoomView extends View {
 		const avatar = avatarsList.filter(
 			avatar => avatar.label == canvas.classList[0]
 		)[0];
-		avatar.selectedBy = sessionStorage.getItem('nickname');
+		avatar.owner = sessionStorage.getItem('nickname');
 
 		console.log(avatar);
+	}
+
+	static initConnectionToWaitingRoom() {
+		Connection.socket.on('avatar selection update', avatarsAssociations => {
+			console.log(avatarsAssociations);
+			Object.entries(avatarsAssociations).forEach(association => {
+				const [avatarLabel, playerNickname] = association;
+				const canvas = document.querySelector(`.avatars-list .${avatarLabel}`);
+				console.log(avatarLabel + ' ' + playerNickname);
+				canvas.classList.remove('selected-by-other');
+				canvas.classList.remove('selected-by-me');
+				if (playerNickname == sessionStorage.getItem('nickname')) {
+					canvas.classList.add('selected-by-me');
+				} else if (playerNickname != null) {
+					canvas.classList.add('selected-by-other');
+				}
+			});
+		});
 	}
 }

@@ -8,7 +8,6 @@ import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
 import { LoginView } from './view/views/LoginView.js';
 
-sessionStorage.setItem('nickname', 'nono');
 const loginView = new LoginView(document.querySelector('.login'));
 const mainMenuView = new MainMenuView(document.querySelector('.main-menu'));
 const waitingRoomView = new WaitingRoomView(

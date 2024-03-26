@@ -12,6 +12,7 @@ export class Entity {
 		this.size = new Vector2(datas.size.x, datas.size.y);
 		this.color = datas.color;
 		this.hitbox = new CircleHitbox(this, this.pos, datas.size.x / 2);
+		this.name = datas.name;
 	}
 
 	render(ctx) {

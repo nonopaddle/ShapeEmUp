@@ -11,7 +11,6 @@ export class PlayerEntity extends LivingEntity {
 		super(datas);
 		this.player_speed = 10;
 		this.cooldown = 0;
-		this.nickname = datas.nickname;
 
 		this.shootDirection = new Vector2(0, 0);
 		this.hitbox.addLayer('player');
@@ -27,7 +26,7 @@ export class PlayerEntity extends LivingEntity {
 
 	update() {
 		super.update();
-		this.is_shooting();
+		//this.is_shooting();
 		this.cooldown -= 1;
 		if (this.HP <= 0) {
 			this.die();

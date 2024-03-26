@@ -1,4 +1,5 @@
-import { avatarsList } from './AvatarList.js';
+import Connection from '../../Connection.js';
+import { avatarsList } from './textures.js';
 
 export class Renderer {
 	static canvas;
@@ -18,8 +19,7 @@ export class Renderer {
 	static start_rendering() {
 		if (this.context == undefined) throw new Error('context is null !');
 		this.clear();
-		//gameArea.entities.forEach(entity => entity.render(this.context));
-		this.#renderPlayers(this.context);
+		this.#renderEntities(this.context);
 		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
 	}
 
@@ -31,14 +31,18 @@ export class Renderer {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
-	static #renderPlayers(ctx) {
-		/*
-		const players = gameArea.get_players();
-		players.forEach(player => {
-			if(player.nickname == null) return;
-			const avatar = avatarsList.filter(avatar => avatar.selectedBy == player.nickname)[0];
-			avatar.draw(ctx, player.pos, 1);
+	static #renderEntities(ctx) {
+		Connection.socket.emit('getEntities-from-client');
+
+		Connection.socket.on('getEntities-from-server', entities => {
+			console.log(entities);
+			entities.forEach(entity => {
+				if (entity.name == undefined) return;
+				const avatar = avatarsList.filter(
+					avatar => avatar.owner == entity.name
+				)[0];
+				if (avatar != null) avatar.draw(ctx, entity.origin, 1);
+			});
 		});
-		*/
 	}
 }

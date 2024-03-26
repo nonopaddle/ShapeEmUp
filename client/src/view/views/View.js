@@ -5,10 +5,7 @@ export class View {
 		this.element = element;
 		const buttons = this.element.querySelectorAll('a');
 		buttons.forEach(button => {
-			button.addEventListener('click', e => {
-				e.preventDefault();
-				Router.navigate(e.currentTarget.getAttribute('href'));
-			});
+			button.addEventListener('click', setNavigationToHref);
 		});
 	}
 
@@ -19,4 +16,9 @@ export class View {
 	hide() {
 		this.element.classList.remove('active');
 	}
+}
+
+export function setNavigationToHref(event) {
+	event.preventDefault();
+	Router.navigate(event.currentTarget.getAttribute('href'));
 }
