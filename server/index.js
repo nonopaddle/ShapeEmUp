@@ -106,7 +106,6 @@ io.on('connection', socket => {
 	});
 
 	socket.on('getEntities-from-client', () => {
-		console.log('getting entities');
 		const datas = gameArea.entities.map(entity => {
 			return {
 				origin: { x: entity.pos.x, y: entity.pos.y },

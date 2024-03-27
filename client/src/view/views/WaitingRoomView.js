@@ -3,6 +3,7 @@ import { avatarsList } from '../rendering/textures.js';
 import Connection from '../../Connection.js';
 import { Router } from './Router.js';
 import { Renderer } from '../rendering/Renderer.js';
+import { KeyBoardControls } from '../../controller/KeyboardControls.js';
 
 export class WaitingRoomView extends View {
 	#buttonsize = { x: 200, y: 200 };
@@ -72,6 +73,7 @@ export class WaitingRoomView extends View {
 		Connection.socket.on('launch success', () => {
 			Router.navigate('/main-game');
 			Renderer.start_rendering();
+			KeyBoardControls.startListening();
 			console.log('start rendering');
 		});
 		Connection.socket.on('avatar selection update', avatarsAssociations => {
@@ -89,7 +91,6 @@ export class WaitingRoomView extends View {
 					canvas.classList.add('selected-by-other');
 				}
 			});
-			console.log(avatarsList);
 		});
 	}
 }

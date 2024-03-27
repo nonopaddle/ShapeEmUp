@@ -21,6 +21,12 @@ export class PlayerEntity extends LivingEntity {
 				console.log(`${this.nickname} s'est déconnecté(e)`);
 				this.die();
 			});
+
+			this.socket.on('keyboardEvent', keyboardEvent => {
+				this.input = new Vector2(0, 0);
+				this.input.x = -(keyboardEvent.q - keyboardEvent.d);
+				this.input.y = -(keyboardEvent.z - keyboardEvent.s);
+			});
 		}
 	}
 
@@ -33,18 +39,15 @@ export class PlayerEntity extends LivingEntity {
 		}
 	}
 
-	/*
 	move() {
-		const xSpeed = -(KeyBoardControls.keymap.q - KeyBoardControls.keymap.d);
-		const ySpeed = -(KeyBoardControls.keymap.z - KeyBoardControls.keymap.s);
-		this.speedV.setX(xSpeed);
-		this.speedV.setY(ySpeed);
+		this.speedV.setX(this.input.x);
+		this.speedV.setY(this.input.y);
 		this.speedV.normalize();
 		this.speedV.multiplyScalar(10);
 		this.pos.x += this.speedV.x;
 		this.pos.y += this.speedV.y;
 	}
-
+	/*
 	is_shooting() {
 		this.updateDirection(
 			-(this.pos.x - MouseControls.controls.current_coords.x),

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { Entity } from './Entity.js';
 import { error } from 'node:console';
+import { Entity } from './Entity.js';
 
 describe('Entity tests', () => {
 	const d0 = {

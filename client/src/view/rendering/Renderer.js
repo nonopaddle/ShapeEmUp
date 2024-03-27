@@ -42,7 +42,6 @@ export class Renderer {
 				const avatar = avatarsList.filter(
 					avatar => avatar.owner == entity.name
 				)[0];
-				console.log(entity);
 				avatar.draw(this.context, entity.origin, 1);
 			});
 		});

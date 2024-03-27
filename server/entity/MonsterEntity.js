@@ -1,5 +1,5 @@
 import { LivingEntity } from './LivingEntity.js';
-import { player } from '../main.js';
+//import { player } from '../main.js';
 import { Action } from './action/Action.js';
 
 export class MonsterEntity extends LivingEntity {
@@ -8,7 +8,7 @@ export class MonsterEntity extends LivingEntity {
 		if (pl) {
 			this.playerAggro = pl;
 		} else {
-			this.playerAggro = player;
+			//	this.playerAggro = player;
 		}
 		this.hitbox.addLayer('monster');
 		this.hitbox.addMask(
@@ -25,8 +25,8 @@ export class MonsterEntity extends LivingEntity {
 	}
 
 	is_moving() {
-		this.speedV.setX(this.playerAggro.pos.x - this.pos.x);
-		this.speedV.setY(this.playerAggro.pos.y - this.pos.y);
+		//this.speedV.setX(this.playerAggro.pos.x - this.pos.x);
+		//this.speedV.setY(this.playerAggro.pos.y - this.pos.y);
 		this.speedV.normalize();
 	}
 }
