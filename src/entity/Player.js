@@ -59,18 +59,19 @@ export class Player extends LivingEntity {
 
 	update() {
 		super.update();
+		Object.values(this.weapons).forEach(element => {
+			if (element != weaponList.null) {
+				element.update();
+			}
+		});
 		this.is_shooting();
+		this.shoot_passive();
 		this.cooldown -= 1;
 		if (this.xp >= this.xpToLevelUp) {
 			this.level += 1;
 			this.xp -= this.xpToLevelUp;
 			this.xpToLevelUp += 10;
 		}
-		Object.values(this.weapons).forEach(element => {
-			if (element != weaponList.null) {
-				element.update();
-			}
-		});
 	}
 
 	move() {
@@ -126,6 +127,17 @@ export class Player extends LivingEntity {
 				}
 			}
 		});
+	}
+
+	shoot_passive() {
+		if (this.weapons.passive != weaponList.null) {
+			this.weapons.passive.bullet.pos = this.pos;
+			const bullet = this.weapons.passive.shoot();
+			if (bullet != undefined) {
+				bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
+				gameArea.entities.push(bullet);
+			}
+		}
 	}
 
 	render(ctx) {

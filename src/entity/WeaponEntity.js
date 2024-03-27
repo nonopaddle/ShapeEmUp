@@ -6,10 +6,14 @@ export class WeaponEntity extends Entity {
 	static monsterNb = 0;
 	static maxMonster = 25;
 
-	constructor(datas) {
-		super(datas);
+	constructor(x, y, weapon) {
+		super({
+			pos: { x: x, y: y },
+			size: { x: 25, y: 25 },
+			color: 'purple',
+		});
 		this.size = new Vector2(10, 10);
-		this.weapon = datas.weapon;
+		this.weapon = weapon;
 		this.hitbox.addLayer('weapon');
 	}
 

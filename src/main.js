@@ -80,30 +80,10 @@ export const player = new Player(playerD);
 
 gameArea.add_entity(player);
 
-let weaponD = {
-	pos: { x: 750, y: 450 },
-	size: { x: 25, y: 25 },
-	default_hp: 500,
-	color: 'purple',
-	weapon: weaponList.gun,
-};
-gameArea.add_entity(new WeaponEntity(weaponD));
-weaponD = {
-	pos: { x: 650, y: 450 },
-	size: { x: 25, y: 25 },
-	default_hp: 500,
-	color: 'purple',
-	weapon: weaponList.bigGun,
-};
-gameArea.add_entity(new WeaponEntity(weaponD));
-weaponD = {
-	pos: { x: 550, y: 450 },
-	size: { x: 25, y: 25 },
-	default_hp: 500,
-	color: 'purple',
-	weapon: weaponList.laser,
-};
-gameArea.add_entity(new WeaponEntity(weaponD));
+gameArea.add_entity(new WeaponEntity(750, 450, weaponList.gun));
+gameArea.add_entity(new WeaponEntity(650, 450, weaponList.bigGun));
+gameArea.add_entity(new WeaponEntity(550, 450, weaponList.laser));
+gameArea.add_entity(new WeaponEntity(450, 450, weaponList.zone));
 
 gameArea.add_entity(
 	new Spawner({

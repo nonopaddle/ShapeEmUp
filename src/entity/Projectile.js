@@ -3,7 +3,7 @@ import gameArea from '../GameArea.js';
 import { Action } from './action/Action.js';
 
 export class Projectile extends DynamicEntity {
-	entityShot = [];
+	entityShot = new Map();
 
 	constructor(datas) {
 		super(datas);
@@ -13,13 +13,16 @@ export class Projectile extends DynamicEntity {
 		this.hitbox.addMask(
 			'monster',
 			new Action('monsterColision', (source, target) => {
-				if (!source.entityShot.includes(target)) {
+				if (
+					!source.entityShot.has(target) ||
+					source.entityShot.get(target) <= 0
+				) {
 					if (target.hurt(source.damage)) {
 						source.owner.xp += target.difficulty;
 					}
 					if (source.penetration != 0) {
 						source.penetration -= 1;
-						source.entityShot.push(target);
+						source.entityShot[target] = source.cooldown;
 					} else {
 						source.die();
 					}
@@ -27,6 +30,8 @@ export class Projectile extends DynamicEntity {
 			})
 		);
 		this.ttl = datas.ttl;
+		if ('renderTexture' in datas) this.renderTexture = datas.renderTexture;
+		else this.renderTexture = true;
 	}
 
 	update() {
@@ -35,6 +40,9 @@ export class Projectile extends DynamicEntity {
 			this.die();
 			return;
 		}
+		this.entityShot.forEach((value, key) => {
+			this.entityShot[key] -= 1;
+		});
 		super.update();
 	}
 
@@ -44,5 +52,13 @@ export class Projectile extends DynamicEntity {
 				gameArea.entities.splice(index, 1);
 			}
 		});
+	}
+
+	render(ctx) {
+		if (this.renderTexture) {
+			super.render(ctx);
+		} else {
+			this.hitbox.render(ctx);
+		}
 	}
 }

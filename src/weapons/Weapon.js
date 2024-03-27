@@ -6,6 +6,7 @@ export class Weapon {
 		this.maxCooldown = datas.cooldown;
 		this.cooldown = 0;
 		this.bullet = datas.bullet;
+		this.bullet.cooldown = this.maxCooldown;
 		if (datas.owner) this.bullet.owner = datas.owner;
 	}
 
