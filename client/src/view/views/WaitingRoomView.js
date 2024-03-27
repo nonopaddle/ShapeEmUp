@@ -57,12 +57,6 @@ export class WaitingRoomView extends View {
 		launchButton.addEventListener('click', event => {
 			event.preventDefault();
 			Connection.socket.emit('launch');
-			Connection.socket.on('launch fail', () => console.log('launch fail'));
-			Connection.socket.on('launch success', () => {
-				Router.navigate('/main-game');
-				Renderer.start_rendering();
-				console.log('start rendering');
-			});
 		});
 
 		const disconnectButton = this.element.querySelector('.disconnect');
@@ -73,33 +67,20 @@ export class WaitingRoomView extends View {
 		});
 	}
 
-	selection(event) {
-		event.preventDefault();
-		const canvas = event.currentTarget;
-
-		this.element
-			.querySelectorAll('canvas')
-			.forEach(canvas => canvas.classList.remove('selected'));
-		avatarsList.forEach(avatar => (avatar.owner = null));
-
-		if (canvas.classList.length == 2) return;
-
-		canvas.classList.add('selected');
-		const avatar = avatarsList.filter(
-			avatar => avatar.label == canvas.classList[0]
-		)[0];
-		avatar.owner = sessionStorage.getItem('nickname');
-
-		console.log(avatar);
-	}
-
 	static initConnectionToWaitingRoom() {
+		Connection.socket.on('launch fail', () => console.log('launch fail'));
+		Connection.socket.on('launch success', () => {
+			Router.navigate('/main-game');
+			Renderer.start_rendering();
+			console.log('start rendering');
+		});
 		Connection.socket.on('avatar selection update', avatarsAssociations => {
-			console.log(avatarsAssociations);
 			Object.entries(avatarsAssociations).forEach(association => {
 				const [avatarLabel, playerNickname] = association;
+				avatarsList
+					.filter(avatar => avatar.label == avatarLabel)
+					.map(avatar => (avatar.owner = playerNickname));
 				const canvas = document.querySelector(`.avatars-list .${avatarLabel}`);
-				console.log(avatarLabel + ' ' + playerNickname);
 				canvas.classList.remove('selected-by-other');
 				canvas.classList.remove('selected-by-me');
 				if (playerNickname == sessionStorage.getItem('nickname')) {
@@ -108,6 +89,7 @@ export class WaitingRoomView extends View {
 					canvas.classList.add('selected-by-other');
 				}
 			});
+			console.log(avatarsList);
 		});
 	}
 }

@@ -80,18 +80,28 @@ io.on('connection', socket => {
 			const [avatarLabel, player] = association;
 			if (player == datas.nickname) avatarsAssociation[avatarLabel] = null;
 		});
+		io.emit('avatar selection update', avatarsAssociation);
 		console.log(`${datas.nickname} s'est déconnectée`);
 		console.log(players);
 	});
 
 	socket.on('launch', () => {
+		if (
+			players.length !=
+			Object.values(avatarsAssociation).filter(nickname => nickname != null)
+				.length
+		) {
+			console.log('Not everyone has an avatar');
+			socket.emit('launch fail');
+			return;
+		}
 		const hasFailed = init();
 		if (hasFailed) {
 			console.log('launch fail');
-			socket.emit('launch fail', () => {});
+			socket.emit('launch fail');
 		} else {
 			console.log('launch success');
-			io.emit('launch success', () => {});
+			io.emit('launch success');
 		}
 	});
 
@@ -122,7 +132,7 @@ io.on('connection', socket => {
 });
 
 Array.prototype.removeIf = function (callback) {
-	var i = this.length;
+	let i = this.length;
 	while (i--) {
 		if (callback(this[i], i)) {
 			this.splice(i, 1);

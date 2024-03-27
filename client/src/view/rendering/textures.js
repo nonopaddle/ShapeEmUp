@@ -2,6 +2,7 @@ export const avatarsList = [
 	{
 		label: 'blue_square',
 		draw: (ctx, origin, scale) => {
+			console.log(origin);
 			const size = 50 * scale;
 			ctx.fillStyle = 'lightblue';
 			ctx.strokeStyle = 'paleturquoise';

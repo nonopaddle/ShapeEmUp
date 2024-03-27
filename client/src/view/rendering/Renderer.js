@@ -18,8 +18,7 @@ export class Renderer {
 
 	static start_rendering() {
 		if (this.context == undefined) throw new Error('context is null !');
-		this.clear();
-		this.#renderEntities(this.context);
+		this.#renderEntities();
 		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
 	}
 
@@ -31,17 +30,20 @@ export class Renderer {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
-	static #renderEntities(ctx) {
+	static #renderEntities() {
 		Connection.socket.emit('getEntities-from-client');
+	}
 
+	static initConnectionToRenderer() {
 		Connection.socket.on('getEntities-from-server', entities => {
-			console.log(entities);
+			this.clear();
 			entities.forEach(entity => {
 				if (entity.name == undefined) return;
 				const avatar = avatarsList.filter(
 					avatar => avatar.owner == entity.name
 				)[0];
-				if (avatar != null) avatar.draw(ctx, entity.origin, 1);
+				console.log(entity);
+				avatar.draw(this.context, entity.origin, 1);
 			});
 		});
 	}
