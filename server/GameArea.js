@@ -20,6 +20,7 @@ class GameArea {
 	}
 
 	tick_event() {
+		console.log(this.entities.length);
 		this.entities.forEach(entity => entity.update());
 	}
 

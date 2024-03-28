@@ -30,4 +30,4 @@ Router.navigate('/login');
 
 const canvas = document.querySelector('.canvas');
 Renderer.set_canvas(canvas);
-MouseControls.set_canvas(canvas);
+MouseControls.init(canvas);

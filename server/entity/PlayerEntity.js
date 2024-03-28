@@ -1,8 +1,6 @@
 import { LivingEntity } from './LivingEntity.js';
-//import { KeyBoardControls } from '../../client/src/controller/KeyboardControls.js';
-//import { MouseControls } from '../../client/src/controller/MouseControls.js';
-//import { ProjectileEntity } from './ProjectileEntity.js';
-//import gameArea from '../GameArea.js';
+import { ProjectileEntity } from './ProjectileEntity.js';
+import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 
 export class PlayerEntity extends LivingEntity {
@@ -27,12 +25,29 @@ export class PlayerEntity extends LivingEntity {
 				this.input.x = -(keyboardEvent.q - keyboardEvent.d);
 				this.input.y = -(keyboardEvent.z - keyboardEvent.s);
 			});
+
+			this.socket.on('MouseCoordsEvent', coords => {
+				this.shootDirection.set(coords.x, coords.y);
+				this.shootDirection.normalize();
+			});
+
+			this.socket.on('MouseControlsEvent', controls => {
+				if (this.cooldown <= 0) {
+					console.log(controls);
+					if (controls.left) {
+						this.shoot(0);
+					} else if (controls.right) {
+						this.shoot(1);
+					} else if (controls.middle) {
+						this.shoot(2);
+					}
+				}
+			});
 		}
 	}
 
 	update() {
 		super.update();
-		//this.is_shooting();
 		this.cooldown -= 1;
 		if (this.HP <= 0) {
 			this.die();
@@ -46,28 +61,6 @@ export class PlayerEntity extends LivingEntity {
 		this.speedV.multiplyScalar(10);
 		this.pos.x += this.speedV.x;
 		this.pos.y += this.speedV.y;
-	}
-	/*
-	is_shooting() {
-		this.updateDirection(
-			-(this.pos.x - MouseControls.controls.current_coords.x),
-			-(this.pos.y - MouseControls.controls.current_coords.y)
-		);
-		if (this.cooldown <= 0) {
-			if (MouseControls.controls.left) {
-				this.shoot(0);
-			} else if (MouseControls.controls.right) {
-				this.shoot(1);
-			} else if (MouseControls.controls.middle) {
-				this.shoot(2);
-			}
-		}
-	}
-	
-
-	updateDirection(x, y) {
-		this.shootDirection.setX(x);
-		this.shootDirection.setY(y);
 	}
 
 	shoot(bool) {
@@ -126,5 +119,5 @@ export class PlayerEntity extends LivingEntity {
 		gameArea.entities.push(bullet);
 		return bullet;
 	}
-	*/
+	
 }

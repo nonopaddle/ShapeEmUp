@@ -83,6 +83,7 @@ io.on('connection', socket => {
 		io.emit('avatar selection update', avatarsAssociation);
 		console.log(`${datas.nickname} s'est déconnectée`);
 		console.log(players);
+		if(players.length == 0) gameArea.stop_loop();
 	});
 
 	socket.on('difficulty change', newDifficulty => {
