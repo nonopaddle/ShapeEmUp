@@ -10,4 +10,10 @@ export class Vector2 {
 	distance() {
 		return Math.sqrt(this.x ** 2 + this.y ** 2);
 	}
+
+	normalize() {
+		let distance = this.distance();
+		if (distance == 0) return new Vector2(0, 0);
+		return this.divide(distance);
+	}
 }
