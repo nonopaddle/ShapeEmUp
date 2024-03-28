@@ -35,4 +35,8 @@ export class Entity {
 	update() {
 		this.hitbox.update();
 	}
+
+	is_player() {
+		return false;
+	}
 }

@@ -131,4 +131,8 @@ export class PlayerEntity extends LivingEntity {
 		gameArea.entities.push(bullet);
 		return bullet;
 	}
+
+	is_player() {
+		return true;
+	}
 }

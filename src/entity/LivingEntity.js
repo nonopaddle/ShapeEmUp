@@ -1,5 +1,5 @@
-import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
+import { DynamicEntity } from './DynamicEntity.js';
 
 export class LivingEntity extends DynamicEntity {
 	constructor(datas) {

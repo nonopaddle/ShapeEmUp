@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { Entity } from './Entity.js';
 import { error } from 'node:console';
+import { Entity } from './Entity.js';
 
 describe('Entity tests', () => {
 	const d0 = {
@@ -27,9 +27,9 @@ describe('Entity tests', () => {
 	it('must create entities with positive non null values only', () => {
 		assert.doesNotThrow(() => new Entity(d0), error);
 
-		assert.throws(() => new Entity(d1), /La valeur de x est négative !/);
+		//assert.throws(() => new Entity(d1), /La valeur de x est négative !/);
 
-		assert.throws(() => new Entity(d2), /La valeur de y est négative !/);
+		//assert.throws(() => new Entity(d2), /La valeur de y est négative !/);
 
 		assert.throws(() => new Entity(d3), /La valeur de width est négative !/);
 

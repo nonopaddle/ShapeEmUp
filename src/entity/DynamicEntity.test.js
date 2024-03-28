@@ -16,10 +16,10 @@ describe('Dynamic entity tests', () => {
 			Math.floor(Math.random(0, 99)),
 			Math.floor(Math.random(0, 99))
 		);
-		randSpeed.normalize().multiplyScalar(10);
-		de.setSpeed(randSpeed.x, randSpeed.y);
-		de.move();
-		assert.strictEqual(25 + randSpeed.x, de.pos.x);
-		assert.strictEqual(25 + randSpeed.y, de.pos.y);
+		const newSpeed = randSpeed.normalize().multiply(10);
+		de.apply_impulse_vector(newSpeed);
+		de.update();
+		assert.strictEqual(25 + newSpeed.x, de.pos.x);
+		assert.strictEqual(25 + newSpeed.y, de.pos.y);
 	});
 });
