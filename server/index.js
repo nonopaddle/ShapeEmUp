@@ -85,6 +85,11 @@ io.on('connection', socket => {
 		console.log(players);
 	});
 
+	socket.on('difficulty change', newDifficulty => {
+		gameArea.difficulty = newDifficulty;
+		io.emit('difficulty update', gameArea.difficulty);
+	})
+
 	socket.on('launch', () => {
 		if (
 			players.length !=

@@ -32,25 +32,9 @@ export class WaitingRoomView extends View {
 		});
 
 		const difficultySlider = this.element.querySelector('.difficulty');
-		const difficultyDisplay = this.element.querySelector('.difficulty-display');
 		difficultySlider.addEventListener('input', event => {
-			event.preventDefault();
-			/*gameArea.difficulty = event.target.value;
-			console.log(gameArea.difficulty);
-			switch (gameArea.difficulty) {
-				case '0':
-					console.log('ha');
-					difficultyDisplay.innerHTML = 'DIFFICULTY : EASY';
-					break;
-				case '1':
-					difficultyDisplay.innerHTML = 'DIFFICULTY : NORMAL';
-					break;
-				case '2':
-					difficultyDisplay.innerHTML = 'DIFFICULTY : HARD';
-					break;
-				default:
-					break;
-			}*/
+			Connection.socket.emit('difficulty change', event.target.value);
+			
 		});
 
 		const launchButton = this.element.querySelector('.launch');
@@ -69,6 +53,25 @@ export class WaitingRoomView extends View {
 	}
 
 	static initConnectionToWaitingRoom() {
+		const difficultySlider = document.querySelector('.difficulty');
+		const difficultyDisplay = document.querySelector('.difficulty-display');
+		Connection.socket.on('difficulty update', difficulty => {
+			switch (difficulty) {
+				case '0':
+					difficultyDisplay.innerHTML = 'DIFFICULTY : EASY';
+					break;
+				case '1':
+					difficultyDisplay.innerHTML = 'DIFFICULTY : NORMAL';
+					break;
+				case '2':
+					difficultyDisplay.innerHTML = 'DIFFICULTY : HARD';
+					break;
+				default:
+					break;
+			}
+			difficultySlider.value = difficulty;
+		});
+		
 		Connection.socket.on('launch fail', () => console.log('launch fail'));
 		Connection.socket.on('launch success', () => {
 			Router.navigate('/main-game');
