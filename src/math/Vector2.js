@@ -44,4 +44,20 @@ export class Vector2 {
 		this.x -= v.x;
 		this.y -= v.y;
 	}
+
+	limit_distance(max) {
+		if (this.distance() <= max) return this;
+		return this.normalize().multiply(max);
+	}
+	same(v) {
+		return this.x == v.x && this.y == v.y;
+	}
+
+	toString() {
+		return `[${this.x} ${this.y}]`;
+	}
+
+	angle() {
+		return Math.atan2(this.y, this.x);
+	}
 }

@@ -52,4 +52,18 @@ describe('Vector2 tests', () => {
 		assert.strictEqual(v1.x, 2);
 		assert.strictEqual(v1.y, 4);
 	});
+
+	it('limits the distance of the vector', () => {
+		const v1 = new Vector2(5, 0);
+		const v2 = v1.limit_distance(2);
+		assert.strictEqual(v2.x, 2);
+	});
+
+	it('checks if two vectors are equals', () => {
+		const v1 = new Vector2(1, 2);
+		const v2 = new Vector2(1, 2);
+		const v3 = new Vector2(2, 4);
+		assert.strictEqual(v1.same(v2), true);
+		assert.strictEqual(v1.same(v3), false);
+	});
 });
