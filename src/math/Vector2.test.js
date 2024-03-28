@@ -20,4 +20,11 @@ describe('Vector2 tests', () => {
 		assert.strictEqual(v2.x, 2);
 		assert.strictEqual(v2.y, 4);
 	});
+
+	it('divide the vector', () => {
+		const v1 = new Vector2(2, 4);
+		const v2 = v1.divide(2);
+		assert.strictEqual(v2.x, 1);
+		assert.strictEqual(v2.y, 2);
+	});
 });

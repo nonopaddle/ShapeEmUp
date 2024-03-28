@@ -20,4 +20,8 @@ export class Vector2 {
 	multiply(k) {
 		return new Vector2(this.x * k, this.y * k);
 	}
+
+	divide(k) {
+		return this.multiply(1 / k);
+	}
 }
