@@ -16,4 +16,8 @@ export class Vector2 {
 		if (distance == 0) return new Vector2(0, 0);
 		return this.divide(distance);
 	}
+
+	multiply(k) {
+		return new Vector2(this.x * k, this.y * k);
+	}
 }

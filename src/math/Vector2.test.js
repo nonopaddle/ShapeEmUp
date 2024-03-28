@@ -13,4 +13,11 @@ describe('Vector2 tests', () => {
 		const v2 = v1.normalize();
 		assert.strictEqual(v2.x, 1);
 	});
+
+	it('multiply the vector', () => {
+		const v1 = new Vector2(1, 2);
+		const v2 = v1.multiply(2);
+		assert.strictEqual(v2.x, 2);
+		assert.strictEqual(v2.y, 4);
+	});
 });
