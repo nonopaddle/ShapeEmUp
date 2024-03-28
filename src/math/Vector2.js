@@ -39,4 +39,9 @@ export class Vector2 {
 		});
 		return new Vector2(x, y);
 	}
+
+	substract(v) {
+		this.x -= v.x;
+		this.y -= v.y;
+	}
 }

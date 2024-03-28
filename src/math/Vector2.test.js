@@ -44,4 +44,12 @@ describe('Vector2 tests', () => {
 		assert.strictEqual(v4.x, 2);
 		assert.strictEqual(v4.y, 3);
 	});
+
+	it('substract a vector to this vector', () => {
+		const v1 = new Vector2(3, 6);
+		const v2 = new Vector2(1, 2);
+		v1.substract(v2);
+		assert.strictEqual(v1.x, 2);
+		assert.strictEqual(v1.y, 4);
+	});
 });
