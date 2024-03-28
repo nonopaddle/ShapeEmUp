@@ -1,11 +1,11 @@
 import { Entity } from './Entity.js';
-import { Monster } from './Monster.js';
+import { MonsterEntity } from './MonsterEntity.js';
 import { Vector2 } from '../math/Vector2.js';
 import gameArea from '../GameArea.js';
 import { randInt } from '../math/MathUtils.js';
 import { difficulty } from '../Difficulty.js';
 
-export class Spawner extends Entity {
+export class SpawnerEntity extends Entity {
 	static monsterNb = 0;
 	static maxMonster = 25;
 
@@ -21,7 +21,7 @@ export class Spawner extends Entity {
 
 	update() {
 		this.hitbox.update();
-		if (Spawner.monsterNb < Spawner.maxMonster) {
+		if (SpawnerEntity.monsterNb < SpawnerEntity.maxMonster) {
 			this.spawnCooldown -= 1;
 			if (this.spawnCooldown <= 0) {
 				this.spawn_monster();
@@ -41,7 +41,7 @@ export class Spawner extends Entity {
 			color: 'red',
 			difficulty: difficulty.normal,
 		};
-		gameArea.add_entity(new Monster(datas));
-		Spawner.monsterNb += 1;
+		gameArea.add_entity(new MonsterEntity(datas));
+		SpawnerEntity.monsterNb += 1;
 	}
 }

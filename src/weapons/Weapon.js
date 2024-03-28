@@ -1,4 +1,4 @@
-import { Projectile } from '../entity/Projectile.js';
+import { ProjectileEntity } from '../entity/ProjectileEntity.js';
 
 export class Weapon {
 	constructor(datas) {
@@ -13,7 +13,7 @@ export class Weapon {
 	shoot() {
 		if (this.cooldown <= 0) {
 			this.cooldown = this.maxCooldown;
-			return new Projectile(this.bullet);
+			return new ProjectileEntity(this.bullet);
 		}
 	}
 

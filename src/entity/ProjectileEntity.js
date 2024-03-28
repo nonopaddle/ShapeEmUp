@@ -2,7 +2,7 @@ import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
 import { Action } from './action/Action.js';
 
-export class Projectile extends DynamicEntity {
+export class ProjectileEntity extends DynamicEntity {
 	entityShot = new Map();
 
 	constructor(datas) {

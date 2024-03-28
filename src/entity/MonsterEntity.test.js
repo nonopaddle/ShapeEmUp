@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { Monster } from './Monster.js';
-import { Player } from './Player.js';
+import { MonsterEntity } from './MonsterEntity.js';
+import { PlayerEntity } from './PlayerEntity.js';
 
 // à finir quand le côté serveur sera opérationnel
 
@@ -16,8 +16,8 @@ describe('Monster entity tests', () => {
 			size: { x: 1, y: 1 },
 			level: 1,
 		};
-		const pt = new Player(PDatas);
-		const me = new Monster(MDatas, pt);
+		const pt = new PlayerEntity(PDatas);
+		const me = new MonsterEntity(MDatas, pt);
 		me.update();
 		assert.strictEqual(me.pos.x, 1);
 		assert.strictEqual(me.pos.y, 1);

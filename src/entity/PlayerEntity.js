@@ -8,7 +8,7 @@ import { weaponType } from '../weapons/WeaponType.js';
 import { weaponList } from '../weapons/WeaponList.js';
 import { Weapon } from '../weapons/Weapon.js';
 
-export class Player extends LivingEntity {
+export class PlayerEntity extends LivingEntity {
 	weapons = {
 		active1: weaponList.null,
 		active2: weaponList.null,

@@ -1,9 +1,9 @@
 import { LivingEntity } from './LivingEntity.js';
 import { player } from '../main.js';
 import { Action } from './action/Action.js';
-import { Spawner } from './Spawner.js';
+import { SpawnerEntity } from './SpawnerEntity.js';
 
-export class Monster extends LivingEntity {
+export class MonsterEntity extends LivingEntity {
 	constructor(datas, pl) {
 		super(datas);
 		if (pl) {
@@ -42,6 +42,6 @@ export class Monster extends LivingEntity {
 
 	die() {
 		super.die();
-		Spawner.monsterNb -= 1;
+		SpawnerEntity.monsterNb -= 1;
 	}
 }

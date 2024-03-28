@@ -1,8 +1,8 @@
 import gameArea from './GameArea.js';
 import { MouseControls } from './controller/MouseControls.js';
 import { difficulty } from './Difficulty.js';
-import { Player } from './entity/Player.js';
-import { Spawner } from './entity/Spawner.js';
+import { PlayerEntity } from './entity/PlayerEntity.js';
+import { SpawnerEntity } from './entity/SpawnerEntity.js';
 import { randInt } from './math/MathUtils.js';
 import { Renderer } from './view/Renderer.js';
 import { WeaponEntity } from './entity/WeaponEntity.js';
@@ -76,7 +76,7 @@ const playerD = {
 	color: 'yellow',
 };
 
-export const player = new Player(playerD);
+export const player = new PlayerEntity(playerD);
 
 gameArea.add_entity(player);
 
@@ -86,7 +86,7 @@ gameArea.add_entity(new WeaponEntity(550, 450, weaponList.laser));
 gameArea.add_entity(new WeaponEntity(450, 450, weaponList.zone));
 
 gameArea.add_entity(
-	new Spawner({
+	new SpawnerEntity({
 		pos: { x: 25, y: 25 },
 		size: { x: 10, y: 10 },
 		default_hp: 50,
@@ -97,7 +97,7 @@ gameArea.add_entity(
 	})
 );
 gameArea.add_entity(
-	new Spawner({
+	new SpawnerEntity({
 		pos: { x: 1890, y: 25 },
 		size: { x: 10, y: 10 },
 		default_hp: 50,
@@ -108,7 +108,7 @@ gameArea.add_entity(
 	})
 );
 gameArea.add_entity(
-	new Spawner({
+	new SpawnerEntity({
 		pos: { x: 25, y: 940 },
 		size: { x: 10, y: 10 },
 		default_hp: 50,
@@ -119,7 +119,7 @@ gameArea.add_entity(
 	})
 );
 gameArea.add_entity(
-	new Spawner({
+	new SpawnerEntity({
 		pos: { x: 1890, y: 940 },
 		size: { x: 10, y: 10 },
 		default_hp: 50,
