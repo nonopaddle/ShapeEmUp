@@ -21,7 +21,7 @@ export class MonsterEntity extends LivingEntity {
 
 	update() {
 		super.update();
-		this.is_moving();
+		//this.is_moving();
 	}
 
 	is_moving() {

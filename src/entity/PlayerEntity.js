@@ -6,9 +6,12 @@ import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 
 export class PlayerEntity extends LivingEntity {
+	accel = 100;
+
 	constructor(datas) {
 		super(datas);
 		this.player_speed = 10;
+		this.move_vector = new Vector2(0, 0);
 		this.cooldown = 0;
 		this.nickname = datas.nickname;
 
@@ -17,10 +20,11 @@ export class PlayerEntity extends LivingEntity {
 	}
 
 	update() {
-		super.update();
 		this.is_shooting();
 		this.cooldown -= 1;
 		this.move(gameArea.delta, gameArea.friction);
+		this.apply_impulse_vector(this.move_vector);
+		super.update();
 	}
 
 	#input_direction() {
@@ -29,24 +33,27 @@ export class PlayerEntity extends LivingEntity {
 		if (KeyBoardControls.keymap.s) i.y += 1;
 		if (KeyBoardControls.keymap.q) i.x -= 1;
 		if (KeyBoardControls.keymap.d) i.x += 1;
-		i.normalize();
-		return i;
+		return i.normalize();
 	}
 
 	move(delta, friction) {
 		const direction = this.#input_direction();
+		console.log(direction.length());
 		if (direction.length() == 0) {
-			if (this.speedV.length() > delta * friction) {
-				this.speedV.sub(this.speedV.multiplyScalar(delta * friction));
+			//console.log(this.move_vector.length());
+			if (this.move_vector.length() > delta * friction) {
+				console.log('friction');
+				this.move_vector = this.move_vector.sub(
+					this.move_vector.normalize().multiplyScalar(delta * friction)
+				);
 			} else {
-				this.speedV.set(0, 0);
+				this.move_vector = new Vector2(0, 0);
 			}
 		} else {
-			const i = direction.multiplyScalar(
-				this.speedV.length() + this.player_speed
-			);
-			i.limit_distance(5 * this.speedMult);
-			this.pos.add(i);
+			const i = direction.multiplyScalar(this.accel * delta);
+			this.move_vector = this.move_vector
+				.add(i)
+				.limit_distance(this.speedMult * this.player_speed);
 		}
 	}
 
