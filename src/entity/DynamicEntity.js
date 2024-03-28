@@ -7,11 +7,8 @@ export class DynamicEntity extends Entity {
 	constructor(datas) {
 		super(datas);
 		this.velocity = new Vector2(0, 0);
-		if (datas.speedMult) {
-			this.speedMult = datas.speedMult;
-		} else {
-			this.speedMult = 1;
-		}
+		this.speedMult = 1;
+		if (datas.speedMult) this.speedMult = datas.speedMult;
 	}
 
 	update() {

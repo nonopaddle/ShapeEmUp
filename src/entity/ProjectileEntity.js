@@ -47,8 +47,7 @@ export class ProjectileEntity extends DynamicEntity {
 
 	move() {
 		const v = new Vector2(this.angle.x, this.angle.y);
-		this.apply_impulse_vector(v.limit_distance(this.speedMult / 5));
-		this.speedMult = 1;
+		this.apply_impulse_vector(v.multiply(this.speedMult));
 	}
 
 	die() {

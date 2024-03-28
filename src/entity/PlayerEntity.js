@@ -73,6 +73,7 @@ export class PlayerEntity extends LivingEntity {
 	updateDirection(x, y) {
 		this.shootDirection.x = x;
 		this.shootDirection.y = y;
+		this.shootDirection = this.shootDirection.normalize();
 	}
 
 	shoot(bool) {
