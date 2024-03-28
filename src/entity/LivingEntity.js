@@ -29,19 +29,21 @@ export class LivingEntity extends DynamicEntity {
 			this.size.x,
 			5
 		);
-		ctx.fillStyle = 'red';
-		ctx.fillRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y + this.size.y / 2 + 7.5,
-			this.size.x * (this.HP / this.maxHP),
-			5
-		);
-		ctx.strokeRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y + this.size.y / 2 + 7.5,
-			this.size.x * (this.HP / this.maxHP),
-			5
-		);
+		if (this.HP > 0) {
+			ctx.fillStyle = 'red';
+			ctx.fillRect(
+				this.pos.x - this.size.x / 2,
+				this.pos.y + this.size.y / 2 + 7.5,
+				this.size.x * (this.HP / this.maxHP),
+				5
+			);
+			ctx.strokeRect(
+				this.pos.x - this.size.x / 2,
+				this.pos.y + this.size.y / 2 + 7.5,
+				this.size.x * (this.HP / this.maxHP),
+				5
+			);
+		}
 		super.render(ctx);
 	}
 

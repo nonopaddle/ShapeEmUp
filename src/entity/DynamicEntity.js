@@ -1,5 +1,6 @@
 import { Entity } from './Entity.js';
 import { Vector2 } from '../math/Vector2.js';
+import { Action } from './action/Action.js';
 
 export class DynamicEntity extends Entity {
 	constructor(datas) {
@@ -11,6 +12,15 @@ export class DynamicEntity extends Entity {
 		} else {
 			this.speedMult = 1;
 		}
+		this.hitbox.addLayer('dynamicEntity');
+		this.hitbox.addMask(
+			'dynamicEntity',
+			new Action('pickWeapon', (source, target) => {
+				if (source !== target) {
+					//
+				}
+			})
+		);
 	}
 
 	update() {

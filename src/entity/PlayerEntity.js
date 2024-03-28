@@ -75,8 +75,22 @@ export class PlayerEntity extends LivingEntity {
 	}
 
 	move() {
-		const xSpeed = -(KeyBoardControls.keymap.q - KeyBoardControls.keymap.d);
-		const ySpeed = -(KeyBoardControls.keymap.z - KeyBoardControls.keymap.s);
+		let xSpeed = 0;
+		let ySpeed = 0;
+		if (KeyBoardControls.keymap.q && this.pos.x - this.size.x / 2 > 0) {
+			xSpeed = -1;
+		}
+		if (KeyBoardControls.keymap.d && this.pos.x + this.size.x / 2 < 1920) {
+			xSpeed = 1;
+		}
+		if (KeyBoardControls.keymap.z && this.pos.y - this.size.y / 2 > 0) {
+			ySpeed = -1;
+		}
+		if (KeyBoardControls.keymap.s && this.pos.y + this.size.y / 2 < 1080) {
+			ySpeed = 1;
+		}
+		//const xSpeed = -(KeyBoardControls.keymap.q - KeyBoardControls.keymap.d);
+		//const ySpeed = -(KeyBoardControls.keymap.z - KeyBoardControls.keymap.s);
 		this.speedV.setX(xSpeed);
 		this.speedV.setY(ySpeed);
 		this.speedV.normalize();
