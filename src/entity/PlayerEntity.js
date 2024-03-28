@@ -38,22 +38,19 @@ export class PlayerEntity extends LivingEntity {
 
 	move(delta, friction) {
 		const direction = this.#input_direction();
-		console.log(direction.length());
-		if (direction.length() == 0) {
-			//console.log(this.move_vector.length());
-			if (this.move_vector.length() > delta * friction) {
-				console.log('friction');
-				this.move_vector = this.move_vector.sub(
-					this.move_vector.normalize().multiplyScalar(delta * friction)
+		if (direction.distance() == 0) {
+			if (this.move_vector.distance() > delta * friction) {
+				this.move_vector.substract(
+					this.move_vector.normalize().multiply(delta * friction)
 				);
 			} else {
 				this.move_vector = new Vector2(0, 0);
 			}
 		} else {
-			const i = direction.multiplyScalar(this.accel * delta);
-			this.move_vector = this.move_vector
-				.add(i)
-				.limit_distance(this.speedMult * this.player_speed);
+			this.move_vector.add(direction.multiply(this.accel * delta));
+			this.move_vector = this.move_vector.limit_distance(
+				this.speedMult * this.player_speed
+			);
 		}
 	}
 
@@ -74,8 +71,8 @@ export class PlayerEntity extends LivingEntity {
 	}
 
 	updateDirection(x, y) {
-		this.shootDirection.setX(x);
-		this.shootDirection.setY(y);
+		this.shootDirection.x = x;
+		this.shootDirection.y = y;
 	}
 
 	shoot(bool) {
@@ -130,7 +127,7 @@ export class PlayerEntity extends LivingEntity {
 			this.cooldown = 2;
 		}
 		const bullet = new ProjectileEntity(data);
-		bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
+		bullet.setAngle(this.shootDirection.x, this.shootDirection.y);
 		gameArea.entities.push(bullet);
 		return bullet;
 	}

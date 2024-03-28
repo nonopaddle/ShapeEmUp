@@ -4,7 +4,7 @@ class GameArea {
 	difficulty = 1;
 	entities = [];
 	delta = 20 / 1000;
-	friction = 10;
+	friction = 60;
 	#main_loop;
 
 	add_entity(entity) {

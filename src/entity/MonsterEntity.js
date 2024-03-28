@@ -1,6 +1,7 @@
 import { LivingEntity } from './LivingEntity.js';
 import { player } from '../main.js';
 import { Action } from './action/Action.js';
+import { Vector2 } from '../math/Vector2.js';
 
 export class MonsterEntity extends LivingEntity {
 	constructor(datas, pl) {
@@ -20,13 +21,15 @@ export class MonsterEntity extends LivingEntity {
 	}
 
 	update() {
+		this.move();
 		super.update();
-		//this.is_moving();
 	}
 
-	is_moving() {
-		this.speedV.setX(this.playerAggro.pos.x - this.pos.x);
-		this.speedV.setY(this.playerAggro.pos.y - this.pos.y);
-		this.speedV.normalize();
+	move() {
+		const v = new Vector2(
+			this.playerAggro.pos.x - this.pos.x,
+			this.playerAggro.pos.y - this.pos.y
+		);
+		this.apply_impulse_vector(v.limit_distance(this.speedMult * this.speed));
 	}
 }

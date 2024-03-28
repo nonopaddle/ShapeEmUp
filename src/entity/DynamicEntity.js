@@ -15,11 +15,9 @@ export class DynamicEntity extends Entity {
 	}
 
 	update() {
-		this.vectors.forEach(v => {
-			this.velocity = this.velocity.add(v);
-		});
+		this.velocity = Vector2.sum(this.vectors);
 		this.vectors = [];
-		this.pos = this.pos.add(this.velocity);
+		this.pos.add(this.velocity);
 		super.update();
 	}
 

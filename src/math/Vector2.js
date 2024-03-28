@@ -11,6 +11,10 @@ export class Vector2 {
 		return Math.sqrt(this.x ** 2 + this.y ** 2);
 	}
 
+	distanceTo(v) {
+		return Math.sqrt((this.x - v.x) ** 2 + (this.y - v.y) ** 2);
+	}
+
 	normalize() {
 		let distance = this.distance();
 		if (distance == 0) return new Vector2(0, 0);
