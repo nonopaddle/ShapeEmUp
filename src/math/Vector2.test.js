@@ -27,4 +27,21 @@ describe('Vector2 tests', () => {
 		assert.strictEqual(v2.x, 1);
 		assert.strictEqual(v2.y, 2);
 	});
+
+	it('adds a vector to this vector', () => {
+		const v1 = new Vector2(1, 0);
+		const v2 = new Vector2(0, 2);
+		v1.add(v2);
+		assert.strictEqual(v1.x, 1);
+		assert.strictEqual(v1.y, 2);
+	});
+
+	it('adds multiple vectors together', () => {
+		const v1 = new Vector2(1, 0);
+		const v2 = new Vector2(0, 2);
+		const v3 = new Vector2(1, 1);
+		const v4 = Vector2.sum([v1, v2, v3]);
+		assert.strictEqual(v4.x, 2);
+		assert.strictEqual(v4.y, 3);
+	});
 });

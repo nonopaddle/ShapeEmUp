@@ -24,4 +24,19 @@ export class Vector2 {
 	divide(k) {
 		return this.multiply(1 / k);
 	}
+
+	add(v) {
+		this.x += v.x;
+		this.y += v.y;
+	}
+
+	static sum(vectors) {
+		let x = 0,
+			y = 0;
+		vectors.forEach(vector => {
+			x += vector.x;
+			y += vector.y;
+		});
+		return new Vector2(x, y);
+	}
 }
