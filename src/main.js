@@ -11,68 +11,10 @@ import { ScoresView } from './view/views/ScoresView.js';
 import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
 import { LoginView } from './view/views/LoginView.js';
-import { PlayerEntity } from './entity/PlayerEntity.js';
-import { MonsterEntity } from './entity/MonsterEntity.js';
 import gameArea from './GameArea.js';
 import { randInt } from './math/MathUtils.js';
-import { Renderer } from './view/Renderer.js';
 import { WeaponEntity } from './entity/WeaponEntity.js';
 import { weaponList } from './weapons/WeaponList.js';
-
-const mainMenu = `<div class="menu">
-    <button class="playButton">Jouer</button>
-    <button class="optionsButton">Options</button>
-    <button class="creditsButton">Crédits</button>
-</div>`;
-const optionsMenu = `<div class="menu">
-    <h3>Options</h3>
-    <button class="retour">Menu principal</button>
-</div>`;
-const creditsMenu = `<div class="menu">
-    <h3>Crédits</h3>
-    <button class="retour">Menu principal</button>
-</div>`;
-
-const gameCanvas = `<canvas id="gameCanvas" width="800" height="600"></canvas>`;
-
-document
-	.querySelector('.playButton')
-	.addEventListener('click', () => displayGame());
-document
-	.querySelector('.optionsButton')
-	.addEventListener('click', () => displayOptions());
-document
-	.querySelector('.creditsButton')
-	.addEventListener('click', () => displayCredits());
-
-function displayOptions() {
-	document.querySelector('.menu').innerHTML = optionsMenu;
-	const retourButton = document.querySelector('.retour');
-	retourButton.addEventListener('click', () => displayMenu());
-}
-
-function displayCredits() {
-	document.querySelector('.menu').innerHTML = creditsMenu;
-	const retourButton = document.querySelector('.retour');
-	retourButton.addEventListener('click', () => displayMenu());
-}
-
-function displayMenu() {
-	document.querySelector('.menu').innerHTML = mainMenu;
-	document
-		.querySelector('.playButton')
-		.addEventListener('click', () => displayGame());
-	document
-		.querySelector('.optionsButton')
-		.addEventListener('click', () => displayOptions());
-	document
-		.querySelector('.creditsButton')
-		.addEventListener('click', () => displayCredits());
-}
-
-function displayGame() {
-	document.querySelector('body').innerHTML = gameCanvas;
-}
 
 sessionStorage.setItem('nickname', 'nono');
 const loginView = new LoginView(document.querySelector('.login'));
@@ -119,6 +61,7 @@ gameArea.add_entity(new WeaponEntity(650, 450, weaponList.bigGun));
 gameArea.add_entity(new WeaponEntity(550, 450, weaponList.laser));
 gameArea.add_entity(new WeaponEntity(450, 450, weaponList.zone));
 
+/*
 gameArea.add_entity(
 	new SpawnerEntity({
 		pos: { x: 25, y: 25 },
@@ -163,6 +106,7 @@ gameArea.add_entity(
 		difficulty: difficulty.hard,
 	})
 );
+*/
 
 Renderer.start_rendering();
 gameArea.start_loop();

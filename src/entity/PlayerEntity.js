@@ -33,6 +33,7 @@ export class PlayerEntity extends LivingEntity {
 			'weapon',
 			new Action('pickWeapon', (source, target) => {
 				if (target.weapon.type == weaponType.active) {
+					console.log('pick up active');
 					if (source.weapons.active1 == weaponList.null) {
 						target.weapon.owner = source;
 						source.weapons.active1 = new Weapon(target.weapon);
@@ -46,6 +47,7 @@ export class PlayerEntity extends LivingEntity {
 					source.weapons.passive == weaponList.null &&
 					target.weapon.type == weaponType.passive
 				) {
+					console.log('pick up passive');
 					target.weapon.owner = source;
 					source.weapons.passive = new Weapon(target.weapon);
 					target.die();
@@ -53,6 +55,7 @@ export class PlayerEntity extends LivingEntity {
 					source.weapons.ultimate == weaponList.null &&
 					target.weapon.type == weaponType.ultimate
 				) {
+					console.log('pick up ultimate');
 					target.weapon.owner = source;
 					source.weapons.ultimate = new Weapon(target.weapon);
 					target.die();
