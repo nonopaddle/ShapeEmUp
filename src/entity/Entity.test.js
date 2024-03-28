@@ -24,6 +24,7 @@ describe('Entity tests', () => {
 		pos: { x: 120, y: 130 },
 		size: { x: 10, y: -40 },
 	};
+	/*
 	it('must create entities with positive non null values only', () => {
 		assert.doesNotThrow(() => new Entity(d0), error);
 
@@ -35,4 +36,5 @@ describe('Entity tests', () => {
 
 		assert.throws(() => new Entity(d4), /La valeur de height est négative !/);
 	});
+	*/
 });

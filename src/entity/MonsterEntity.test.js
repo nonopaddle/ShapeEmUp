@@ -14,6 +14,7 @@ describe('Monster entity tests', () => {
 		const MDatas = {
 			pos: { x: 2, y: 2 },
 			size: { x: 1, y: 1 },
+			level: 1,
 		};
 		const pt = new PlayerEntity(PDatas);
 		const me = new MonsterEntity(MDatas, pt);
