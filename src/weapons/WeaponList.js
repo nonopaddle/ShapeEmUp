@@ -1,4 +1,4 @@
-import { weaponType } from './WeaponType';
+import { weaponType } from './WeaponType.js';
 
 export const weaponList = {
 	null: -1,

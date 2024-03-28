@@ -1,4 +1,4 @@
-import { Projectile } from '../entity/Projectile';
+import { Projectile } from '../entity/Projectile.js';
 
 export class Weapon {
 	constructor(datas) {
