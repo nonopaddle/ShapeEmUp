@@ -8,7 +8,7 @@ import { ProjectileEntity } from './ProjectileEntity.js';
 describe('Projectile entity tests', () => {
 	it('hurt ennemies', () => {
 		const PDatas = {
-			size: { x: 0, y: 0 },
+			size: { x: 1, y: 1 },
 			speedMult: 0,
 			friendly: true,
 			damage: 2,
