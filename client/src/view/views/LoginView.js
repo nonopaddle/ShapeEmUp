@@ -18,7 +18,7 @@ export class LoginView extends View {
 		loginButton.addEventListener('click', event => {
 			event.preventDefault();
 			if (!loginButton.classList.contains('login-active')) return;
-			sessionStorage.setItem('nickname', input);
+			sessionStorage.setItem('nickname', input.value);
 			Router.navigate('/main-menu');
 		});
 

@@ -11,7 +11,7 @@ export const avatarsList = [
 			ctx.strokeRect(origin.x - size / 2, origin.y - size / 2, size, size);
 			ctx.closePath();
 		},
-		selectedBy: null
+		owner: null,
 	},
 	{
 		label: 'green_circle',
@@ -26,7 +26,7 @@ export const avatarsList = [
 			ctx.fill();
 			ctx.stroke();
 		},
-		selectedBy: null
+		owner: null,
 	},
 	{
 		label: 'orange_triangle',
@@ -49,10 +49,10 @@ export const avatarsList = [
 			ctx.closePath();
 			ctx.save();
 		},
-		selectedBy: null
+		owner: null,
 	},
 	{
-		label: 'red_pentagone',
+		label: 'red_pentagon',
 		draw: (ctx, origin, scale) => {
 			const size = 25 * scale;
 			const angle = (2 * Math.PI) / 5;
@@ -74,6 +74,6 @@ export const avatarsList = [
 			ctx.closePath();
 			ctx.save();
 		},
-		selectedBy: null
+		owner: null,
 	},
 ];

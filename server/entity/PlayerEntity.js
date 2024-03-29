@@ -1,6 +1,5 @@
 import { LivingEntity } from './LivingEntity.js';
-import { KeyBoardControls } from '../controller/KeyboardControls.js';
-import { MouseControls } from '../controller/MouseControls.js';
+import { ProjectileEntity } from './ProjectileEntity.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 import { Action } from './action/Action.js';
@@ -9,25 +8,21 @@ import { weaponList } from '../weapons/WeaponList.js';
 import { Weapon } from '../weapons/Weapon.js';
 
 export class PlayerEntity extends LivingEntity {
+	direction = new Vector2(0, 0);
+	shootDirection = new Vector2(0, 0);
+	move_vector = new Vector2(0, 0);
+	player_speed = 25;
+	cooldown = 0;
 	weapons = {
 		active1: weaponList.null,
 		active2: weaponList.null,
 		passive: weaponList.null,
 		ultimate: weaponList.null,
 	};
-	accel = 100;
+	accel = 400;
 
-	constructor(datas) {
+	constructor(datas, socket) {
 		super(datas);
-		this.player_speed = 10;
-		this.move_vector = new Vector2(0, 0);
-		this.cooldown = 0;
-		this.xp = 0;
-		this.xpToLevelUp = 10;
-		this.level = 1;
-		this.nickname = datas.nickname;
-
-		this.shootDirection = new Vector2(0, 0);
 		this.hitbox.addLayer('player');
 		this.hitbox.addMask(
 			'weapon',
@@ -62,6 +57,39 @@ export class PlayerEntity extends LivingEntity {
 				}
 			})
 		);
+
+		this.socket = socket;
+		if (this.socket != undefined) {
+			this.socket.on('disconnect', () => {
+				console.log(`${this.nickname} s'est déconnecté(e)`);
+				this.die();
+			});
+
+			this.socket.on('keyboardEvent', keyboardEvent => {
+				this.direction = new Vector2(0, 0);
+				this.direction.x = -(keyboardEvent.q - keyboardEvent.d);
+				this.direction.y = -(keyboardEvent.z - keyboardEvent.s);
+				this.direction = this.direction.normalize();
+			});
+
+			this.socket.on('MouseCoordsEvent', coords => {
+				this.shootDirection = new Vector2(coords.x, coords.y);
+				this.shootDirection.normalize();
+			});
+
+			this.socket.on('MouseControlsEvent', controls => {
+				if (this.cooldown <= 0) {
+					if (controls.left) {
+						console.log('left');
+						this.shoot(0);
+					} else if (controls.right) {
+						this.shoot(1);
+					} else if (controls.middle) {
+						this.shoot(2);
+					}
+				}
+			});
+		}
 	}
 
 	update() {
@@ -71,8 +99,7 @@ export class PlayerEntity extends LivingEntity {
 				element.update();
 			}
 		});
-		this.is_shooting();
-		this.shoot_passive();
+		//this.shoot_passive();
 		this.cooldown -= 1;
 		this.move(gameArea.delta, gameArea.friction);
 		this.apply_impulse_vector(this.move_vector);
@@ -84,20 +111,8 @@ export class PlayerEntity extends LivingEntity {
 		}
 	}
 
-	#input_direction() {
-		const i = new Vector2(0, 0);
-		if (KeyBoardControls.keymap.z && this.pos.y - this.size.y / 2 > 0) i.y -= 1;
-		if (KeyBoardControls.keymap.s && this.pos.y + this.size.y / 2 < 1080)
-			i.y += 1;
-		if (KeyBoardControls.keymap.q && this.pos.x - this.size.x / 2 > 0) i.x -= 1;
-		if (KeyBoardControls.keymap.d && this.pos.x + this.size.x / 2 < 1920)
-			i.x += 1;
-		return i.normalize();
-	}
-
 	move(delta, friction) {
-		const direction = this.#input_direction();
-		if (direction.distance() == 0) {
+		if (this.direction.distance() == 0) {
 			if (this.move_vector.distance() > delta * friction) {
 				this.move_vector.substract(
 					this.move_vector.normalize().multiply(delta * friction)
@@ -106,33 +121,11 @@ export class PlayerEntity extends LivingEntity {
 				this.move_vector = new Vector2(0, 0);
 			}
 		} else {
-			this.move_vector.add(direction.multiply(this.accel * delta));
+			this.move_vector.add(this.direction.multiply(this.accel * delta));
 			this.move_vector = this.move_vector.limit_distance(
 				this.speedMult * this.player_speed
 			);
 		}
-	}
-
-	is_shooting() {
-		this.updateDirection(
-			-(this.pos.x - MouseControls.controls.current_coords.x),
-			-(this.pos.y - MouseControls.controls.current_coords.y)
-		);
-		if (this.cooldown <= 0) {
-			if (MouseControls.controls.left) {
-				this.shoot(0);
-			} else if (MouseControls.controls.right) {
-				this.shoot(1);
-			} else if (MouseControls.controls.middle) {
-				this.shoot(2);
-			}
-		}
-	}
-
-	updateDirection(x, y) {
-		this.shootDirection.x = x;
-		this.shootDirection.y = y;
-		this.shootDirection = this.shootDirection.normalize();
 	}
 
 	shoot(bool) {
@@ -167,12 +160,6 @@ export class PlayerEntity extends LivingEntity {
 				gameArea.entities.push(bullet);
 			}
 		}
-	}
-
-	render(ctx) {
-		super.render(ctx);
-		ctx.fillText(this.level, this.pos.x - 5, this.pos.y);
-		ctx.fillText(this.xp, this.pos.x - 5, this.pos.y + 20);
 	}
 
 	is_player() {

@@ -2,7 +2,7 @@ class GameArea {
 	difficulty = 1;
 	entities = [];
 	delta = 20 / 1000;
-	friction = 60;
+	friction = 400;
 	#main_loop;
 
 	add_entity(entity) {
@@ -23,6 +23,7 @@ class GameArea {
 	}
 
 	tick_event() {
+		console.log(this.entities.length);
 		this.entities.forEach(entity => entity.update());
 	}
 

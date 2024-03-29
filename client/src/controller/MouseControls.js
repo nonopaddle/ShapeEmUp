@@ -1,14 +1,35 @@
+import Connection from "../Connection.js";
+
 export class MouseControls {
 	static canvas;
 
-	static controls = {
+	static #coords = { x: 0, y: 0 };
+	static #controls = {
 		left: false,
 		middle: false,
 		right: false,
-		current_coords: { x: 0, y: 0 },
 	};
 
-	static set_canvas(canvas) {
+	static #controlsHandler = {
+		set(target, prop, value) {
+			target[prop] = value;
+			Connection.socket.emit('MouseControlsEvent', target);
+			return true;
+		}
+	}
+	static #coordsHandler = {
+		set(target, prop, value) {
+			target[prop] = value;
+			Connection.socket.emit('MouseCoordsEvent', target);
+			return true;
+		}
+	}
+
+	static proxyControls = new Proxy(this.#controls, this.#controlsHandler);
+	static proxyCoords = new Proxy(this.#coords, this.#coordsHandler);
+	
+
+	static init(canvas) {
 		this.canvas = canvas;
 		this.canvas.addEventListener('contextmenu', e => e.preventDefault());
 		this.canvas.addEventListener(
@@ -20,9 +41,9 @@ export class MouseControls {
 			this.button_released_event.bind(this)
 		);
 		this.canvas.addEventListener('mousemove', e => {
-			this.controls.current_coords.x =
+			this.proxyCoords.x =
 				e.clientX - this.canvas.getBoundingClientRect().left;
-			this.controls.current_coords.y =
+			this.proxyCoords.y =
 				e.clientY - this.canvas.getBoundingClientRect().top;
 		});
 	}
@@ -30,13 +51,13 @@ export class MouseControls {
 	static button_pressed_event(event) {
 		switch (event.button) {
 			case 0:
-				this.controls.left = true;
+				this.proxyControls.left = true;
 				break;
 			case 1:
-				this.controls.middle = true;
+				this.proxyControls.middle = true;
 				break;
 			case 2:
-				this.controls.right = true;
+				this.proxyControls.right = true;
 				break;
 			default:
 				break;
@@ -46,13 +67,13 @@ export class MouseControls {
 	static button_released_event(event) {
 		switch (event.button) {
 			case 0:
-				this.controls.left = false;
+				this.proxyControls.left = false;
 				break;
 			case 1:
-				this.controls.middle = false;
+				this.proxyControls.middle = false;
 				break;
 			case 2:
-				this.controls.right = false;
+				this.proxyControls.right = false;
 				break;
 			default:
 				break;

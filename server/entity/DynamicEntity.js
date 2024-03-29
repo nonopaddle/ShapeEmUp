@@ -3,12 +3,12 @@ import { Action } from './action/Action.js';
 import { Entity } from './Entity.js';
 
 export class DynamicEntity extends Entity {
+	velocity = new Vector2(0, 0);
 	vectors = [];
+	speedMult = 1;
 
 	constructor(datas) {
 		super(datas);
-		this.velocity = new Vector2(0, 0);
-		this.speedMult = 1;
 		if (datas.speedMult) this.speedMult = datas.speedMult;
 		this.damage = datas.damage;
 		this.hitbox.addLayer('dynamicEntity');

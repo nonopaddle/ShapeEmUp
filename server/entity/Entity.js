@@ -12,11 +12,7 @@ export class Entity {
 		this.size = new Vector2(datas.size.x, datas.size.y);
 		this.color = datas.color;
 		this.hitbox = new CircleHitbox(this, this.pos, datas.size.x / 2);
-		if ('difficulty' in datas) {
-			this.difficulty = datas.difficulty;
-		} else {
-			this.difficulty = 1;
-		}
+		this.name = datas.name;
 	}
 
 	render(ctx) {
@@ -39,9 +35,5 @@ export class Entity {
 
 	update() {
 		this.hitbox.update();
-	}
-
-	is_player() {
-		return false;
 	}
 }
