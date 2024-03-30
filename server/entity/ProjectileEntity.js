@@ -11,13 +11,14 @@ export class ProjectileEntity extends DynamicEntity {
 		this.owner = datas.owner;
 		this.penetration = datas.penetration;
 		this.angle = new Vector2(0, 0);
+		this.cooldown = 1;
 		this.hitbox.addLayer('bullet');
 		this.hitbox.addMask(
 			'monster',
 			new Action('monsterColision', (source, target) => {
 				if (
-					!source.entityShot.has(target) ||
-					source.entityShot.get(target) <= 0
+					source.entityShot[target] == undefined ||
+					source.entityShot[target] <= 0
 				) {
 					if (target.hurt(source.damage)) {
 						source.owner.xp += target.difficulty;
