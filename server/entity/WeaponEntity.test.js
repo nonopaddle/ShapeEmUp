@@ -11,7 +11,7 @@ describe('Weapon entity tests', () => {
 	it('gives the player a weapon', () => {
 		const PDatas = {
 			pos: { x: 0, y: 0 },
-			size: { x: 1, y: 1 },
+			radius: 1 / 2,
 		};
 		const pt = new PlayerEntity(PDatas);
 		const we = new WeaponEntity(0, 0, weaponList.gun);
@@ -24,7 +24,7 @@ describe('Weapon entity tests', () => {
 	it('gives the player weapons to the correct slots', () => {
 		const PDatas = {
 			pos: { x: 0, y: 0 },
-			size: { x: 1, y: 1 },
+			radius: 1 / 2,
 		};
 		const pt = new PlayerEntity(PDatas);
 		const weA1 = new WeaponEntity(0, 0, weaponList.bigGun);
@@ -49,7 +49,7 @@ function compareWeapons(w1, w2) {
 	assert.strictEqual(w1.maxCooldown, w2.cooldown);
 	const b1 = w1.bullet,
 		b2 = w2.bullet;
-	assert.strictEqual(b1.size, b2.size);
+	assert.strictEqual(b1.radius, b2.radius);
 	assert.strictEqual(b1.speedMult, b2.speedMult);
 	assert.strictEqual(b1.friendly, b2.friendly);
 	assert.strictEqual(b1.damage, b2.damage);

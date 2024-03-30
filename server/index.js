@@ -63,7 +63,7 @@ io.on('connection', socket => {
 			if (player == datas.nickname) avatarsAssociation[avatarLabel] = null;
 		});
 		io.emit('avatar selection update', avatarsAssociation);
-		console.log(`${datas.nickname} s'est déconnectée`);
+		console.log(`${datas.nickname} s'est déconnecté(e)`);
 		console.log(players);
 		if (players.length == 0) gameArea.stop_loop();
 	});
@@ -97,7 +97,9 @@ io.on('connection', socket => {
 		const datas = gameArea.entities.map(entity => {
 			return {
 				origin: { x: entity.pos.x, y: entity.pos.y },
+				radius: entity.radius,
 				name: entity.name,
+				is_player: entity.is_player(),
 			};
 		});
 		//console.log(datas);
@@ -129,11 +131,12 @@ Array.prototype.removeIf = function (callback) {
 
 function init() {
 	console.log('initializing game ...');
+	gameArea.entities.length = 0;
 	players.forEach(socket => {
 		const player = new PlayerEntity(
 			{
 				pos: { x: 200, y: 200 },
-				size: { x: 100, y: 100 },
+				radius: 25,
 				name: socket.handshake.query.nickname,
 			},
 			socket

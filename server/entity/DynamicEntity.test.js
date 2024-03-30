@@ -7,7 +7,7 @@ describe('Dynamic entity tests', () => {
 	it('can move', () => {
 		const datas = {
 			pos: { x: 25, y: 25 },
-			size: { x: 40, y: 40 },
+			radius: 20,
 		};
 		const de = new DynamicEntity(datas);
 		assert.strictEqual(25, de.pos.x);

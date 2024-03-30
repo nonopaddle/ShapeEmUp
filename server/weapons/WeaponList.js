@@ -7,19 +7,21 @@ export const weaponList = {
 		type: weaponType.active,
 		cooldown: 15,
 		bullet: {
-			size: { x: 10, y: 10 },
+			radius: 5,
 			speedMult: 25,
 			friendly: true,
 			damage: 10,
 			penetration: 1,
 			ttl: 2000,
+			texture: 'gun-bullet',
 		},
+		texture: 'gun',
 	},
 	bigGun: {
 		type: weaponType.active,
 		cooldown: 50,
 		bullet: {
-			size: { x: 25, y: 25 },
+			radius: 12.5,
 			speedMult: 10,
 			friendly: true,
 			damage: 25,
@@ -32,7 +34,7 @@ export const weaponList = {
 		type: weaponType.passive,
 		cooldown: 0,
 		bullet: {
-			size: { x: 500, y: 500 },
+			radius: 250,
 			speedMult: 0,
 			friendly: true,
 			damage: 0.25,
@@ -46,7 +48,7 @@ export const weaponList = {
 		type: weaponType.ultimate,
 		cooldown: 1,
 		bullet: {
-			size: { x: 30, y: 10 },
+			radius: 20,
 			speedMult: 50,
 			friendly: true,
 			damage: 1,

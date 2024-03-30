@@ -10,7 +10,7 @@ describe('Projectile entity tests', () => {
 	it('hurt ennemies', () => {
 		const PDatas = {
 			pos: { x: 2, y: 0 },
-			size: { x: 1, y: 1 },
+			radius: 1 / 2,
 			speedMult: 0,
 			friendly: true,
 			damage: 2,
@@ -20,7 +20,7 @@ describe('Projectile entity tests', () => {
 		};
 		const MDatas = {
 			pos: { x: 2, y: 0 },
-			size: { x: 1, y: 1 },
+			radius: 1 / 2,
 			default_hp: 10,
 		};
 		const pt = new ProjectileEntity(PDatas);

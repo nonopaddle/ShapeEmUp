@@ -1,5 +1,5 @@
 import Connection from '../../Connection.js';
-import { avatarsList } from './textures.js';
+import { avatarsList, npcList } from './textures.js';
 
 export class Renderer {
 	static canvas;
@@ -39,10 +39,15 @@ export class Renderer {
 			this.clear();
 			entities.forEach(entity => {
 				if (entity.name == undefined) return;
-				const avatar = avatarsList.filter(
-					avatar => avatar.owner == entity.name
-				)[0];
-				avatar.draw(this.context, entity.origin, 1);
+				if (entity.is_player) {
+					const avatar = avatarsList.filter(
+						avatar => avatar.owner == entity.name
+					)[0];
+					avatar.draw(this.context, entity.origin, entity.radius);
+				} else {
+					const npc = npcList.filter(npc => npc.owner == entity.name)[0];
+					npc.draw(this.context, entity.origin, entity.radius);
+				}
 			});
 		});
 	}

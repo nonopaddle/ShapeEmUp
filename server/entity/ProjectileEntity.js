@@ -33,8 +33,7 @@ export class ProjectileEntity extends DynamicEntity {
 			})
 		);
 		this.ttl = datas.ttl;
-		if ('renderTexture' in datas) this.renderTexture = datas.renderTexture;
-		else this.renderTexture = true;
+		this.name = datas.texture;
 	}
 
 	update() {
@@ -66,13 +65,5 @@ export class ProjectileEntity extends DynamicEntity {
 				gameArea.entities.splice(index, 1);
 			}
 		});
-	}
-
-	render(ctx) {
-		if (this.renderTexture) {
-			super.render(ctx);
-		} else {
-			this.hitbox.render(ctx);
-		}
 	}
 }

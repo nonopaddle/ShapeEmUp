@@ -9,21 +9,20 @@ export class WeaponEntity extends Entity {
 	constructor(x, y, weapon) {
 		super({
 			pos: { x: x, y: y },
-			size: { x: 25, y: 25 },
-			color: 'purple',
+			radius: 20,
 		});
-		this.size = new Vector2(10, 10);
 		this.weapon = weapon;
 		this.hitbox.addLayer('weapon');
+		this.name = weapon.texture;
 	}
 
 	render(ctx) {
 		ctx.fillStyle = this.color;
 		ctx.lineWidth = 2;
 		ctx.beginPath();
-		ctx.moveTo(this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2);
-		ctx.lineTo(this.pos.x - this.size.x / 2, this.pos.y + this.size.y / 2);
-		ctx.lineTo(this.pos.x, this.pos.y - this.size.y / 2);
+		ctx.moveTo(this.pos.x + this.radius.x / 2, this.pos.y + this.radius.y / 2);
+		ctx.lineTo(this.pos.x - this.radius.x / 2, this.pos.y + this.radius.y / 2);
+		ctx.lineTo(this.pos.x, this.pos.y - this.radius.y / 2);
 		ctx.fill();
 		/*
 		ctx.fillRect(

@@ -18,29 +18,29 @@ export class LivingEntity extends DynamicEntity {
 	render(ctx) {
 		ctx.fillStyle = 'black';
 		ctx.fillRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y + this.size.y / 2 + 7.5,
-			this.size.x,
+			this.pos.x - this.radius.x / 2,
+			this.pos.y + this.radius.y / 2 + 7.5,
+			this.radius.x,
 			5
 		);
 		ctx.strokeRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y + this.size.y / 2 + 7.5,
-			this.size.x,
+			this.pos.x - this.radius.x / 2,
+			this.pos.y + this.radius.y / 2 + 7.5,
+			this.radius.x,
 			5
 		);
 		if (this.HP > 0) {
 			ctx.fillStyle = 'red';
 			ctx.fillRect(
-				this.pos.x - this.size.x / 2,
-				this.pos.y + this.size.y / 2 + 7.5,
-				this.size.x * (this.HP / this.maxHP),
+				this.pos.x - this.radius.x / 2,
+				this.pos.y + this.radius.y / 2 + 7.5,
+				this.radius.x * (this.HP / this.maxHP),
 				5
 			);
 			ctx.strokeRect(
-				this.pos.x - this.size.x / 2,
-				this.pos.y + this.size.y / 2 + 7.5,
-				this.size.x * (this.HP / this.maxHP),
+				this.pos.x - this.radius.x / 2,
+				this.pos.y + this.radius.y / 2 + 7.5,
+				this.radius.x * (this.HP / this.maxHP),
 				5
 			);
 		}

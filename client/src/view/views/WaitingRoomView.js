@@ -28,13 +28,12 @@ export class WaitingRoomView extends View {
 			canvas.width = this.#buttonsize.x;
 			canvas.height = this.#buttonsize.y;
 			const ctx = canvas.getContext('2d');
-			avatar.draw(ctx, { x: canvas.width / 2, y: canvas.height / 2 }, 2);
+			avatar.draw(ctx, { x: canvas.width / 2, y: canvas.height / 2 }, 50);
 		});
 
 		const difficultySlider = this.element.querySelector('.difficulty');
 		difficultySlider.addEventListener('input', event => {
 			Connection.socket.emit('difficulty change', event.target.value);
-			
 		});
 
 		const launchButton = this.element.querySelector('.launch');
@@ -71,7 +70,7 @@ export class WaitingRoomView extends View {
 			}
 			difficultySlider.value = difficulty;
 		});
-		
+
 		Connection.socket.on('launch fail', () => console.log('launch fail'));
 		Connection.socket.on('launch success', () => {
 			Router.navigate('/main-game');
