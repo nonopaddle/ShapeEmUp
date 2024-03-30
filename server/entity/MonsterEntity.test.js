@@ -19,7 +19,7 @@ describe('Monster entity tests', () => {
 		const pt = new PlayerEntity(PDatas);
 		const me = new MonsterEntity(MDatas, pt);
 		me.update();
-		assert.strictEqual(me.pos.x, 1);
-		assert.strictEqual(me.pos.y, 1);
+		assert.strictEqual(me.pos.x, 2 - Math.sqrt(2) / 2);
+		assert.strictEqual(me.pos.y, 2 - Math.sqrt(2) / 2);
 	});
 });

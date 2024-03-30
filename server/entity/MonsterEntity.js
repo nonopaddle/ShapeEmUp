@@ -1,3 +1,4 @@
+import { Vector2 } from '../math/Vector2.js';
 import { LivingEntity } from './LivingEntity.js';
 //import { player } from '../main.js';
 import { Action } from './action/Action.js';
@@ -20,13 +21,17 @@ export class MonsterEntity extends LivingEntity {
 	}
 
 	update() {
+		this.move();
 		super.update();
-		this.is_moving();
 	}
 
-	is_moving() {
-		//this.speedV.setX(this.playerAggro.pos.x - this.pos.x);
-		//this.speedV.setY(this.playerAggro.pos.y - this.pos.y);
-		this.speedV.normalize();
+	move() {
+		const direction = new Vector2(
+			this.playerAggro.pos.x - this.pos.x,
+			this.playerAggro.pos.y - this.pos.y
+		).normalize();
+		console.log(direction);
+		this.apply_vector_once(direction);
+		console.log(this.pos);
 	}
 }

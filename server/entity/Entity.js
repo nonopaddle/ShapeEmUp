@@ -36,4 +36,6 @@ export class Entity {
 	update() {
 		this.hitbox.update();
 	}
+
+	move() {}
 }
