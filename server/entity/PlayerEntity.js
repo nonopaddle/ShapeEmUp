@@ -25,6 +25,7 @@ export class PlayerEntity extends LivingEntity {
 
 	constructor(datas, socket) {
 		super(datas);
+		this.type = 'player';
 		this.hitbox.addLayer('player');
 		this.hitbox.addMask(
 			'weapon',
@@ -110,6 +111,7 @@ export class PlayerEntity extends LivingEntity {
 				this.shoot(2);
 			}
 		}
+		this.shoot_passive();
 	}
 
 	move(delta, friction) {
@@ -145,10 +147,10 @@ export class PlayerEntity extends LivingEntity {
 				weapon.bullet.pos = this.pos;
 				const bullet = weapon.shoot();
 				if (bullet != undefined) {
-					bullet.velocity = new Vector2(
-						this.shootDirection.x,
-						this.shootDirection.y
-					).multiply(bullet.speedMult);
+					bullet.trajectory = this.pos
+						.to(this.cursorPosition)
+						.normalize()
+						.multiply(bullet.speedMult);
 					gameArea.entities.push(bullet);
 				}
 			}
@@ -160,13 +162,8 @@ export class PlayerEntity extends LivingEntity {
 			this.weapons.passive.bullet.pos = this.pos;
 			const bullet = this.weapons.passive.shoot();
 			if (bullet != undefined) {
-				bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
-				gameArea.entities.push(bullet);
+				gameArea.add_entity(bullet);
 			}
 		}
-	}
-
-	is_player() {
-		return true;
 	}
 }

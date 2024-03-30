@@ -1,5 +1,5 @@
 import { View, setNavigationToHref } from './View.js';
-import { avatarsList } from '../rendering/textures.js';
+import { avatarsList, bulletsList } from '../rendering/textures.js';
 import Connection from '../../Connection.js';
 import { Router } from './Router.js';
 import { Renderer } from '../rendering/Renderer.js';
@@ -10,17 +10,18 @@ export class WaitingRoomView extends View {
 	constructor(element) {
 		super(element);
 		const avatarListContainer = this.element.querySelector('.avatars-list');
-		avatarsList.forEach(avatar => {
-			avatarListContainer.innerHTML += `<canvas class="${avatar.label}">`;
+		Object.keys(avatarsList).forEach(avatarName => {
+			avatarListContainer.innerHTML += `<canvas class="${avatarName}">`;
 		});
 
-		avatarsList.forEach(avatar => {
-			const canvas = avatarListContainer.querySelector(`.${avatar.label}`);
+		Object.entries(avatarsList).forEach(avatar => {
+			const [avatarName, datas] = avatar;
+			const canvas = avatarListContainer.querySelector(`.${avatarName}`);
 
 			canvas.addEventListener('click', event => {
 				event.preventDefault();
 				Connection.socket.emit('selection avatar', {
-					avatar: avatar.label,
+					avatar: avatarName,
 					playerNickname: sessionStorage.getItem('nickname'),
 				});
 			});
@@ -28,7 +29,7 @@ export class WaitingRoomView extends View {
 			canvas.width = this.#buttonsize.x;
 			canvas.height = this.#buttonsize.y;
 			const ctx = canvas.getContext('2d');
-			avatar.draw(ctx, { x: canvas.width / 2, y: canvas.height / 2 }, 50);
+			datas.draw(ctx, { x: canvas.width / 2, y: canvas.height / 2 }, 50);
 		});
 
 		const difficultySlider = this.element.querySelector('.difficulty');
@@ -79,15 +80,14 @@ export class WaitingRoomView extends View {
 			console.log('start rendering');
 		});
 		Connection.socket.on('avatar selection update', avatarsAssociations => {
+			const currentUser = sessionStorage.getItem('nickname');
 			Object.entries(avatarsAssociations).forEach(association => {
 				const [avatarLabel, playerNickname] = association;
-				avatarsList
-					.filter(avatar => avatar.label == avatarLabel)
-					.map(avatar => (avatar.owner = playerNickname));
+				avatarsList[avatarLabel].owner = playerNickname;
 				const canvas = document.querySelector(`.avatars-list .${avatarLabel}`);
 				canvas.classList.remove('selected-by-other');
 				canvas.classList.remove('selected-by-me');
-				if (playerNickname == sessionStorage.getItem('nickname')) {
+				if (playerNickname == currentUser) {
 					canvas.classList.add('selected-by-me');
 				} else if (playerNickname != null) {
 					canvas.classList.add('selected-by-other');

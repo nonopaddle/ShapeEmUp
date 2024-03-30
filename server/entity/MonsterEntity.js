@@ -6,6 +6,7 @@ import { Action } from './action/Action.js';
 export class MonsterEntity extends LivingEntity {
 	constructor(datas, pl) {
 		super(datas);
+		this.type = 'monster';
 		if (pl) {
 			this.playerAggro = pl;
 		} else {

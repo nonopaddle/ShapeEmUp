@@ -1,5 +1,5 @@
 import Connection from '../../Connection.js';
-import { avatarsList, npcList } from './textures.js';
+import { avatarsList, bulletsList, weapons } from './textures.js';
 
 export class Renderer {
 	static canvas;
@@ -39,14 +39,26 @@ export class Renderer {
 			this.clear();
 			entities.forEach(entity => {
 				if (entity.name == undefined) return;
-				if (entity.is_player) {
-					const avatar = avatarsList.filter(
-						avatar => avatar.owner == entity.name
-					)[0];
-					avatar.draw(this.context, entity.origin, entity.radius);
-				} else {
-					const npc = npcList.filter(npc => npc.owner == entity.name)[0];
-					npc.draw(this.context, entity.origin, entity.radius);
+				switch (entity.type) {
+					case 'player':
+						const avatar = Object.values(avatarsList).filter(
+							avatar => avatar.owner == entity.name
+						)[0];
+						avatar.draw(this.context, entity.origin, entity.radius);
+						break;
+					case 'bullet':
+						const bullet = bulletsList[entity.name];
+						const color = Object.values(avatarsList).filter(
+							avatar => avatar.owner == entity.owner
+						)[0].color;
+						bullet.draw(this.context, entity.origin, entity.radius, color);
+						break;
+					case 'weapon':
+						console.log(entity);
+						const weapon = weapons[entity.name];
+						weapon.draw(this.context, entity.origin, entity.radius);
+					default:
+						break;
 				}
 			});
 		});

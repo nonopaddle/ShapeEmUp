@@ -12,8 +12,8 @@ export const weaponList = {
 			friendly: true,
 			damage: 10,
 			penetration: 1,
-			ttl: 2000,
-			texture: 'gun-bullet',
+			ttl: 50,
+			texture: 'gun_bullet',
 		},
 		texture: 'gun',
 	},
@@ -27,21 +27,25 @@ export const weaponList = {
 			damage: 25,
 			penetration: 0,
 			ttl: 30,
+			texture: 'bigGun_bullet',
 		},
+		texture: 'bigGun',
 	},
 	// Passive weapons
 	zone: {
 		type: weaponType.passive,
 		cooldown: 0,
 		bullet: {
-			radius: 250,
+			radius: 125,
 			speedMult: 0,
 			friendly: true,
 			damage: 0.25,
 			penetration: -1,
 			ttl: 2,
 			renderTexture: false,
+			texture: 'zone_bullet',
 		},
+		texture: 'zone',
 	},
 	// Ultimate weapons
 	laser: {
@@ -54,6 +58,8 @@ export const weaponList = {
 			damage: 1,
 			penetration: -1,
 			ttl: 30,
+			texture: 'laser_bullet',
 		},
+		texture: 'laser',
 	},
 };

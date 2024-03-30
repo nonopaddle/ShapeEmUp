@@ -11,6 +11,7 @@ export class WeaponEntity extends Entity {
 			pos: { x: x, y: y },
 			radius: 20,
 		});
+		this.type = 'weapon';
 		this.weapon = weapon;
 		this.hitbox.addLayer('weapon');
 		this.name = weapon.texture;

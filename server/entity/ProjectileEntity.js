@@ -8,9 +8,10 @@ export class ProjectileEntity extends DynamicEntity {
 
 	constructor(datas) {
 		super(datas);
+		this.type = 'bullet';
 		this.owner = datas.owner;
 		this.penetration = datas.penetration;
-		this.angle = new Vector2(0, 0);
+		this.trajectory = new Vector2(0, 0);
 		this.cooldown = 1;
 		this.hitbox.addLayer('bullet');
 		this.hitbox.addMask(
@@ -50,13 +51,12 @@ export class ProjectileEntity extends DynamicEntity {
 	}
 
 	setAngle(x, y) {
-		this.angle.x = x;
-		this.angle.y = y;
+		this.trajectory.x = x;
+		this.trajectory.y = y;
 	}
 
 	move() {
-		const v = new Vector2(this.angle.x, this.angle.y);
-		this.apply_impulse_vector(v.multiply(this.speedMult));
+		this.apply_impulse_vector(this.trajectory);
 	}
 
 	die() {

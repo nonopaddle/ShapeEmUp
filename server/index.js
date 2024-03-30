@@ -27,22 +27,25 @@ const players = [];
 const maxPlayers = 4;
 
 const avatarsAssociation = {
-	blue_square: null,
-	green_circle: null,
-	orange_triangle: null,
-	red_pentagon: null,
+	square: null,
+	circle: null,
+	triangle: null,
+	pentagon: null,
 };
 
 const io = new IOServer(httpServer);
 io.on('connection', socket => {
-	socket.emit('avatar selection update', avatarsAssociation);
 	if (players.length == maxPlayers) {
 		socket.disconnect();
 		return;
 	}
 
 	const datas = socket.handshake.query;
-	if (players.filter(player => player == datas.nickname).length != 0) {
+	console.log(players.map(player => player.handshake.query.nickname));
+	if (
+		players.filter(player => player.handshake.query.nickname == datas.nickname)
+			.length != 0
+	) {
 		socket.disconnect();
 		return;
 	}
@@ -50,6 +53,7 @@ io.on('connection', socket => {
 	players.push(socket);
 	console.log(`${datas.nickname} s'est connectée`);
 	console.log(players);
+	socket.emit('avatar selection update', avatarsAssociation);
 
 	socket.on('disconnect', () => {
 		players.removeIf(
@@ -99,7 +103,8 @@ io.on('connection', socket => {
 				origin: { x: entity.pos.x, y: entity.pos.y },
 				radius: entity.radius,
 				name: entity.name,
-				is_player: entity.is_player(),
+				type: entity.type,
+				owner: entity.owner.name,
 			};
 		});
 		//console.log(datas);
