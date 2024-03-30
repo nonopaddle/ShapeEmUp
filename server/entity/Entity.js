@@ -10,27 +10,8 @@ export class Entity {
 			throw new Error('La valeur de height est négative !');
 		this.pos = new Vector2(datas.pos.x, datas.pos.y);
 		this.size = new Vector2(datas.size.x, datas.size.y);
-		this.color = datas.color;
 		this.hitbox = new CircleHitbox(this, this.pos, datas.size.x / 2);
 		this.name = datas.name;
-	}
-
-	render(ctx) {
-		ctx.fillStyle = this.color;
-		ctx.lineWidth = 2;
-		ctx.fillRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y - this.size.y / 2,
-			this.size.x,
-			this.size.y
-		);
-		ctx.strokeRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y - this.size.y / 2,
-			this.size.x,
-			this.size.y
-		);
-		this.hitbox.render(ctx);
 	}
 
 	update() {
