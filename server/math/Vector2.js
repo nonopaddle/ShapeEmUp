@@ -65,7 +65,7 @@ export class Vector2 {
 		return Math.atan2(this.y, this.x);
 	}
 
-	to() {
-		return new Vector2(0, 0);
+	to(v) {
+		return new Vector2(v.x - this.x, v.y - this.y);
 	}
 }

@@ -77,8 +77,8 @@ describe('Vector2 tests', () => {
 		assert.strictEqual(2, v1_to_v2.x);
 		assert.strictEqual(3, v1_to_v2.y);
 
-		assert.strictEqual(-2, v1_to_v2.x);
-		assert.strictEqual(-3, v1_to_v2.y);
+		assert.strictEqual(-2, v2_to_v1.x);
+		assert.strictEqual(-3, v2_to_v1.y);
 
 		assert.strictEqual(0, v1_to_v1.x);
 		assert.strictEqual(0, v1_to_v1.y);
