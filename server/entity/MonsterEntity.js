@@ -30,8 +30,6 @@ export class MonsterEntity extends LivingEntity {
 			this.playerAggro.pos.x - this.pos.x,
 			this.playerAggro.pos.y - this.pos.y
 		).normalize();
-		console.log(direction);
 		this.apply_vector_once(direction);
-		console.log(this.pos);
 	}
 }
