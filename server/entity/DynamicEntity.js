@@ -6,6 +6,7 @@ export class DynamicEntity extends Entity {
 	velocity = new Vector2(0, 0);
 	vectors = [];
 	speedMult = 1;
+	angle = 0;
 
 	constructor(datas) {
 		super(datas);
@@ -26,6 +27,7 @@ export class DynamicEntity extends Entity {
 		this.velocity = Vector2.sum(this.vectors);
 		this.vectors = [];
 		this.pos.add(this.velocity);
+		if (this.velocity.distance() != 0) this.angle = -this.velocity.angle();
 		super.update();
 	}
 

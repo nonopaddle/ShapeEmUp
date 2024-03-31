@@ -31,21 +31,25 @@ describe('Dynamic entity tests', () => {
 		const de = new DynamicEntity(datas);
 		de.update();
 		assert.strictEqual(de.angle, 0);
-		const up = new Vector2(-5, 0),
-			down = new Vector2(5, 0),
-			left = new Vector2(0, -5),
-			right = new Vector2(0, -5);
+		const up = new Vector2(0, -5),
+			down = new Vector2(0, 5),
+			left = new Vector2(-5, 0),
+			right = new Vector2(5, 0);
+
 		de.apply_impulse_vector(up);
 		de.update();
 		assert.strictEqual(de.angle, Math.PI / 2);
+
 		de.apply_impulse_vector(left);
 		de.update();
-		assert.strictEqual(de.angle, Math.PI);
+		assert.strictEqual(de.angle, -Math.PI);
+
 		de.apply_impulse_vector(down);
 		de.update();
-		assert.strictEqual(de.angle, (3 * Math.PI) / 2);
+		assert.strictEqual(de.angle, -Math.PI / 2);
+
 		de.apply_impulse_vector(right);
 		de.update();
-		assert.strictEqual(de.angle, 0);
+		assert.strictEqual(de.angle, -0);
 	});
 });
