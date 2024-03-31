@@ -15,38 +15,6 @@ export class LivingEntity extends DynamicEntity {
 		}
 	}
 
-	render(ctx) {
-		ctx.fillStyle = 'black';
-		ctx.fillRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y + this.size.y / 2 + 7.5,
-			this.size.x,
-			5
-		);
-		ctx.strokeRect(
-			this.pos.x - this.size.x / 2,
-			this.pos.y + this.size.y / 2 + 7.5,
-			this.size.x,
-			5
-		);
-		if (this.HP > 0) {
-			ctx.fillStyle = 'red';
-			ctx.fillRect(
-				this.pos.x - this.size.x / 2,
-				this.pos.y + this.size.y / 2 + 7.5,
-				this.size.x * (this.HP / this.maxHP),
-				5
-			);
-			ctx.strokeRect(
-				this.pos.x - this.size.x / 2,
-				this.pos.y + this.size.y / 2 + 7.5,
-				this.size.x * (this.HP / this.maxHP),
-				5
-			);
-		}
-		super.render(ctx);
-	}
-
 	hurt(damages) {
 		this.HP -= damages;
 		return this.HP <= 0;

@@ -1,3 +1,4 @@
+import { Vector2 } from '../math/Vector2.js';
 import { LivingEntity } from './LivingEntity.js';
 //import { player } from '../main.js';
 import { Action } from './action/Action.js';
@@ -5,11 +6,8 @@ import { Action } from './action/Action.js';
 export class MonsterEntity extends LivingEntity {
 	constructor(datas, pl) {
 		super(datas);
-		if (pl) {
-			this.playerAggro = pl;
-		} else {
-			//	this.playerAggro = player;
-		}
+		this.type = 'monster';
+		this.playerAggro = pl;
 		this.hitbox.addLayer('monster');
 		this.hitbox.addMask(
 			'player',
@@ -17,16 +15,20 @@ export class MonsterEntity extends LivingEntity {
 				target.hurt(1);
 			})
 		);
+		this.name = 'monster';
 	}
 
 	update() {
+		this.move();
 		super.update();
-		this.is_moving();
 	}
 
-	is_moving() {
-		//this.speedV.setX(this.playerAggro.pos.x - this.pos.x);
-		//this.speedV.setY(this.playerAggro.pos.y - this.pos.y);
-		this.speedV.normalize();
+	move() {
+		if (this.playerAggro == undefined) return;
+		const direction = this.pos
+			.to(this.playerAggro.pos)
+			.normalize()
+			.multiply(this.speedMult);
+		this.apply_vector_once(direction);
 	}
 }

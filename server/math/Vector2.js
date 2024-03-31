@@ -64,4 +64,8 @@ export class Vector2 {
 	angle() {
 		return Math.atan2(this.y, this.x);
 	}
+
+	to(v) {
+		return new Vector2(v.x - this.x, v.y - this.y);
+	}
 }

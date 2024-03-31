@@ -10,6 +10,7 @@ import { Weapon } from '../weapons/Weapon.js';
 export class PlayerEntity extends LivingEntity {
 	direction = new Vector2(0, 0);
 	shootDirection = new Vector2(0, 0);
+	cursorPosition = new Vector2(0, 0);
 	move_vector = new Vector2(0, 0);
 	player_speed = 25;
 	cooldown = 0;
@@ -19,10 +20,12 @@ export class PlayerEntity extends LivingEntity {
 		passive: weaponList.null,
 		ultimate: weaponList.null,
 	};
+	mouseState = { z: false, q: false, s: false, d: false, space: false };
 	accel = 400;
 
 	constructor(datas, socket) {
 		super(datas);
+		this.type = 'player';
 		this.hitbox.addLayer('player');
 		this.hitbox.addMask(
 			'weapon',
@@ -61,7 +64,6 @@ export class PlayerEntity extends LivingEntity {
 		this.socket = socket;
 		if (this.socket != undefined) {
 			this.socket.on('disconnect', () => {
-				console.log(`${this.nickname} s'est déconnecté(e)`);
 				this.die();
 			});
 
@@ -73,21 +75,11 @@ export class PlayerEntity extends LivingEntity {
 			});
 
 			this.socket.on('MouseCoordsEvent', coords => {
-				this.shootDirection = new Vector2(coords.x, coords.y);
-				this.shootDirection.normalize();
+				this.cursorPosition = new Vector2(coords.x, coords.y);
 			});
 
 			this.socket.on('MouseControlsEvent', controls => {
-				if (this.cooldown <= 0) {
-					if (controls.left) {
-						console.log('left');
-						this.shoot(0);
-					} else if (controls.right) {
-						this.shoot(1);
-					} else if (controls.middle) {
-						this.shoot(2);
-					}
-				}
+				this.mouseState = controls;
 			});
 		}
 	}
@@ -109,6 +101,17 @@ export class PlayerEntity extends LivingEntity {
 			this.xp -= this.xpToLevelUp;
 			this.xpToLevelUp += 10;
 		}
+
+		if (this.cooldown <= 0) {
+			if (this.mouseState.left) {
+				this.shoot(0);
+			} else if (this.mouseState.right) {
+				this.shoot(1);
+			} else if (this.mouseState.middle) {
+				this.shoot(2);
+			}
+		}
+		this.shoot_passive();
 	}
 
 	move(delta, friction) {
@@ -144,7 +147,10 @@ export class PlayerEntity extends LivingEntity {
 				weapon.bullet.pos = this.pos;
 				const bullet = weapon.shoot();
 				if (bullet != undefined) {
-					bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
+					bullet.trajectory = this.pos
+						.to(this.cursorPosition)
+						.normalize()
+						.multiply(bullet.speedMult);
 					gameArea.entities.push(bullet);
 				}
 			}
@@ -156,13 +162,8 @@ export class PlayerEntity extends LivingEntity {
 			this.weapons.passive.bullet.pos = this.pos;
 			const bullet = this.weapons.passive.shoot();
 			if (bullet != undefined) {
-				bullet.setSpeed(this.shootDirection.x, this.shootDirection.y);
-				gameArea.entities.push(bullet);
+				gameArea.add_entity(bullet);
 			}
 		}
-	}
-
-	is_player() {
-		return true;
 	}
 }

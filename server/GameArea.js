@@ -1,7 +1,7 @@
 class GameArea {
 	difficulty = 1;
 	entities = [];
-	delta = 20 / 1000;
+	delta = 16 / 1000;
 	friction = 400;
 	#main_loop;
 
@@ -28,7 +28,7 @@ class GameArea {
 	}
 
 	get_players() {
-		const players = this.entities.filter(entity => entity.is_player() == true);
+		const players = this.entities.filter(entity => entity.type == 'player');
 		return players;
 	}
 }

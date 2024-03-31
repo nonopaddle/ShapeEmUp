@@ -7,7 +7,7 @@ describe('LivingEntity tests', () => {
 	it('has HPs', () => {
 		const datas = {
 			pos: { x: 25, y: 25 },
-			size: { x: 40, y: 40 },
+			radius: 20,
 			default_hp: 100,
 		};
 		const le = new LivingEntity(datas);
@@ -17,7 +17,7 @@ describe('LivingEntity tests', () => {
 	it('can be hurt', () => {
 		const datas = {
 			pos: { x: 25, y: 25 },
-			size: { x: 40, y: 40 },
+			radius: 20,
 			default_hp: 100,
 		};
 		const le = new LivingEntity(datas);
@@ -28,7 +28,7 @@ describe('LivingEntity tests', () => {
 	it("must disappear when it's hp reaches 0", () => {
 		const datas = {
 			pos: { x: 25, y: 25 },
-			size: { x: 40, y: 40 },
+			radius: 20,
 			default_hp: 100,
 		};
 		const le = new LivingEntity(datas);

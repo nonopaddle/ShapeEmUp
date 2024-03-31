@@ -5,7 +5,6 @@ export class Router {
 	static navigate(path) {
 		this.routes.forEach(element => element.view.hide());
 		const element = this.routes.find(element => element.path == path);
-		console.log(element);
 		element.view.show();
 	}
 

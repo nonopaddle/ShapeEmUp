@@ -66,4 +66,21 @@ describe('Vector2 tests', () => {
 		assert.strictEqual(v1.same(v2), true);
 		assert.strictEqual(v1.same(v3), false);
 	});
+
+	it('creates a new vector from two others', () => {
+		const v1 = new Vector2(2, 3);
+		const v2 = new Vector2(4, 6);
+		const v1_to_v2 = v1.to(v2);
+		const v2_to_v1 = v2.to(v1);
+		const v1_to_v1 = v1.to(v1);
+
+		assert.strictEqual(2, v1_to_v2.x);
+		assert.strictEqual(3, v1_to_v2.y);
+
+		assert.strictEqual(-2, v2_to_v1.x);
+		assert.strictEqual(-3, v2_to_v1.y);
+
+		assert.strictEqual(0, v1_to_v1.x);
+		assert.strictEqual(0, v1_to_v1.y);
+	});
 });

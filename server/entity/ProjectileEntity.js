@@ -8,16 +8,18 @@ export class ProjectileEntity extends DynamicEntity {
 
 	constructor(datas) {
 		super(datas);
+		this.type = 'bullet';
 		this.owner = datas.owner;
 		this.penetration = datas.penetration;
-		this.angle = new Vector2(0, 0);
+		this.trajectory = new Vector2(0, 0);
+		this.cooldown = 1;
 		this.hitbox.addLayer('bullet');
 		this.hitbox.addMask(
 			'monster',
 			new Action('monsterColision', (source, target) => {
 				if (
-					!source.entityShot.has(target) ||
-					source.entityShot.get(target) <= 0
+					source.entityShot[target] == undefined ||
+					source.entityShot[target] <= 0
 				) {
 					if (target.hurt(source.damage)) {
 						source.owner.xp += target.difficulty;
@@ -32,8 +34,7 @@ export class ProjectileEntity extends DynamicEntity {
 			})
 		);
 		this.ttl = datas.ttl;
-		if ('renderTexture' in datas) this.renderTexture = datas.renderTexture;
-		else this.renderTexture = true;
+		this.name = datas.texture;
 	}
 
 	update() {
@@ -50,13 +51,12 @@ export class ProjectileEntity extends DynamicEntity {
 	}
 
 	setAngle(x, y) {
-		this.angle.x = x;
-		this.angle.y = y;
+		this.trajectory.x = x;
+		this.trajectory.y = y;
 	}
 
 	move() {
-		const v = new Vector2(this.angle.x, this.angle.y);
-		this.apply_impulse_vector(v.multiply(this.speedMult));
+		this.apply_impulse_vector(this.trajectory);
 	}
 
 	die() {
@@ -65,13 +65,5 @@ export class ProjectileEntity extends DynamicEntity {
 				gameArea.entities.splice(index, 1);
 			}
 		});
-	}
-
-	render(ctx) {
-		if (this.renderTexture) {
-			super.render(ctx);
-		} else {
-			this.hitbox.render(ctx);
-		}
 	}
 }
