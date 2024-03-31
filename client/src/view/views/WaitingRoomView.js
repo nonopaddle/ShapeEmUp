@@ -29,7 +29,12 @@ export class WaitingRoomView extends View {
 			canvas.width = this.#buttonsize.x;
 			canvas.height = this.#buttonsize.y;
 			const ctx = canvas.getContext('2d');
-			datas.draw(ctx, { x: canvas.width / 2, y: canvas.height / 2 }, 50);
+			datas.draw(
+				ctx,
+				{ x: canvas.width / 2, y: canvas.height / 2 },
+				50,
+				-Math.PI / 2
+			);
 		});
 
 		const difficultySlider = this.element.querySelector('.difficulty');

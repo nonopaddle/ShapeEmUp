@@ -103,6 +103,7 @@ io.on('connection', socket => {
 			return {
 				origin: { x: entity.pos.x, y: entity.pos.y },
 				radius: entity.radius,
+				angle: entity.angle,
 				name: entity.name,
 				type: entity.type,
 				owner: entity.owner.name,
@@ -146,6 +147,7 @@ function init() {
 				pos: { x: 200, y: 200 },
 				radius: 25,
 				name: socket.handshake.query.nickname,
+				default_hp: 50,
 			},
 			socket
 		);

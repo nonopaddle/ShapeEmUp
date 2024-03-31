@@ -44,7 +44,14 @@ export class Renderer {
 						const avatar = Object.values(avatarsList).filter(
 							avatar => avatar.owner == entity.name
 						)[0];
-						avatar.draw(this.context, entity.origin, entity.radius);
+						avatar.draw(
+							this.context,
+							entity.origin,
+							entity.radius,
+							-entity.angle,
+							entity.maxHP,
+							entity.HP
+						);
 						break;
 					case 'bullet':
 						const bullet = bulletsList[entity.name];
@@ -58,7 +65,6 @@ export class Renderer {
 						weapon.draw(this.context, entity.origin, entity.radius);
 						break;
 					case 'monster':
-						console.log('drawing ennemy');
 						const monster = monsters[entity.name];
 						monster.draw(
 							this.context,
