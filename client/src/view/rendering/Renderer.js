@@ -1,5 +1,5 @@
 import Connection from '../../Connection.js';
-import { avatarsList, bulletsList, weapons } from './textures.js';
+import { avatarsList, bulletsList, monsters, weapons } from './textures.js';
 
 export class Renderer {
 	static canvas;
@@ -54,9 +54,19 @@ export class Renderer {
 						bullet.draw(this.context, entity.origin, entity.radius, color);
 						break;
 					case 'weapon':
-						console.log(entity);
 						const weapon = weapons[entity.name];
 						weapon.draw(this.context, entity.origin, entity.radius);
+						break;
+					case 'monster':
+						console.log('drawing ennemy');
+						const monster = monsters[entity.name];
+						monster.draw(
+							this.context,
+							entity.origin,
+							entity.radius,
+							entity.maxHP,
+							entity.HP
+						);
 					default:
 						break;
 				}

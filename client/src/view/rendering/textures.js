@@ -2,8 +2,7 @@ export const avatarsList = {
 	square: {
 		color: 'lightblue',
 		owner: null,
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			ctx.fillStyle = avatarsList.square.color;
 			ctx.beginPath();
 			ctx.fillRect(
@@ -18,8 +17,7 @@ export const avatarsList = {
 	circle: {
 		color: 'lightgreen',
 		owner: null,
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			ctx.fillStyle = avatarsList.circle.color;
 			ctx.beginPath();
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
@@ -31,8 +29,7 @@ export const avatarsList = {
 		color: 'gold',
 		owner: null,
 		nbSides: 3,
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			const angle = (2 * Math.PI) / avatarsList.triangle.nbSides;
 			ctx.fillStyle = avatarsList.triangle.color;
 			ctx.save();
@@ -54,8 +51,7 @@ export const avatarsList = {
 		color: 'lightpink',
 		owner: null,
 		nbSides: 5,
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			const angle = (2 * Math.PI) / avatarsList.pentagon.nbSides;
 			ctx.fillStyle = avatarsList.pentagon.color;
 			ctx.save();
@@ -79,11 +75,10 @@ export const weapons = {
 	color: 'white',
 	gun: {
 		nbSides: 6,
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			const angle = (2 * Math.PI) / weapons.gun.nbSides;
 			ctx.strokeStyle = weapons.color;
-			ctx.lineWidth = 0.2 * scale;
+			ctx.lineWidth = 0.2 * radius;
 			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
@@ -101,11 +96,10 @@ export const weapons = {
 	},
 	bigGun: {
 		nbSides: 8,
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			const angle = (2 * Math.PI) / weapons.bigGun.nbSides;
 			ctx.strokeStyle = weapons.color;
-			ctx.lineWidth = 0.2 * scale;
+			ctx.lineWidth = 0.2 * radius;
 			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
@@ -122,10 +116,9 @@ export const weapons = {
 		},
 	},
 	zone: {
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			ctx.strokeStyle = weapons.color;
-			ctx.lineWidth = 0.2 * scale;
+			ctx.lineWidth = 0.2 * radius;
 			ctx.beginPath();
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
@@ -134,11 +127,10 @@ export const weapons = {
 	},
 	laser: {
 		nbSides: 3,
-		draw: (ctx, origin, scale) => {
-			const radius = scale;
+		draw: (ctx, origin, radius) => {
 			const angle = (2 * Math.PI) / weapons.laser.nbSides;
 			ctx.strokeStyle = weapons.color;
-			ctx.lineWidth = 0.2 * scale;
+			ctx.lineWidth = 0.2 * radius;
 			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
@@ -158,11 +150,10 @@ export const weapons = {
 
 export const bulletsList = {
 	gun_bullet: {
-		draw: (ctx, origin, scale, color) => {
-			const radius = scale;
+		draw: (ctx, origin, radius, color) => {
 			const angle = (2 * Math.PI) / weapons.gun.nbSides;
 			ctx.fillStyle = color;
-			ctx.lineWidth = 0.1 * scale;
+			ctx.lineWidth = 0.1 * radius;
 			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
@@ -177,11 +168,10 @@ export const bulletsList = {
 		},
 	},
 	bigGun_bullet: {
-		draw: (ctx, origin, scale, color) => {
-			const radius = scale;
+		draw: (ctx, origin, radius, color) => {
 			const angle = (2 * Math.PI) / weapons.bigGun.nbSides;
 			ctx.fillStyle = color;
-			ctx.lineWidth = 0.1 * scale;
+			ctx.lineWidth = 0.1 * radius;
 			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
@@ -196,10 +186,9 @@ export const bulletsList = {
 		},
 	},
 	zone_bullet: {
-		draw: (ctx, origin, scale, color) => {
-			const radius = scale;
+		draw: (ctx, origin, radius, color) => {
 			ctx.strokeStyle = color;
-			ctx.lineWidth = 0.04 * scale;
+			ctx.lineWidth = 0.04 * radius;
 			ctx.save();
 			ctx.beginPath();
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
@@ -210,11 +199,10 @@ export const bulletsList = {
 		},
 	},
 	laser_bullet: {
-		draw: (ctx, origin, scale, color) => {
-			const radius = scale;
+		draw: (ctx, origin, radius, color) => {
 			const angle = (2 * Math.PI) / weapons.laser.nbSides;
 			ctx.fillStyle = color;
-			ctx.lineWidth = 0.1 * scale;
+			ctx.lineWidth = 0.1 * radius;
 			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
@@ -225,6 +213,27 @@ export const bulletsList = {
 			ctx.resetTransform();
 			ctx.fill();
 			ctx.closePath();
+			ctx.save();
+		},
+	},
+};
+
+export const monsters = {
+	color: 'orangered',
+	monster: {
+		draw: (ctx, origin, radius, maxHP, HP) => {
+			ctx.fillStyle = monsters.color;
+			ctx.translate(origin.x, origin.y);
+			ctx.fillRect(-radius / 2, -radius / 2, radius, radius);
+			const hpDisplayWidth = radius * 1.5 * (HP / maxHP);
+			if (hpDisplayWidth <= 0) return;
+			ctx.fillRect(
+				(-radius / 2) * 1.5,
+				(radius / 2) * 1.5,
+				hpDisplayWidth,
+				radius * 0.15
+			);
+			ctx.resetTransform();
 			ctx.save();
 		},
 	},

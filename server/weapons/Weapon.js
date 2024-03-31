@@ -12,7 +12,7 @@ export class Weapon {
 
 	shoot() {
 		if (this.cooldown <= 0) {
-			console.log('shoot');
+			//console.log('shoot');
 			this.cooldown = this.maxCooldown;
 			return new ProjectileEntity(this.bullet);
 		}

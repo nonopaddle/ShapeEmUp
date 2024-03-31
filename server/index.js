@@ -6,6 +6,7 @@ import gameArea from './GameArea.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
 import { WeaponEntity } from './entity/WeaponEntity.js';
 import { weaponList } from './weapons/WeaponList.js';
+import { SpawnerEntity } from './entity/SpawnerEntity.js';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -105,6 +106,8 @@ io.on('connection', socket => {
 				name: entity.name,
 				type: entity.type,
 				owner: entity.owner.name,
+				maxHP: entity.maxHP,
+				HP: entity.HP,
 			};
 		});
 		//console.log(datas);
@@ -149,10 +152,14 @@ function init() {
 		console.log(player);
 		gameArea.add_entity(player);
 	});
+	const spawnerDatas = {
+		pos: { x: 500, y: 900 },
+	};
 	gameArea.add_entity(new WeaponEntity(750, 450, weaponList.gun));
 	gameArea.add_entity(new WeaponEntity(650, 450, weaponList.bigGun));
 	gameArea.add_entity(new WeaponEntity(550, 450, weaponList.laser));
 	gameArea.add_entity(new WeaponEntity(450, 450, weaponList.zone));
+	gameArea.add_entity(new SpawnerEntity(spawnerDatas));
 	gameArea.start_loop();
 	return false;
 }

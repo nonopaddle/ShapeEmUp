@@ -7,11 +7,7 @@ export class MonsterEntity extends LivingEntity {
 	constructor(datas, pl) {
 		super(datas);
 		this.type = 'monster';
-		if (pl) {
-			this.playerAggro = pl;
-		} else {
-			//	this.playerAggro = player;
-		}
+		this.playerAggro = pl;
 		this.hitbox.addLayer('monster');
 		this.hitbox.addMask(
 			'player',
@@ -19,6 +15,7 @@ export class MonsterEntity extends LivingEntity {
 				target.hurt(1);
 			})
 		);
+		this.name = 'monster';
 	}
 
 	update() {
@@ -27,10 +24,11 @@ export class MonsterEntity extends LivingEntity {
 	}
 
 	move() {
-		const direction = new Vector2(
-			this.playerAggro.pos.x - this.pos.x,
-			this.playerAggro.pos.y - this.pos.y
-		).normalize();
+		if (this.playerAggro == undefined) return;
+		const direction = this.pos
+			.to(this.playerAggro.pos)
+			.normalize()
+			.multiply(this.speedMult);
 		this.apply_vector_once(direction);
 	}
 }
