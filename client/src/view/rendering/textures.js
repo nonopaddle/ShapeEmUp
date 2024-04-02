@@ -29,7 +29,8 @@ export const avatarsList = {
 		draw: (ctx, origin, radius, angle, maxHP, HP) => {
 			ctx.fillStyle = avatarsList.circle.color;
 			ctx.beginPath();
-			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
+			ctx.translate(origin.x, origin.y);
+			ctx.arc(0, 0, radius, 0, Math.PI * 2);
 			ctx.fill();
 
 			const hpDisplayWidth = radius * 2 * 1.5 * (HP / maxHP);
