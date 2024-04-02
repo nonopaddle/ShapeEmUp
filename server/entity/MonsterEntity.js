@@ -1,3 +1,4 @@
+import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 import { LivingEntity } from './LivingEntity.js';
 //import { player } from '../main.js';
@@ -24,7 +25,13 @@ export class MonsterEntity extends LivingEntity {
 	}
 
 	move() {
-		if (this.playerAggro == undefined) return;
+		if (this.playerAggro == undefined) {
+			if (gameArea.no_players_left()) return;
+			this.playerAggro =
+				gameArea.get_players()[
+					Math.floor(Math.random() * gameArea.get_players().length)
+				];
+		}
 		const direction = this.pos
 			.to(this.playerAggro.pos)
 			.normalize()

@@ -70,7 +70,7 @@ io.on('connection', socket => {
 		io.emit('avatar selection update', avatarsAssociation);
 		console.log(`${datas.nickname} s'est déconnecté(e)`);
 		console.log(players);
-		if (players.length == 0) gameArea.stop_loop();
+		if (gameArea.no_players_left()) gameArea.stop_loop();
 	});
 
 	socket.on('difficulty change', newDifficulty => {

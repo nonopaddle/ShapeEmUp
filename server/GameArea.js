@@ -25,11 +25,16 @@ class GameArea {
 	tick_event() {
 		console.log(this.entities.length);
 		this.entities.forEach(entity => entity.update());
+		if (this.no_players_left()) this.stop_loop();
 	}
 
 	get_players() {
 		const players = this.entities.filter(entity => entity.type == 'player');
 		return players;
+	}
+
+	no_players_left() {
+		return this.get_players().length == 0;
 	}
 }
 
