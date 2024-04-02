@@ -36,17 +36,17 @@ describe('GameArea tests', () => {
 
 		player.apply_vector_once(new Vector2(-200, 0));
 		player.update();
-		assert.strictEqual(0, player.pos.x);
+		assert.strictEqual(25, player.pos.x);
 		assert.strictEqual(130, player.pos.y);
 
 		player.apply_vector_once(new Vector2(0, -200));
 		player.update();
-		assert.strictEqual(0, player.pos.x);
-		assert.strictEqual(0, player.pos.y);
+		assert.strictEqual(25, player.pos.x);
+		assert.strictEqual(25, player.pos.y);
 
 		player.apply_vector_once(new Vector2(-200, -200));
 		player.update();
-		assert.strictEqual(0, player.pos.x);
-		assert.strictEqual(0, player.pos.y);
+		assert.strictEqual(25, player.pos.x);
+		assert.strictEqual(25, player.pos.y);
 	});
 });

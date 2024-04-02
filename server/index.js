@@ -161,7 +161,7 @@ function init() {
 	gameArea.add_entity(new WeaponEntity(650, 450, weaponList.bigGun));
 	gameArea.add_entity(new WeaponEntity(550, 450, weaponList.laser));
 	gameArea.add_entity(new WeaponEntity(450, 450, weaponList.zone));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas));
 	gameArea.start_loop();
 	return false;
 }

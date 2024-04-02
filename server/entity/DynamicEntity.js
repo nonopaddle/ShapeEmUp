@@ -26,7 +26,7 @@ export class DynamicEntity extends Entity {
 	update() {
 		this.velocity = Vector2.sum(this.vectors);
 		this.vectors = [];
-		this.pos.add(this.velocity);
+		this.apply_velocity();
 		if (this.velocity.distance() != 0) this.angle = -this.velocity.angle();
 		super.update();
 	}
@@ -37,5 +37,9 @@ export class DynamicEntity extends Entity {
 
 	apply_vector_once(vector) {
 		this.pos.add(vector);
+	}
+
+	apply_velocity() {
+		this.apply_vector_once(this.velocity);
 	}
 }
