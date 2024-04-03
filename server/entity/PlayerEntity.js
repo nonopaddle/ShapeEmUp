@@ -96,11 +96,11 @@ export class PlayerEntity extends LivingEntity {
 		this.move(gameArea.delta, gameArea.friction);
 		this.apply_impulse_vector(this.move_vector);
 		super.update();
-		if (this.xp >= this.xpToLevelUp) {
+		/*if (this.xp >= this.xpToLevelUp) {
 			this.level += 1;
 			this.xp -= this.xpToLevelUp;
 			this.xpToLevelUp += 10;
-		}
+		}*/
 
 		if (this.cooldown <= 0) {
 			if (this.mouseState.left) {

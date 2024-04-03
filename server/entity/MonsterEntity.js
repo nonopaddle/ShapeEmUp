@@ -1,6 +1,7 @@
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 import { LivingEntity } from './LivingEntity.js';
+import { SpawnerEntity } from './SpawnerEntity.js';
 //import { player } from '../main.js';
 import { Action } from './action/Action.js';
 
@@ -37,5 +38,10 @@ export class MonsterEntity extends LivingEntity {
 			.normalize()
 			.multiply(this.speedMult);
 		this.apply_vector_once(direction);
+	}
+
+	die() {
+		super.die();
+		SpawnerEntity.monsterNb -= 1;
 	}
 }

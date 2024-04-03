@@ -14,6 +14,7 @@ class GameArea {
 			this.tick_event.bind(this),
 			this.delta * 1000
 		);
+		this.time = 0;
 		console.log('loop started');
 	}
 
@@ -25,7 +26,9 @@ class GameArea {
 	tick_event() {
 		console.log(this.entities.length);
 		this.entities.forEach(entity => entity.update());
-		if (this.no_players_left()) this.stop_loop();
+		if (this.no_players_left() || this.time_is_up()) this.stop_loop();
+		this.time += this.delta;
+		console.log(this.time);
 	}
 
 	get_players() {
@@ -35,6 +38,10 @@ class GameArea {
 
 	no_players_left() {
 		return this.get_players().length == 0;
+	}
+
+	time_is_up() {
+		return this.time >= 60 * 5;
 	}
 }
 
