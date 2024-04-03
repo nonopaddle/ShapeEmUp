@@ -34,7 +34,7 @@ const avatarsAssociation = {
 	pentagon: null,
 };
 
-export const io = new IOServer(httpServer);
+const io = new IOServer(httpServer);
 io.on('connection', socket => {
 	if (players.length == maxPlayers) {
 		socket.disconnect();
@@ -42,7 +42,6 @@ io.on('connection', socket => {
 	}
 
 	const datas = socket.handshake.query;
-	console.log(players.map(player => player.handshake.query.nickname));
 	if (
 		players.filter(player => player.handshake.query.nickname == datas.nickname)
 			.length != 0
@@ -110,7 +109,6 @@ io.on('connection', socket => {
 				HP: entity.HP,
 			};
 		});
-		//console.log(datas);
 		socket.emit('getEntities-from-server', datas);
 	});
 
