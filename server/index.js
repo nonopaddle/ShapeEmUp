@@ -127,6 +127,10 @@ io.on('connection', socket => {
 		}
 		io.emit('avatar selection update', avatarsAssociation);
 	});
+
+	socket.on('getGameSize-from-client', () => {
+		socket.emit('getGameSize-from-server', {x: gameArea.maxSize.x, y: gameArea.maxSize.y});
+	});
 });
 
 Array.prototype.removeIf = function (callback) {

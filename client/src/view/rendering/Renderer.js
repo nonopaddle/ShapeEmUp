@@ -8,12 +8,12 @@ export class Renderer {
 	static set_canvas(canvas) {
 		this.canvas = canvas;
 		this.context = this.canvas.getContext('2d');
-		const canvasResizeObserver = new ResizeObserver(resampleCanvas.bind(this));
+		/* const canvasResizeObserver = new ResizeObserver(resampleCanvas.bind(this));
 		canvasResizeObserver.observe(this.canvas);
 		function resampleCanvas() {
 			this.canvas.width = this.canvas.clientWidth;
 			this.canvas.height = this.canvas.clientHeight;
-		}
+		} */
 	}
 
 	static start_rendering() {
@@ -77,6 +77,20 @@ export class Renderer {
 						break;
 				}
 			});
+		});
+
+		Connection.socket.emit('getGameSize-from-client');
+		Connection.socket.on('getGameSize-from-server', gameSize => {
+			this.canvas.width = window.innerWidth;
+			this.canvas.height = window.innerHeight;
+
+			let width = this.canvas.width;    // Current image width
+			let height = this.canvas.height;  // Current image height
+			let w_ratio = maxWidth / gameSize.x;  // Used for aspect ratio
+			let h_ratio = maxHeight / gameSize.y;  // Used for aspect ratio
+			console.log(w_ratio);
+			console.log(h_ratio);
+			this.context.scale(2, 2);
 		});
 	}
 }

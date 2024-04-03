@@ -123,7 +123,6 @@ export class PlayerEntity extends LivingEntity {
 			this.velocity.x += gameArea.maxSize.x - nextPos.x - this.radius;
 		if (nextPos.y + this.radius > gameArea.maxSize.y)
 			this.velocity.y += gameArea.maxSize.y - nextPos.y - this.radius;
-		console.log(this.velocity);
 		this.apply_vector_once(this.velocity);
 	}
 
