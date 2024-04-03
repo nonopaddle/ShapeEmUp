@@ -2,9 +2,10 @@ export const avatarsList = {
 	square: {
 		color: 'lightblue',
 		owner: null,
-		draw: (ctx, origin, radius, angle, maxHP, HP) => {
+		draw: (ctx, scale, origin, radius, angle, maxHP, HP) => {
 			ctx.fillStyle = avatarsList.square.color;
 			ctx.beginPath();
+			ctx.scale(scale.x, scale.y);
 			ctx.translate(origin.x, origin.y);
 			ctx.rotate(angle);
 			ctx.fillRect(-radius, -radius, radius * 2, radius * 2);
@@ -19,16 +20,17 @@ export const avatarsList = {
 				radius * 2 * 0.15
 			);
 			ctx.resetTransform();
+			ctx.scale(1, 1);
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	circle: {
 		color: 'lightgreen',
 		owner: null,
-		draw: (ctx, origin, radius, angle, maxHP, HP) => {
+		draw: (ctx, scale, origin, radius, angle, maxHP, HP) => {
 			ctx.fillStyle = avatarsList.circle.color;
 			ctx.beginPath();
+			ctx.scale(scale.x, scale.y);
 			ctx.translate(origin.x, origin.y);
 			ctx.arc(0, 0, radius, 0, Math.PI * 2);
 			ctx.fill();
@@ -42,21 +44,19 @@ export const avatarsList = {
 				radius * 2 * 0.15
 			);
 			ctx.resetTransform();
+			ctx.scale(1, 1);
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	triangle: {
 		color: 'gold',
 		owner: null,
 		nbSides: 3,
-		draw: (ctx, origin, radius, angle, maxHP, HP) => {
-			console.log(maxHP);
-			console.log(HP);
+		draw: (ctx, scale, origin, radius, angle, maxHP, HP) => {
 			const alpha = (2 * Math.PI) / avatarsList.triangle.nbSides;
 			ctx.fillStyle = avatarsList.triangle.color;
-			ctx.save();
 			ctx.beginPath();
+			ctx.scale(scale.x, scale.y);
 			ctx.translate(origin.x, origin.y);
 			ctx.rotate(angle);
 			ctx.moveTo(radius, 0);
@@ -75,19 +75,19 @@ export const avatarsList = {
 				radius * 2 * 0.15
 			);
 			ctx.resetTransform();
+			ctx.scale(0, 0);
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	pentagon: {
 		color: 'lightpink',
 		owner: null,
 		nbSides: 5,
-		draw: (ctx, origin, radius, angle, maxHP, HP) => {
+		draw: (ctx, scale, origin, radius, angle, maxHP, HP) => {
 			const aplha = (2 * Math.PI) / avatarsList.pentagon.nbSides;
 			ctx.fillStyle = avatarsList.pentagon.color;
-			ctx.save();
 			ctx.beginPath();
+			ctx.scale(scale.x, scale.y);
 			ctx.translate(origin.x, origin.y);
 			ctx.rotate(angle);
 			ctx.moveTo(radius, 0);
@@ -106,8 +106,8 @@ export const avatarsList = {
 				radius * 2 * 0.15
 			);
 			ctx.resetTransform();
+			ctx.scale(0, 0);
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 };
@@ -120,7 +120,6 @@ export const weapons = {
 			const angle = (2 * Math.PI) / weapons.gun.nbSides;
 			ctx.strokeStyle = weapons.color;
 			ctx.lineWidth = 0.2 * radius;
-			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
 			ctx.rotate(-Math.PI / 2);
@@ -132,7 +131,6 @@ export const weapons = {
 			ctx.resetTransform();
 			ctx.stroke();
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	bigGun: {
@@ -141,7 +139,6 @@ export const weapons = {
 			const angle = (2 * Math.PI) / weapons.bigGun.nbSides;
 			ctx.strokeStyle = weapons.color;
 			ctx.lineWidth = 0.2 * radius;
-			ctx.save();
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
 			ctx.rotate(-Math.PI / 2);
@@ -153,7 +150,6 @@ export const weapons = {
 			ctx.resetTransform();
 			ctx.stroke();
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	zone: {
@@ -172,7 +168,7 @@ export const weapons = {
 			const angle = (2 * Math.PI) / weapons.laser.nbSides;
 			ctx.strokeStyle = weapons.color;
 			ctx.lineWidth = 0.2 * radius;
-			ctx.save();
+
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
 			ctx.rotate(-Math.PI / 2);
@@ -184,7 +180,6 @@ export const weapons = {
 			ctx.resetTransform();
 			ctx.stroke();
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 };
@@ -195,7 +190,7 @@ export const bulletsList = {
 			const angle = (2 * Math.PI) / weapons.gun.nbSides;
 			ctx.fillStyle = color;
 			ctx.lineWidth = 0.1 * radius;
-			ctx.save();
+
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
 			ctx.moveTo(radius, 0);
@@ -205,7 +200,6 @@ export const bulletsList = {
 			ctx.resetTransform();
 			ctx.fill();
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	bigGun_bullet: {
@@ -213,7 +207,7 @@ export const bulletsList = {
 			const angle = (2 * Math.PI) / weapons.bigGun.nbSides;
 			ctx.fillStyle = color;
 			ctx.lineWidth = 0.1 * radius;
-			ctx.save();
+
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
 			ctx.moveTo(radius, 0);
@@ -223,20 +217,18 @@ export const bulletsList = {
 			ctx.resetTransform();
 			ctx.fill();
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	zone_bullet: {
 		draw: (ctx, origin, radius, color) => {
 			ctx.strokeStyle = color;
 			ctx.lineWidth = 0.04 * radius;
-			ctx.save();
+
 			ctx.beginPath();
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
 			ctx.resetTransform();
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 	laser_bullet: {
@@ -244,7 +236,7 @@ export const bulletsList = {
 			const angle = (2 * Math.PI) / weapons.laser.nbSides;
 			ctx.fillStyle = color;
 			ctx.lineWidth = 0.1 * radius;
-			ctx.save();
+
 			ctx.beginPath();
 			ctx.translate(origin.x, origin.y);
 			ctx.moveTo(radius, 0);
@@ -254,7 +246,6 @@ export const bulletsList = {
 			ctx.resetTransform();
 			ctx.fill();
 			ctx.closePath();
-			ctx.save();
 		},
 	},
 };
@@ -275,7 +266,6 @@ export const monsters = {
 				radius * 2 * 0.15
 			);
 			ctx.resetTransform();
-			ctx.save();
 		},
 	},
 };

@@ -1,5 +1,5 @@
 import { View, setNavigationToHref } from './View.js';
-import { avatarsList, bulletsList } from '../rendering/textures.js';
+import { avatarsList } from '../rendering/textures.js';
 import Connection from '../../Connection.js';
 import { Router } from './Router.js';
 import { Renderer } from '../rendering/Renderer.js';
@@ -31,6 +31,7 @@ export class WaitingRoomView extends View {
 			const ctx = canvas.getContext('2d');
 			datas.draw(
 				ctx,
+				{ x: 1, y: 1 },
 				{ x: canvas.width / 2, y: canvas.height / 2 },
 				50,
 				-Math.PI / 2

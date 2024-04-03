@@ -34,7 +34,7 @@ const avatarsAssociation = {
 	pentagon: null,
 };
 
-const io = new IOServer(httpServer);
+export const io = new IOServer(httpServer);
 io.on('connection', socket => {
 	if (players.length == maxPlayers) {
 		socket.disconnect();
@@ -55,6 +55,7 @@ io.on('connection', socket => {
 	console.log(`${datas.nickname} s'est connectée`);
 	console.log(players);
 	socket.emit('avatar selection update', avatarsAssociation);
+	socket.emit('getGameSize-from-server', gameArea.maxSize);
 
 	socket.on('disconnect', () => {
 		players.removeIf(
@@ -98,23 +99,6 @@ io.on('connection', socket => {
 		}
 	});
 
-	socket.on('getEntities-from-client', () => {
-		const datas = gameArea.entities.map(entity => {
-			return {
-				origin: { x: entity.pos.x, y: entity.pos.y },
-				radius: entity.radius,
-				angle: entity.angle,
-				name: entity.name,
-				type: entity.type,
-				owner: entity.owner.name,
-				maxHP: entity.maxHP,
-				HP: entity.HP,
-			};
-		});
-		//console.log(datas);
-		socket.emit('getEntities-from-server', datas);
-	});
-
 	socket.on('selection avatar', datas => {
 		const { avatar, playerNickname } = datas;
 		console.log(`${playerNickname} a selectionné l'avatar ${avatar}`);
@@ -129,7 +113,10 @@ io.on('connection', socket => {
 	});
 
 	socket.on('getGameSize-from-client', () => {
-		socket.emit('getGameSize-from-server', {x: gameArea.maxSize.x, y: gameArea.maxSize.y});
+		socket.emit('getGameSize-from-server', {
+			x: gameArea.maxSize.x,
+			y: gameArea.maxSize.y,
+		});
 	});
 });
 
