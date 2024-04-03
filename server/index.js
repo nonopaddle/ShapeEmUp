@@ -24,7 +24,7 @@ addWebpackMiddleware(app);
 
 app.use(express.static('client/public'));
 
-const players = [];
+export const players = [];
 const maxPlayers = 4;
 
 const avatarsAssociation = {
@@ -34,7 +34,7 @@ const avatarsAssociation = {
 	pentagon: null,
 };
 
-const io = new IOServer(httpServer);
+export const io = new IOServer(httpServer);
 io.on('connection', socket => {
 	if (players.length == maxPlayers) {
 		socket.disconnect();
@@ -70,7 +70,6 @@ io.on('connection', socket => {
 		io.emit('avatar selection update', avatarsAssociation);
 		console.log(`${datas.nickname} s'est déconnecté(e)`);
 		console.log(players);
-		if (gameArea.no_players_left()) gameArea.stop_loop();
 	});
 
 	socket.on('difficulty change', newDifficulty => {
@@ -113,6 +112,10 @@ io.on('connection', socket => {
 		});
 		//console.log(datas);
 		socket.emit('getEntities-from-server', datas);
+	});
+
+	socket.on('getTime-from-client', () => {
+		socket.emit('getTime-from-server', gameArea.time);
 	});
 
 	socket.on('selection avatar', datas => {

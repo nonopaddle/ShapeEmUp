@@ -1,3 +1,5 @@
+import { players, io } from './index.js';
+
 class GameArea {
 	difficulty = 1;
 	entities = [];
@@ -19,6 +21,8 @@ class GameArea {
 	}
 
 	stop_loop() {
+		io.emit('game-end');
+		players.forEach(player => player.disconnect());
 		clearInterval(this.#main_loop);
 		console.log('loop stopped');
 	}
@@ -26,9 +30,8 @@ class GameArea {
 	tick_event() {
 		console.log(this.entities.length);
 		this.entities.forEach(entity => entity.update());
-		if (this.no_players_left() || this.time_is_up()) this.stop_loop();
 		this.time += this.delta;
-		console.log(this.time);
+		if (this.no_players_left() || this.time_is_up()) this.stop_loop();
 	}
 
 	get_players() {
