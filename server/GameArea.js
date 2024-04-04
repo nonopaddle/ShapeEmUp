@@ -1,4 +1,4 @@
-import { players } from './index.js';
+import { players, io } from './index.js';
 
 class GameArea {
 	difficulty = 1;
@@ -21,7 +21,8 @@ class GameArea {
 	}
 
 	stop_loop() {
-		players.forEach(player => player.disconnect());
+		//players.forEach(player => player.disconnect());
+		io.emit('game-end');
 		clearInterval(this.#main_loop);
 		console.log('loop stopped');
 	}

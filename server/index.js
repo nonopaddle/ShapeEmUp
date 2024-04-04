@@ -34,7 +34,7 @@ const avatarsAssociation = {
 	pentagon: null,
 };
 
-const io = new IOServer(httpServer);
+export const io = new IOServer(httpServer);
 io.on('connection', socket => {
 	if (players.length == maxPlayers) {
 		socket.disconnect();

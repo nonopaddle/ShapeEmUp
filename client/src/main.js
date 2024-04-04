@@ -3,6 +3,7 @@ import { MainMenuView } from './view/views/MainMenuView.js';
 import { WaitingRoomView } from './view/views/WaitingRoomView.js';
 import { Renderer } from './view/rendering/Renderer.js';
 import { Router } from './view/views/Router.js';
+import { EndScreenView } from './view/views/EndScreenView.js';
 import { ScoresView } from './view/views/ScoresView.js';
 import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
@@ -14,6 +15,7 @@ const waitingRoomView = new WaitingRoomView(
 	document.querySelector('.waiting-room')
 );
 const mainGameView = new MainGameView(document.querySelector('.main-game'));
+const endScreenView = new EndScreenView(document.querySelector('.end-screen'));
 const scoresView = new ScoresView(document.querySelector('.scores'));
 const creditsView = new CreditsView(document.querySelector('.credits'));
 const routes = [
@@ -21,6 +23,7 @@ const routes = [
 	{ path: '/main-menu', view: mainMenuView },
 	{ path: '/waiting-room', view: waitingRoomView },
 	{ path: '/main-game', view: mainGameView },
+	{ path: '/end-screen', view: endScreenView },
 	{ path: '/scores', view: scoresView },
 	{ path: '/credits', view: creditsView },
 ];
