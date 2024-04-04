@@ -75,6 +75,7 @@ export class Renderer {
 						);
 						break;
 					case 'monster':
+						this.context.scale(this.w_ratio, this.h_ratio);
 						monsters[entity.name].draw(
 							this.context,
 							entity.origin,

@@ -90,7 +90,6 @@ export class PlayerEntity extends LivingEntity {
 				element.update();
 			}
 		});
-		//this.shoot_passive();
 		this.cooldown -= 1;
 		this.move(gameArea.delta, gameArea.friction);
 		this.apply_impulse_vector(this.move_vector);

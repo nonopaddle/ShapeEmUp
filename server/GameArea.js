@@ -1,8 +1,7 @@
 import { Vector2 } from './math/Vector2.js';
 
 class GameArea {
-	//maxSize = new Vector2(1530, 700);
-	maxSize = new Vector2(600, 700);
+	maxSize = new Vector2(3000, 1800);
 	difficulty = 1;
 	entities = [];
 	delta = 16 / 1000;

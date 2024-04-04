@@ -6,6 +6,7 @@ import gameArea from './GameArea.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
 import { WeaponEntity } from './entity/WeaponEntity.js';
 import { weaponList } from './weapons/WeaponList.js';
+import { SpawnerEntity } from './entity/SpawnerEntity.js';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -140,7 +141,7 @@ function init() {
 	gameArea.add_entity(new WeaponEntity(650, 450, weaponList.bigGun));
 	gameArea.add_entity(new WeaponEntity(550, 450, weaponList.laser));
 	gameArea.add_entity(new WeaponEntity(450, 450, weaponList.zone));
-	//gameArea.add_entity(new SpawnerEntity(spawnerDatas));
+	gameArea.add_entity(new SpawnerEntity(spawnerDatas));
 	players.forEach(socket => {
 		const player = new PlayerEntity(
 			{

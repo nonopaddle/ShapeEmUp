@@ -1,4 +1,3 @@
-import { Vector2 } from '../math/Vector2.js';
 import { LivingEntity } from './LivingEntity.js';
 //import { player } from '../main.js';
 import { Action } from './action/Action.js';
@@ -8,11 +7,17 @@ export class MonsterEntity extends LivingEntity {
 		super(datas);
 		this.type = 'monster';
 		this.playerAggro = pl;
+		this.knockback_speed = 50;
 		this.hitbox.addLayer('monster');
 		this.hitbox.addMask(
 			'player',
 			new Action('hurtplayer', (source, target) => {
+				console.log('collision');
 				target.hurt(1);
+				target.knockback = source.pos
+					.to(target.pos)
+					.normalize()
+					.multiply(this.knockback_speed);
 			})
 		);
 		this.name = 'monster';
