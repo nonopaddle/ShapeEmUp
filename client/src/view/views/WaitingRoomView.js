@@ -31,7 +31,6 @@ export class WaitingRoomView extends View {
 			const ctx = canvas.getContext('2d');
 			datas.draw(
 				ctx,
-				{ x: 1, y: 1 },
 				{ x: canvas.width / 2, y: canvas.height / 2 },
 				50,
 				-Math.PI / 2

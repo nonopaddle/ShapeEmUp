@@ -42,39 +42,46 @@ export class Renderer {
 				if (entity.name == undefined) return;
 				switch (entity.type) {
 					case 'player':
-						const avatar = Object.values(avatarsList).filter(
-							avatar => avatar.owner == entity.name
-						)[0];
-						avatar.draw(
-							this.context,
-							{ x: this.w_ratio, y: this.h_ratio },
-							entity.origin,
-							entity.radius,
-							-entity.angle,
-							entity.maxHP,
-							entity.HP
-						);
+						this.context.scale(this.w_ratio, this.h_ratio);
+						Object.values(avatarsList)
+							.filter(avatar => avatar.owner == entity.name)[0]
+							.draw(
+								this.context,
+								entity.origin,
+								entity.radius,
+								-entity.angle,
+								entity.maxHP,
+								entity.HP
+							);
 						break;
 					case 'bullet':
-						const bullet = bulletsList[entity.name];
-						const color = Object.values(avatarsList).filter(
-							avatar => avatar.owner == entity.owner
-						)[0].color;
-						bullet.draw(this.context, entity.origin, entity.radius, color);
+						this.context.scale(this.w_ratio, this.h_ratio);
+						bulletsList[entity.name].draw(
+							this.context,
+							entity.origin,
+							entity.radius,
+							Object.values(avatarsList).filter(
+								avatar => avatar.owner == entity.owner
+							)[0].color
+						);
 						break;
 					case 'weapon':
-						const weapon = weapons[entity.name];
-						weapon.draw(this.context, entity.origin, entity.radius);
+						this.context.scale(this.w_ratio, this.h_ratio);
+						weapons[entity.name].draw(
+							this.context,
+							entity.origin,
+							entity.radius
+						);
 						break;
 					case 'monster':
-						const monster = monsters[entity.name];
-						monster.draw(
+						monsters[entity.name].draw(
 							this.context,
 							entity.origin,
 							entity.radius,
 							entity.maxHP,
 							entity.HP
 						);
+						break;
 					default:
 						break;
 				}
@@ -89,31 +96,15 @@ export class Renderer {
 			let window_ratio = maxWidth / maxHeight;
 			let game_ratio = gameSize.x / gameSize.y;
 
-			if (game_ratio >= 1) {
-				if (window_ratio >= game_ratio) {
-					this.canvas.height = maxHeight;
-					this.canvas.width = maxWidth / game_ratio;
-					this.w_ratio = this.canvas.width / gameSize.x;
-					this.h_ratio = maxHeight / gameSize.y;
-				} else {
-					this.canvas.width = maxWidth;
-					this.canvas.height = maxHeight / game_ratio;
-					this.w_ratio = maxWidth / gameSize.x;
-					this.h_ratio = this.canvas.height / gameSize.y;
-				}
+			if (window_ratio >= game_ratio) {
+				this.canvas.height = maxHeight;
+				this.canvas.width = maxHeight * game_ratio;
 			} else {
-				if (window_ratio < game_ratio) {
-					this.canvas.width = maxWidth;
-					this.canvas.height = maxHeight / game_ratio;
-					this.w_ratio = maxWidth / gameSize.x;
-					this.h_ratio = this.canvas.height / gameSize.y;
-				} else {
-					this.canvas.height = maxHeight;
-					this.canvas.width = maxWidth / game_ratio;
-					this.w_ratio = this.canvas.width / gameSize.x;
-					this.h_ratio = maxHeight / gameSize.y;
-				}
+				this.canvas.width = maxWidth;
+				this.canvas.height = maxWidth / game_ratio;
 			}
+			this.w_ratio = this.canvas.width / gameSize.x;
+			this.h_ratio = this.canvas.height / gameSize.y;
 		});
 
 		Connection.socket.on('update-entities', entities => {
