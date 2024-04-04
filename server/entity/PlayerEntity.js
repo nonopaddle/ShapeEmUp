@@ -1,5 +1,4 @@
 import { LivingEntity } from './LivingEntity.js';
-import { ProjectileEntity } from './ProjectileEntity.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 import { Action } from './action/Action.js';
@@ -91,7 +90,6 @@ export class PlayerEntity extends LivingEntity {
 				element.update();
 			}
 		});
-		//this.shoot_passive();
 		this.cooldown -= 1;
 		this.move(gameArea.delta, gameArea.friction);
 		this.apply_impulse_vector(this.move_vector);
@@ -112,6 +110,19 @@ export class PlayerEntity extends LivingEntity {
 			}
 		}
 		this.shoot_passive();
+	}
+
+	apply_velocity() {
+		const nextPos = Vector2.sum([this.pos, this.velocity]);
+		if (nextPos.x - this.radius < 0)
+			this.velocity.x -= this.pos.x - this.radius;
+		if (nextPos.y - this.radius < 0)
+			this.velocity.y -= this.pos.y - this.radius;
+		if (nextPos.x + this.radius > gameArea.maxSize.x)
+			this.velocity.x += gameArea.maxSize.x - nextPos.x - this.radius;
+		if (nextPos.y + this.radius > gameArea.maxSize.y)
+			this.velocity.y += gameArea.maxSize.y - nextPos.y - this.radius;
+		this.apply_vector_once(this.velocity);
 	}
 
 	move(delta, friction) {

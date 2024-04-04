@@ -12,6 +12,7 @@ export class ProjectileEntity extends DynamicEntity {
 		this.owner = datas.owner;
 		this.penetration = datas.penetration;
 		this.trajectory = new Vector2(0, 0);
+		this.knockback_speed = datas.knockback_speed;
 		this.cooldown = 1;
 		this.hitbox.addLayer('bullet');
 		this.hitbox.addMask(
@@ -21,6 +22,11 @@ export class ProjectileEntity extends DynamicEntity {
 					source.entityShot[target] == undefined ||
 					source.entityShot[target] <= 0
 				) {
+					target.knockback = source.owner.pos
+						.to(target.pos)
+						.normalize()
+						.multiply(this.knockback_speed);
+
 					if (target.hurt(source.damage)) {
 						source.owner.xp += target.difficulty;
 					}

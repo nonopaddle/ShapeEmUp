@@ -1,5 +1,5 @@
 import { View, setNavigationToHref } from './View.js';
-import { avatarsList, bulletsList } from '../rendering/textures.js';
+import { avatarsList } from '../rendering/textures.js';
 import Connection from '../../Connection.js';
 import { Router } from './Router.js';
 import { Renderer } from '../rendering/Renderer.js';
