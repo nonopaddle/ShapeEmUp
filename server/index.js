@@ -6,7 +6,6 @@ import gameArea from './GameArea.js';
 import { PlayerEntity } from './entity/PlayerEntity.js';
 import { WeaponEntity } from './entity/WeaponEntity.js';
 import { weaponList } from './weapons/WeaponList.js';
-import { SpawnerEntity } from './entity/SpawnerEntity.js';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -119,6 +118,8 @@ io.on('connection', socket => {
 		});
 	});
 });
+
+gameArea.set_io(io);
 
 Array.prototype.removeIf = function (callback) {
 	let i = this.length;

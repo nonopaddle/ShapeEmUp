@@ -55,10 +55,11 @@ body > section {
     background-color: lightyellow;
 }
 
-.active .canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
+.main-game.active {
+    display: flex;
+    justify-content: center;
+}
+.canvas {
     background-image:radial-gradient(darkcyan, black);
 }
 

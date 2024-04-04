@@ -1,4 +1,5 @@
 import Connection from '../../Connection.js';
+import { MouseControls } from '../../controller/MouseControls.js';
 import { avatarsList, bulletsList, monsters, weapons } from './textures.js';
 
 export class Renderer {
@@ -96,13 +97,24 @@ export class Renderer {
 			let window_ratio = maxWidth / maxHeight;
 			let game_ratio = gameSize.x / gameSize.y;
 
-			if (window_ratio >= game_ratio) {
-				this.canvas.height = maxHeight;
-				this.canvas.width = maxHeight * game_ratio;
+			if (game_ratio >= 1) {
+				if (window_ratio >= game_ratio) {
+					this.canvas.height = maxHeight;
+					this.canvas.width = maxHeight * game_ratio;
+				} else {
+					this.canvas.height = maxWidth / game_ratio;
+					this.canvas.width = maxWidth;
+				}
 			} else {
-				this.canvas.width = maxWidth;
-				this.canvas.height = maxWidth / game_ratio;
+				if (window_ratio < game_ratio) {
+					this.canvas.height = maxWidth / game_ratio;
+					this.canvas.width = maxWidth;
+				} else {
+					this.canvas.height = maxHeight;
+					this.canvas.width = maxHeight * game_ratio;
+				}
 			}
+
 			this.w_ratio = this.canvas.width / gameSize.x;
 			this.h_ratio = this.canvas.height / gameSize.y;
 		});

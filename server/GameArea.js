@@ -1,9 +1,8 @@
-import { io } from './index.js';
 import { Vector2 } from './math/Vector2.js';
 
 class GameArea {
 	//maxSize = new Vector2(1530, 700);
-	maxSize = new Vector2(3000, 1600);
+	maxSize = new Vector2(600, 700);
 	difficulty = 1;
 	entities = [];
 	delta = 16 / 1000;
@@ -30,12 +29,16 @@ class GameArea {
 	tick_event() {
 		console.log(this.entities.length);
 		this.entities.forEach(entity => entity.update());
-		this.send_entitiesDatas();
+		if (this.io != undefined) this.send_entitiesDatas();
 	}
 
 	get_players() {
 		const players = this.entities.filter(entity => entity.type == 'player');
 		return players;
+	}
+
+	set_io(io) {
+		this.io = io;
 	}
 
 	send_entitiesDatas() {
@@ -51,7 +54,7 @@ class GameArea {
 				HP: entity.HP,
 			};
 		});
-		io.emit('update-entities', datas);
+		this.io.emit('update-entities', datas);
 	}
 }
 

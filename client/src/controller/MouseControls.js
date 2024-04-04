@@ -1,4 +1,5 @@
-import Connection from "../Connection.js";
+import Connection from '../Connection.js';
+import { Renderer } from '../view/rendering/Renderer.js';
 
 export class MouseControls {
 	static canvas;
@@ -15,19 +16,18 @@ export class MouseControls {
 			target[prop] = value;
 			Connection.socket.emit('MouseControlsEvent', target);
 			return true;
-		}
-	}
+		},
+	};
 	static #coordsHandler = {
 		set(target, prop, value) {
 			target[prop] = value;
 			Connection.socket.emit('MouseCoordsEvent', target);
 			return true;
-		}
-	}
+		},
+	};
 
 	static proxyControls = new Proxy(this.#controls, this.#controlsHandler);
 	static proxyCoords = new Proxy(this.#coords, this.#coordsHandler);
-	
 
 	static init(canvas) {
 		this.canvas = canvas;
@@ -42,9 +42,9 @@ export class MouseControls {
 		);
 		this.canvas.addEventListener('mousemove', e => {
 			this.proxyCoords.x =
-				e.clientX - this.canvas.getBoundingClientRect().left;
+				(e.clientX - this.canvas.offsetLeft) / Renderer.w_ratio;
 			this.proxyCoords.y =
-				e.clientY - this.canvas.getBoundingClientRect().top;
+				(e.clientY - this.canvas.offsetTop) / Renderer.h_ratio;
 		});
 	}
 
