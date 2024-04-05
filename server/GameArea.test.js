@@ -26,27 +26,50 @@ describe('GameArea tests', () => {
 		assert.strictEqual(15, gameArea.entities[1].radius);
 	});
 	it('must have playerproof boundaries', () => {
-		const player = new PlayerEntity({
+		const p1 = new PlayerEntity({
 			pos: { x: 120, y: 130 },
 			radius: 25,
 		});
-		gameArea.add_entity(player);
-		assert.strictEqual(120, player.pos.x);
-		assert.strictEqual(130, player.pos.y);
+		gameArea.add_entity(p1);
+		assert.strictEqual(120, p1.pos.x);
+		assert.strictEqual(130, p1.pos.y);
 
-		player.apply_vector_once(new Vector2(-200, 0));
-		player.update();
-		assert.strictEqual(25, player.pos.x);
-		assert.strictEqual(130, player.pos.y);
+		p1.apply_vector_once(new Vector2(-200, 0));
+		p1.update();
+		assert.strictEqual(25, p1.pos.x);
+		assert.strictEqual(130, p1.pos.y);
 
-		player.apply_vector_once(new Vector2(0, -200));
-		player.update();
-		assert.strictEqual(25, player.pos.x);
-		assert.strictEqual(25, player.pos.y);
+		p1.apply_vector_once(new Vector2(0, -200));
+		p1.update();
+		assert.strictEqual(25, p1.pos.x);
+		assert.strictEqual(25, p1.pos.y);
 
-		player.apply_vector_once(new Vector2(-200, -200));
-		player.update();
-		assert.strictEqual(25, player.pos.x);
-		assert.strictEqual(25, player.pos.y);
+		p1.apply_vector_once(new Vector2(-200, -200));
+		p1.update();
+		assert.strictEqual(25, p1.pos.x);
+		assert.strictEqual(25, p1.pos.y);
+
+		const p2 = new PlayerEntity({
+			pos: { x: gameArea.maxSize.x - 120, y: gameArea.maxSize.y - 130 },
+			radius: 25,
+		});
+		gameArea.add_entity(p2);
+		assert.strictEqual(gameArea.maxSize.x - 120, p2.pos.x);
+		assert.strictEqual(gameArea.maxSize.y - 130, p2.pos.y);
+
+		p2.apply_vector_once(new Vector2(200, 0));
+		p2.update();
+		assert.strictEqual(gameArea.maxSize.x - 25, p2.pos.x);
+		assert.strictEqual(gameArea.maxSize.y - 130, p2.pos.y);
+
+		p2.apply_vector_once(new Vector2(0, 200));
+		p2.update();
+		assert.strictEqual(gameArea.maxSize.x - 25, p2.pos.x);
+		assert.strictEqual(gameArea.maxSize.y - 25, p2.pos.y);
+
+		p2.apply_vector_once(new Vector2(200, 200));
+		p2.update();
+		assert.strictEqual(gameArea.maxSize.x - 25, p2.pos.x);
+		assert.strictEqual(gameArea.maxSize.y - 25, p2.pos.y);
 	});
 });

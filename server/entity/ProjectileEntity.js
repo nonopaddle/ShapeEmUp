@@ -22,10 +22,11 @@ export class ProjectileEntity extends DynamicEntity {
 					source.entityShot[target] == undefined ||
 					source.entityShot[target] <= 0
 				) {
-					target.knockback = source.owner.pos
-						.to(target.pos)
-						.normalize()
-						.multiply(this.knockback_speed);
+					if (source.owner != undefined)
+						target.knockback = source.owner.pos
+							.to(target.pos)
+							.normalize()
+							.multiply(this.knockback_speed);
 
 					if (target.hurt(source.damage)) {
 						source.owner.xp += target.difficulty;

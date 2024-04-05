@@ -12,7 +12,7 @@ export class LivingEntity extends DynamicEntity {
 	}
 
 	update() {
-		this.knockback_decrease(gameArea.delta, gameArea.friction);
+		this.knockback_decrease(gameArea.delta);
 		this.apply_impulse_vector(this.knockback);
 		super.update();
 		if (this.HP <= 0) {
@@ -33,7 +33,7 @@ export class LivingEntity extends DynamicEntity {
 		});
 	}
 
-	knockback_decrease(delta, friction) {
+	knockback_decrease(delta) {
 		if (this.knockback.distance() > delta * this.knockback_friction) {
 			this.knockback.substract(
 				this.knockback.normalize().multiply(delta * this.knockback_friction)
