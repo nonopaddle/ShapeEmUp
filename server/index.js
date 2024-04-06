@@ -97,26 +97,6 @@ io.on('connection', socket => {
 		}
 	});
 
-	socket.on('getEntities-from-client', () => {
-		const datas = gameArea.entities.map(entity => {
-			return {
-				origin: { x: entity.pos.x, y: entity.pos.y },
-				radius: entity.radius,
-				angle: entity.angle,
-				name: entity.name,
-				type: entity.type,
-				owner: entity.owner.name,
-				maxHP: entity.maxHP,
-				HP: entity.HP,
-			};
-		});
-		socket.emit('getEntities-from-server', datas);
-	});
-
-	socket.on('getTime-from-client', () => {
-		socket.emit('getTime-from-server', gameArea.time);
-	});
-
 	socket.on('selection avatar', datas => {
 		const { avatar, playerNickname } = datas;
 		console.log(`${playerNickname} a selectionné l'avatar ${avatar}`);
@@ -128,13 +108,6 @@ io.on('connection', socket => {
 			avatarsAssociation[avatar] = playerNickname;
 		}
 		io.emit('avatar selection update', avatarsAssociation);
-	});
-
-	socket.on('getGameSize-from-client', () => {
-		socket.emit('getGameSize-from-server', {
-			x: gameArea.maxSize.x,
-			y: gameArea.maxSize.y,
-		});
 	});
 });
 

@@ -41,7 +41,10 @@ class GameArea {
 		this.entities.forEach(entity => entity.update());
 		this.time += this.delta;
 		if (this.no_players_left() || this.time_is_up()) this.stop_loop();
-		if (this.io != undefined) this.send_entitiesDatas();
+		if (this.io != undefined) {
+			this.send_entitiesDatas();
+			this.send_current_time();
+		}
 	}
 
 	get_players() {
@@ -79,6 +82,10 @@ class GameArea {
 			};
 		});
 		this.io.emit('update-entities', datas);
+	}
+
+	send_current_time() {
+		this.io.emit('getTime-from-server', this.time);
 	}
 }
 

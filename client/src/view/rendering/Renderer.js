@@ -4,6 +4,7 @@ import { avatarsList, bulletsList, monsters, weapons } from './textures.js';
 
 export class Renderer {
 	static #entities;
+	static time;
 	static canvas;
 	static context;
 	static #reqAnim;
@@ -39,8 +40,6 @@ export class Renderer {
 	}
 
 	static #renderEntities() {
-		Connection.socket.emit('getEntities-from-client');
-		console.log(this.#entities);
 		if (this.#entities != undefined)
 			this.#entities.forEach(entity => {
 				if (entity.name == undefined) return;
@@ -96,7 +95,14 @@ export class Renderer {
 	}
 
 	static #renderTime() {
-		Connection.socket.emit('getTime-from-client');
+		this.context.font = '30px Arial';
+		this.context.fillStyle = 'white';
+		const sec = Math.floor(this.time) % 60;
+		this.context.fillText(
+			`${Math.floor(Math.floor(this.time) / 60)}:${sec < 10 ? `0${sec}` : sec}`,
+			500,
+			100
+		);
 	}
 
 	static initConnectionToRenderer() {
@@ -111,22 +117,12 @@ export class Renderer {
 			let window_ratio = maxWidth / maxHeight;
 			let game_ratio = gameSize.x / gameSize.y;
 
-			if (game_ratio >= 1) {
-				if (window_ratio >= game_ratio) {
-					this.canvas.height = maxHeight;
-					this.canvas.width = maxHeight * game_ratio;
-				} else {
-					this.canvas.height = maxWidth / game_ratio;
-					this.canvas.width = maxWidth;
-				}
+			if (window_ratio >= game_ratio) {
+				this.canvas.height = maxHeight;
+				this.canvas.width = maxHeight * game_ratio;
 			} else {
-				if (window_ratio < game_ratio) {
-					this.canvas.height = maxWidth / game_ratio;
-					this.canvas.width = maxWidth;
-				} else {
-					this.canvas.height = maxHeight;
-					this.canvas.width = maxHeight * game_ratio;
-				}
+				this.canvas.height = maxWidth / game_ratio;
+				this.canvas.width = maxWidth;
 			}
 
 			this.w_ratio = this.canvas.width / gameSize.x;
@@ -136,24 +132,7 @@ export class Renderer {
 			this.#entities = entities;
 		});
 		Connection.socket.on('getTime-from-server', time => {
-			this.context.font = '30px Arial';
-			this.context.fillStyle = 'white';
-			const sec = Math.floor(time) % 60;
-			this.context.fillText(
-				`${Math.floor(Math.floor(time) / 60)}:${sec < 10 ? `0${sec}` : sec}`,
-				500,
-				100
-			);
-		});
-		Connection.socket.on('getTime-from-server', time => {
-			this.context.font = '30px Arial';
-			this.context.fillStyle = 'white';
-			const sec = Math.floor(time) % 60;
-			this.context.fillText(
-				`${Math.floor(Math.floor(time) / 60)}:${sec < 10 ? `0${sec}` : sec}`,
-				500,
-				100
-			);
+			this.time = time;
 		});
 	}
 }
