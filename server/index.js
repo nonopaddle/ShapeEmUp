@@ -24,7 +24,7 @@ addWebpackMiddleware(app);
 
 app.use(express.static('client/public'));
 
-const players = [];
+export const players = [];
 const maxPlayers = 4;
 
 const avatarsAssociation = {
@@ -42,7 +42,6 @@ io.on('connection', socket => {
 	}
 
 	const datas = socket.handshake.query;
-	console.log(players.map(player => player.handshake.query.nickname));
 	if (
 		players.filter(player => player.handshake.query.nickname == datas.nickname)
 			.length != 0
@@ -71,7 +70,6 @@ io.on('connection', socket => {
 		io.emit('avatar selection update', avatarsAssociation);
 		console.log(`${datas.nickname} s'est déconnecté(e)`);
 		console.log(players);
-		if (players.length == 0) gameArea.stop_loop();
 	});
 
 	socket.on('difficulty change', newDifficulty => {
@@ -97,6 +95,26 @@ io.on('connection', socket => {
 			console.log('launch success');
 			io.emit('launch success');
 		}
+	});
+
+	socket.on('getEntities-from-client', () => {
+		const datas = gameArea.entities.map(entity => {
+			return {
+				origin: { x: entity.pos.x, y: entity.pos.y },
+				radius: entity.radius,
+				angle: entity.angle,
+				name: entity.name,
+				type: entity.type,
+				owner: entity.owner.name,
+				maxHP: entity.maxHP,
+				HP: entity.HP,
+			};
+		});
+		socket.emit('getEntities-from-server', datas);
+	});
+
+	socket.on('getTime-from-client', () => {
+		socket.emit('getTime-from-server', gameArea.time);
 	});
 
 	socket.on('selection avatar', datas => {

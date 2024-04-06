@@ -1,7 +1,18 @@
+import Connection from '../../Connection.js';
+import { Router } from './Router.js';
 import { View } from './View.js';
 
 export class MainGameView extends View {
 	constructor(element) {
 		super(element);
+	}
+
+	static initConnectionToEndScreen() {
+		Connection.socket.on('game-end', score => {
+			console.log(score);
+			const scoreText = document.querySelector('.score');
+			scoreText.innerHTML = `Votre score est de ${score}`;
+			Router.navigate('/end-screen');
+		});
 	}
 }

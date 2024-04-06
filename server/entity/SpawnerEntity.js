@@ -2,7 +2,6 @@ import { Entity } from './Entity.js';
 import { MonsterEntity } from './MonsterEntity.js';
 import gameArea from '../GameArea.js';
 import { randInt } from '../math/MathUtils.js';
-import { difficulty } from '../Difficulty.js';
 
 export class SpawnerEntity extends Entity {
 	static monsterNb = 0;
@@ -38,7 +37,7 @@ export class SpawnerEntity extends Entity {
 			speedMult: 10 - randMult,
 			damage: 5,
 			color: 'red',
-			difficulty: difficulty.normal,
+			difficulty: gameArea.difficulty,
 		};
 		const players = gameArea.get_players();
 		const playerAgro = players[randInt(0, players.length - 1)];

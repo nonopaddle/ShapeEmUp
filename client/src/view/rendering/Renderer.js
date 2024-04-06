@@ -26,18 +26,20 @@ export class Renderer {
 		if (this.context == undefined) throw new Error('context is null !');
 		this.clear();
 		this.#renderEntities();
+		this.#renderTime();
 		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
 	}
 
 	static stop_rendering() {
 		window.cancelAnimationFrame(this.#reqAnim);
-		console.log('stopped rendering');
 	}
+
 	static clear() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	static #renderEntities() {
+		Connection.socket.emit('getEntities-from-client');
 		console.log(this.#entities);
 		if (this.#entities != undefined)
 			this.#entities.forEach(entity => {
@@ -93,7 +95,15 @@ export class Renderer {
 			});
 	}
 
+	static #renderTime() {
+		Connection.socket.emit('getTime-from-client');
+	}
+
 	static initConnectionToRenderer() {
+		Connection.socket.on('getEntities-from-server', entities => {
+			this.clear();
+			this.#entities = entities;
+		});
 		Connection.socket.on('getGameSize-from-server', gameSize => {
 			const maxWidth = window.innerWidth;
 			const maxHeight = window.innerHeight;
@@ -122,9 +132,28 @@ export class Renderer {
 			this.w_ratio = this.canvas.width / gameSize.x;
 			this.h_ratio = this.canvas.height / gameSize.y;
 		});
-
 		Connection.socket.on('update-entities', entities => {
 			this.#entities = entities;
+		});
+		Connection.socket.on('getTime-from-server', time => {
+			this.context.font = '30px Arial';
+			this.context.fillStyle = 'white';
+			const sec = Math.floor(time) % 60;
+			this.context.fillText(
+				`${Math.floor(Math.floor(time) / 60)}:${sec < 10 ? `0${sec}` : sec}`,
+				500,
+				100
+			);
+		});
+		Connection.socket.on('getTime-from-server', time => {
+			this.context.font = '30px Arial';
+			this.context.fillStyle = 'white';
+			const sec = Math.floor(time) % 60;
+			this.context.fillText(
+				`${Math.floor(Math.floor(time) / 60)}:${sec < 10 ? `0${sec}` : sec}`,
+				500,
+				100
+			);
 		});
 	}
 }
