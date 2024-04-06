@@ -140,3 +140,36 @@ body > section {
     background-color: lightskyblue;
     color: white;
 }
+
+.credits .members-container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+.credits .member{
+    margin: 10px;
+    padding: 10px;
+    border: solid 2px lightskyblue;
+    border-radius: 20px;
+}
+
+.credits .name {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 2em;
+}
+
+.credits .alias {
+    text-align: center;
+    margin-top: 0;
+    font-size: 0.9em;
+    color: darkgray;
+}
+
+.credits .group, .fav-game, .note-claim {
+    color: lightskyblue;
+}
+.credits a {
+    margin: auto;
+}
