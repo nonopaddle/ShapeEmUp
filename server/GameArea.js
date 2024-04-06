@@ -1,5 +1,4 @@
 import { difficulty } from './Difficulty.js';
-import { players, io } from './index.js';
 
 import { Vector2 } from './math/Vector2.js';
 
