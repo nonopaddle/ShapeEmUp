@@ -38,6 +38,7 @@ export class Renderer {
 	}
 
 	static #renderEntities() {
+		console.log(this.#entities);
 		if (this.#entities != undefined)
 			this.#entities.forEach(entity => {
 				if (entity.name == undefined) return;
@@ -45,14 +46,16 @@ export class Renderer {
 					case 'player':
 						this.context.scale(this.w_ratio, this.h_ratio);
 						Object.values(avatarsList)
-							.filter(avatar => avatar.owner == entity.name)[0]
-							.draw(
-								this.context,
-								entity.origin,
-								entity.radius,
-								-entity.angle,
-								entity.maxHP,
-								entity.HP
+							.filter(avatar => avatar.owner == entity.name)
+							.map(avatar =>
+								avatar.draw(
+									this.context,
+									entity.origin,
+									entity.radius,
+									-entity.angle,
+									entity.maxHP,
+									entity.HP
+								)
 							);
 						break;
 					case 'bullet':
@@ -61,9 +64,9 @@ export class Renderer {
 							this.context,
 							entity.origin,
 							entity.radius,
-							Object.values(avatarsList).filter(
-								avatar => avatar.owner == entity.owner
-							)[0].color
+							Object.values(avatarsList)
+								.filter(avatar => avatar.owner == entity.owner)
+								.map(avatar => avatar.color)
 						);
 						break;
 					case 'weapon':

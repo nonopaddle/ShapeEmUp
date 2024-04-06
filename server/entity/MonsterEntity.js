@@ -12,7 +12,6 @@ export class MonsterEntity extends LivingEntity {
 		this.hitbox.addMask(
 			'player',
 			new Action('hurtplayer', (source, target) => {
-				console.log('collision');
 				target.hurt(1);
 				target.knockback = source.pos
 					.to(target.pos)
