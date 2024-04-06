@@ -141,6 +141,36 @@ body > section {
     color: white;
 }
 
+.scores .scores-tab {
+    margin: 10px auto;
+    border: solid 2px lightskyblue;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.scores .scores-tab tr *{
+    font-size: 1.5em;
+}
+
+.scores .scores-tab th{
+    color: lightskyblue;
+}
+
+.scores .scores-tab td{
+    color: darkgray;
+}
+
+.scores .scores-tab tr *:first-child {
+    text-align: left;
+}
+.scores .scores-tab tr *:last-child {
+    text-align: right;
+} 
+
+.scores a {
+    margin: auto;
+}
+
 .credits .members-container {
     margin: 0 auto;
     display: flex;

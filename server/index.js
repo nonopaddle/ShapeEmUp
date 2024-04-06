@@ -10,6 +10,7 @@ import { SpawnerEntity } from './entity/SpawnerEntity.js';
 
 const app = express();
 const httpServer = http.createServer(app);
+const fileOptions = { root: process.cwd() };
 
 process.on('uncaughtException', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
@@ -23,6 +24,10 @@ httpServer.listen(port, () => {
 addWebpackMiddleware(app);
 
 app.use(express.static('client/public'));
+
+app.get('/scores', (req, res) => {
+	res.sendFile('server/datas/scores.json', fileOptions);
+});
 
 const players = [];
 const maxPlayers = 4;
