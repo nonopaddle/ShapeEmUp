@@ -2,9 +2,10 @@ import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
 import { Action } from './action/Action.js';
 import { Vector2 } from '../math/Vector2.js';
+import { weaponType } from '../weapons/WeaponType.js';
 
 export class ProjectileEntity extends DynamicEntity {
-	entityShot = new Map();
+	memory = new Map();
 
 	constructor(datas) {
 		super(datas);
@@ -18,10 +19,8 @@ export class ProjectileEntity extends DynamicEntity {
 		this.hitbox.addMask(
 			'monster',
 			new Action('monsterColision', (source, target) => {
-				if (
-					source.entityShot[target] == undefined ||
-					source.entityShot[target] <= 0
-				) {
+				if (source.memory[target] == undefined || source.memory[target] <= 0) {
+					console.log('collision');
 					if (source.owner != undefined)
 						target.knockback = source.owner.pos
 							.to(target.pos)
@@ -31,12 +30,13 @@ export class ProjectileEntity extends DynamicEntity {
 					if (target.hurt(source.damage)) {
 						gameArea.add_score(5);
 					}
-					if (source.penetration != 0) {
+					if (source.penetration < 0) return;
+					if (source.penetration > 0) {
 						source.penetration -= 1;
-						source.entityShot[target] = source.cooldown;
-					} else {
-						source.die();
+						source.memory[target] = source.cooldown;
+						return;
 					}
+					source.die();
 				}
 			})
 		);
@@ -45,13 +45,15 @@ export class ProjectileEntity extends DynamicEntity {
 	}
 
 	update() {
-		this.ttl -= 1;
-		if (this.ttl == 0) {
-			this.die();
-			return;
+		if (this.ttl > 0) {
+			this.ttl -= 1;
+			if (this.ttl == 0) {
+				this.die();
+				return;
+			}
 		}
-		this.entityShot.forEach((value, key) => {
-			this.entityShot[key] -= 1;
+		this.memory.forEach((value, key) => {
+			this.memory[key] -= 1;
 		});
 		this.move();
 		super.update();
@@ -63,7 +65,12 @@ export class ProjectileEntity extends DynamicEntity {
 	}
 
 	move() {
-		this.apply_impulse_vector(this.trajectory);
+		if (this.speedMult == -1) {
+			this.pos.x = this.owner.pos.x;
+			this.pos.y = this.owner.pos.y;
+		} else {
+			this.apply_impulse_vector(this.trajectory);
+		}
 	}
 
 	die() {

@@ -48,6 +48,7 @@ export class PlayerEntity extends LivingEntity {
 					target.weapon.owner = source;
 					source.weapons.passive = new Weapon(target.weapon);
 					target.die();
+					source.shoot_passive();
 				} else if (
 					source.weapons.ultimate == weaponList.null &&
 					target.weapon.type == weaponType.ultimate
@@ -104,7 +105,6 @@ export class PlayerEntity extends LivingEntity {
 				this.shoot(2);
 			}
 		}
-		this.shoot_passive();
 	}
 
 	apply_velocity() {
