@@ -1,5 +1,4 @@
 import { LivingEntity } from './LivingEntity.js';
-import { ProjectileEntity } from './ProjectileEntity.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 import { Action } from './action/Action.js';
@@ -91,16 +90,10 @@ export class PlayerEntity extends LivingEntity {
 				element.update();
 			}
 		});
-		//this.shoot_passive();
 		this.cooldown -= 1;
 		this.move(gameArea.delta, gameArea.friction);
 		this.apply_impulse_vector(this.move_vector);
 		super.update();
-		/*if (this.xp >= this.xpToLevelUp) {
-			this.level += 1;
-			this.xp -= this.xpToLevelUp;
-			this.xpToLevelUp += 10;
-		}*/
 
 		if (this.cooldown <= 0) {
 			if (this.mouseState.left) {

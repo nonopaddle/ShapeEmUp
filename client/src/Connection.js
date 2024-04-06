@@ -17,10 +17,10 @@ export default class Connection {
 		this.socket.on('disconnect', () => {
 			Router.navigate('/main-menu');
 		});
+		Renderer.initConnectionToRenderer();
 		WaitingRoomView.initConnectionToWaitingRoom();
 		MainGameView.initConnectionToEndScreen();
-		EndScreenView.initEndButtonDisconnection();
-		Renderer.initConnectionToRenderer();
+		EndScreenView.initEndScreen();
 	}
 
 	static disconnect() {

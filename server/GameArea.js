@@ -1,7 +1,9 @@
+import { difficulty } from './Difficulty.js';
 import { players, io } from './index.js';
 
 class GameArea {
-	difficulty = 1;
+	difficulty = difficulty.normal;
+	score = 0;
 	entities = [];
 	delta = 16 / 1000;
 	friction = 400;
@@ -21,9 +23,9 @@ class GameArea {
 	}
 
 	stop_loop() {
-		//players.forEach(player => player.disconnect());
-		io.emit('game-end');
+		io.emit('game-end', this.score);
 		clearInterval(this.#main_loop);
+		this.score = 0;
 		console.log('loop stopped');
 	}
 
@@ -49,6 +51,10 @@ class GameArea {
 
 	time_is_up() {
 		return this.time >= 60 * 5;
+	}
+
+	add_score(score) {
+		this.score += this.difficulty * score;
 	}
 }
 

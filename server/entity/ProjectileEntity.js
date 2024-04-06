@@ -22,7 +22,7 @@ export class ProjectileEntity extends DynamicEntity {
 					source.entityShot[target] <= 0
 				) {
 					if (target.hurt(source.damage)) {
-						//source.owner.xp += target.difficulty;
+						gameArea.add_score(5);
 					}
 					if (source.penetration != 0) {
 						source.penetration -= 1;

@@ -6,7 +6,7 @@ export class EndScreenView extends View {
 		super(element);
 	}
 
-	static initEndButtonDisconnection() {
+	static initEndScreen() {
 		const endButton = document.querySelector('.endButton');
 		endButton.addEventListener('click', () => {
 			Connection.disconnect();
