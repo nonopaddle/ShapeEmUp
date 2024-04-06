@@ -11,6 +11,7 @@ import { Vector2 } from './math/Vector2.js';
 
 const app = express();
 const httpServer = http.createServer(app);
+const fileOptions = { root: process.cwd() };
 
 process.on('uncaughtException', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
@@ -25,7 +26,11 @@ addWebpackMiddleware(app);
 
 app.use(express.static('client/public'));
 
-export const players = [];
+app.get('/scores', (req, res) => {
+	res.sendFile('server/datas/scores.json', fileOptions);
+});
+
+const players = [];
 const maxPlayers = 4;
 
 const avatarsAssociation = {
