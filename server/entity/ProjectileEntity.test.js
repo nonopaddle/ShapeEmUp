@@ -16,7 +16,7 @@ describe('Projectile entity tests', () => {
 			speedMult: 0,
 			friendly: true,
 			damage: 2,
-			penetration: -1,
+			penetration: 1,
 			color: 'blue',
 			ttl: 2000,
 		};

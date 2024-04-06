@@ -25,18 +25,13 @@ class GameArea {
 	}
 
 	stop_loop() {
-		io.emit('game-end', this.score);
+		if (this.io != undefined) this.io.emit('game-end', this.score);
 		clearInterval(this.#main_loop);
 		this.score = 0;
 		console.log('loop stopped');
 	}
 
 	tick_event() {
-		let consolePlayers = '';
-		players.forEach(player => {
-			consolePlayers += player.handshake.query.nickname + ' ';
-		});
-		console.log('players: ' + consolePlayers);
 		this.entities.forEach(entity => entity.update());
 		this.time += this.delta;
 		if (this.no_players_left() || this.time_is_up()) this.stop_loop();
