@@ -2,7 +2,6 @@ import { DynamicEntity } from './DynamicEntity.js';
 import gameArea from '../GameArea.js';
 import { Action } from './action/Action.js';
 import { Vector2 } from '../math/Vector2.js';
-import { weaponType } from '../weapons/WeaponType.js';
 
 export class ProjectileEntity extends DynamicEntity {
 	memory = new Map();
@@ -28,7 +27,7 @@ export class ProjectileEntity extends DynamicEntity {
 							.multiply(this.knockback_speed);
 
 					if (target.hurt(source.damage)) {
-						gameArea.add_score(5);
+						gameArea.add_score(source.owner.name, 5);
 					}
 					if (source.penetration < 0) return;
 					if (source.penetration > 0) {

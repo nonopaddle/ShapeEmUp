@@ -8,8 +8,11 @@ export class MainGameView extends View {
 	}
 
 	static initConnectionToEndScreen() {
-		Connection.socket.on('game-end', score => {
-			console.log(score);
+		Connection.socket.on('game-end', scores => {
+			const score = scores
+				.filter(score => score.name == sessionStorage.getItem('nickname'))
+				.map(score => score.pts);
+			console.log(scores);
 			const scoreText = document.querySelector('.score');
 			scoreText.innerHTML = `Votre score est de ${score}`;
 			Router.navigate('/end-screen');
