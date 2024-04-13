@@ -59,9 +59,6 @@ body > section {
     display: flex;
     justify-content: center;
 }
-.canvas {
-    background-image:radial-gradient(darkcyan, black);
-}
 
 .avatars-list {
     width: 500px;

@@ -1,3 +1,4 @@
+import { lerp } from '../../../../server/math/MathUtils.js';
 import Connection from '../../Connection.js';
 import { MouseControls } from '../../controller/MouseControls.js';
 import { avatarsList, bulletsList, monsters, weapons } from './textures.js';
@@ -193,10 +194,23 @@ export class Renderer {
 						entity.name == sessionStorage.getItem('nickname')
 				)
 				.map(entity => {
-					this.cameraOffset = {
-						x: entity.origin.x - this.canvas.width / 2,
-						y: entity.origin.y - this.canvas.height / 2,
-					};
+					if (this.cameraOffset == undefined) {
+						this.cameraOffset = {
+							x: entity.origin.x - this.canvas.width / 2,
+							y: entity.origin.y - this.canvas.height / 2,
+						};
+					} else {
+						this.cameraOffset.x = lerp(
+							this.cameraOffset.x,
+							entity.origin.x - this.canvas.width / 2,
+							0.2
+						);
+						this.cameraOffset.y = lerp(
+							this.cameraOffset.y,
+							entity.origin.y - this.canvas.height / 2,
+							0.2
+						);
+					}
 				});
 		});
 		Connection.socket.on('getTime-from-server', time => {
