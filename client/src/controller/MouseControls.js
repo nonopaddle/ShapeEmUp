@@ -48,7 +48,6 @@ export class MouseControls {
 
 		this.canvas.addEventListener('mousemove', e => {
 			if (Renderer.cameraOffset == undefined) return;
-			console.log(e.clientX);
 			const rect = this.canvas.getBoundingClientRect();
 			this.proxyCoords.x = e.clientX - rect.left;
 			this.proxyCoords.y = e.clientY - rect.top;

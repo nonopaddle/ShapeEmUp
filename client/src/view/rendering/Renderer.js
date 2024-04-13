@@ -11,9 +11,6 @@ export class Renderer {
 	static context;
 	static #reqAnim;
 
-	static w_ratio;
-	static h_ratio;
-
 	static set_canvas(canvas) {
 		this.canvas = canvas;
 		this.context = this.canvas.getContext('2d');
@@ -31,6 +28,7 @@ export class Renderer {
 		this.#renderEnvironment();
 		this.#renderTime();
 		this.#renderPlayersScore();
+
 		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
 	}
 
@@ -48,7 +46,27 @@ export class Renderer {
 		this.#renderEntities();
 	}
 
-	static #renderBackground() {}
+	static #renderBackground() {
+		this.#renderDebugBackground();
+	}
+
+	static #renderDebugBackground() {
+		this.context.fillStyle = 'lightgrey';
+		const cellSize = 100;
+		const nbCol = 100;
+		const nbRow = 50;
+		for (let i = 0; i < nbCol; i++) {
+			for (let j = 0; j < nbRow; j++) {
+				if ((i % 2 != 0) ^ (j % 2 == 0))
+					this.context.fillRect(
+						-this.cameraOffset.x - this.canvas.width / 2 + i * cellSize,
+						-this.cameraOffset.y - this.canvas.height / 2 + j * cellSize,
+						cellSize,
+						cellSize
+					);
+			}
+		}
+	}
 
 	static #renderEntities() {
 		if (this.#entities != undefined)
