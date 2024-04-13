@@ -5,60 +5,83 @@ import { Action } from './action/Action.js';
 import { weaponType } from '../weapons/WeaponType.js';
 import { weaponList } from '../weapons/WeaponList.js';
 import { Weapon } from '../weapons/Weapon.js';
+import { Item } from '../items/Item.js';
 
 export class PlayerEntity extends LivingEntity {
+	type = 'player';
 	direction = new Vector2(0, 0);
 	shootDirection = new Vector2(0, 0);
 	cursorPosition = new Vector2(0, 0);
 	move_vector = new Vector2(0, 0);
-	player_speed = 25;
-	cooldown = 0;
+	stats = {
+		speed: 20,
+		regen: { amount: 0, cooldown: 100 },
+		xp: { amount: 0, toLevelUp: 100 },
+		level: 1,
+		shoot_cooldown: 0,
+	};
 	weapons = {
 		active1: weaponList.null,
 		active2: weaponList.null,
 		passive: weaponList.null,
 		ultimate: weaponList.null,
 	};
+	items = [];
 	mouseState = { z: false, q: false, s: false, d: false, space: false };
 	accel = 400;
 
 	constructor(datas, socket) {
 		super(datas);
-		this.type = 'player';
 		this.hitbox.addLayer('player');
 		this.hitbox.addMask(
 			'weapon',
 			new Action('pickWeapon', (source, target) => {
+				Object.values(source.weapons).forEach(w => {
+					if (w.id == target.weapon.id) return;
+				});
 				if (target.weapon.type == weaponType.active) {
-					console.log('pick up active');
 					if (source.weapons.active1 == weaponList.null) {
-						target.weapon.owner = source;
-						source.weapons.active1 = new Weapon(target.weapon);
+						source.weapons.active1 = new Weapon(target.weapon, source);
 						target.die();
 					} else if (source.weapons.active2 == weaponList.null) {
-						target.weapon.owner = source;
-						source.weapons.active2 = new Weapon(target.weapon);
+						source.weapons.active2 = new Weapon(target.weapon, source);
 						target.die();
 					}
 				} else if (
 					source.weapons.passive == weaponList.null &&
 					target.weapon.type == weaponType.passive
 				) {
-					console.log('pick up passive');
-					target.weapon.owner = source;
-					source.weapons.passive = new Weapon(target.weapon);
+					source.weapons.passive = new Weapon(target.weapon, source);
 					target.die();
 					source.shoot_passive();
 				} else if (
 					source.weapons.ultimate == weaponList.null &&
 					target.weapon.type == weaponType.ultimate
 				) {
-					console.log('pick up ultimate');
-					target.weapon.owner = source;
-					source.weapons.ultimate = new Weapon(target.weapon);
+					source.weapons.ultimate = new Weapon(target.weapon, source);
 					target.die();
 				}
 			})
+		);
+
+		this.weapons.active1 = new Weapon(
+			{
+				id: weaponList.normal.gun.id,
+				type: weaponList.normal.gun.type,
+				cooldown: weaponList.normal.gun.cooldown,
+				bullet: {
+					radius: weaponList.normal.gun.bullet.radius,
+					speedMult: weaponList.normal.gun.bullet.speedMult,
+					friendly: true,
+					damages: weaponList.normal.gun.bullet.damages,
+					knockback_speed: weaponList.normal.gun.bullet.knockback_speed,
+					penetration: weaponList.normal.gun.bullet.penetration,
+					ttl: weaponList.normal.gun.bullet.ttl,
+					texture: weaponList.normal.gun.bullet.texture,
+				},
+				texture: weaponList.normal.gun.texture,
+			},
+			this
 		);
 
 		this.socket = socket;
@@ -91,12 +114,15 @@ export class PlayerEntity extends LivingEntity {
 				element.update();
 			}
 		});
-		this.cooldown -= 1;
+		this.items.forEach(item => {
+			item.update();
+		});
+		this.apply_stats();
 		this.move(gameArea.delta, gameArea.friction);
 		this.apply_impulse_vector(this.move_vector);
 		super.update();
 
-		if (this.cooldown <= 0) {
+		if (this.stats.shoot_cooldown <= 0) {
 			if (this.mouseState.left) {
 				this.shoot(0);
 			} else if (this.mouseState.right) {
@@ -132,7 +158,7 @@ export class PlayerEntity extends LivingEntity {
 		} else {
 			this.move_vector.add(this.direction.multiply(this.accel * delta));
 			this.move_vector = this.move_vector.limit_distance(
-				this.speedMult * this.player_speed
+				this.speedMult * this.stats.speed
 			);
 		}
 	}
@@ -171,5 +197,45 @@ export class PlayerEntity extends LivingEntity {
 				gameArea.add_entity(bullet);
 			}
 		}
+	}
+
+	die() {
+		this.items.forEach(item => {
+			item.on_death();
+		});
+		super.die();
+		gameArea.entities.forEach((entity, index) => {
+			if (entity.owner.name == this.name) {
+				entity.die();
+			}
+		});
+	}
+
+	apply_stats() {
+		this.stats.shoot_cooldown -= 1;
+		this.stats.regen.cooldown -= 1;
+		if (this.stats.regen.cooldown <= 0) {
+			this.HP = Math.min(this.HP + this.stats.regen.amount, this.maxHP);
+			this.stats.regen.cooldown = 100;
+		}
+		if (this.stats.xp.amount >= this.stats.xp.toLevelUp) {
+			this.stats.xp.amount -= this.stats.xp.toLevelUp;
+			this.stats.xp.toLevelUp += 100;
+			this.stats.level += 1;
+		}
+	}
+
+	equip_item(item) {
+		if (this.items.length >= 4) {
+			return;
+		}
+		this.items.forEach(equippedItem => {
+			if (equippedItem.id == item.id) {
+				return;
+			}
+		});
+		const equippedItem = new Item(item, this);
+		this.items.push(equippedItem);
+		equippedItem.on_equip();
 	}
 }

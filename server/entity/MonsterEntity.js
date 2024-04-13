@@ -4,23 +4,38 @@ import { SpawnerEntity } from './SpawnerEntity.js';
 import { Action } from './action/Action.js';
 
 export class MonsterEntity extends LivingEntity {
+	static monsterNb = 0;
+	type = 'monster';
+	name = 'monster';
+	knockback_speed = 20;
+
 	constructor(datas, pl) {
 		super(datas);
-		this.type = 'monster';
-		this.playerAggro = pl;
-		this.knockback_speed = 50;
+		// Set up the ID
+		this.id = MonsterEntity.monsterNb;
+		MonsterEntity.monsterNb += 1;
+
+		// Set up the variables based on difficulty
+		this.speedMult *= datas.difficulty.speed;
+		this.damages = datas.damages * datas.difficulty.damages;
+		this.xp = datas.xp * datas.difficulty.xp_bonus;
+		console.log(this.xp);
+
 		this.hitbox.addLayer('monster');
 		this.hitbox.addMask(
 			'player',
 			new Action('hurtplayer', (source, target) => {
-				target.hurt(1);
+				if (target.hurt(source.damages)) {
+					this.target_new_player();
+				}
 				target.knockback = source.pos
 					.to(target.pos)
 					.normalize()
 					.multiply(this.knockback_speed);
 			})
 		);
-		this.name = 'monster';
+		// Set up the target
+		this.playerAggro = pl;
 	}
 
 	update() {
@@ -29,12 +44,9 @@ export class MonsterEntity extends LivingEntity {
 	}
 
 	move() {
-		if (this.playerAggro == undefined) {
+		if (this.playerAggro.HP <= 0) {
 			if (gameArea.no_players_left()) return;
-			this.playerAggro =
-				gameArea.get_players()[
-					Math.floor(Math.random() * gameArea.get_players().length)
-				];
+			this.target_new_player();
 		}
 		const direction = this.pos
 			.to(this.playerAggro.pos)
@@ -46,5 +58,12 @@ export class MonsterEntity extends LivingEntity {
 	die() {
 		super.die();
 		SpawnerEntity.monsterNb -= 1;
+	}
+
+	target_new_player() {
+		this.playerAggro =
+			gameArea.get_players()[
+				Math.floor(Math.random() * gameArea.get_players().length)
+			];
 	}
 }

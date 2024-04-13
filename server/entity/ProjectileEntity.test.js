@@ -5,6 +5,7 @@ import { ProjectileEntity } from './ProjectileEntity.js';
 import gameArea from '../GameArea.js';
 import { Vector2 } from '../math/Vector2.js';
 import { PlayerEntity } from './PlayerEntity.js';
+import { difficulties } from '../Difficulty.js';
 
 // à finir quand le côté serveur sera opérationnel
 
@@ -24,6 +25,7 @@ describe('Projectile entity tests', () => {
 			pos: { x: 2, y: 0 },
 			radius: 1 / 2,
 			default_hp: 10,
+			difficulty: difficulties.normal.monster,
 		};
 		const pt = new ProjectileEntity(PDatas);
 		const me = new MonsterEntity(MDatas, pt);
@@ -58,6 +60,7 @@ describe('Projectile entity tests', () => {
 				pos: { x: 120, y: 120 },
 				radius: 1 / 2,
 				default_hp: 10,
+				difficulty: difficulties.normal.monster,
 			},
 			player
 		);
