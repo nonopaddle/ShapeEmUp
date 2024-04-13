@@ -5,6 +5,7 @@ import { avatarsList, bulletsList, monsters, weapons } from './textures.js';
 export class Renderer {
 	static #entities;
 	static time;
+	static playersScore = [];
 	static canvas;
 	static context;
 	static #reqAnim;
@@ -15,12 +16,12 @@ export class Renderer {
 	static set_canvas(canvas) {
 		this.canvas = canvas;
 		this.context = this.canvas.getContext('2d');
-		/* const canvasResizeObserver = new ResizeObserver(resampleCanvas.bind(this));
+		const canvasResizeObserver = new ResizeObserver(resampleCanvas.bind(this));
 		canvasResizeObserver.observe(this.canvas);
 		function resampleCanvas() {
 			this.canvas.width = this.canvas.clientWidth;
 			this.canvas.height = this.canvas.clientHeight;
-		} */
+		}
 	}
 
 	static start_rendering() {
@@ -28,6 +29,7 @@ export class Renderer {
 		this.clear();
 		this.#renderEntities();
 		this.#renderTime();
+		this.#renderPlayersScore();
 		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
 	}
 
@@ -48,16 +50,18 @@ export class Renderer {
 						this.context.scale(this.w_ratio, this.h_ratio);
 						Object.values(avatarsList)
 							.filter(avatar => avatar.owner == entity.name)
-							.map(avatar =>
+							.map(avatar => {
+								console.log(entity);
 								avatar.draw(
 									this.context,
 									entity.origin,
 									entity.radius,
 									-entity.angle,
 									entity.maxHP,
-									entity.HP
-								)
-							);
+									entity.HP,
+									entity.stats
+								);
+							});
 						break;
 					case 'bullet':
 						this.context.scale(this.w_ratio, this.h_ratio);
@@ -100,16 +104,22 @@ export class Renderer {
 		const sec = Math.floor(this.time) % 60;
 		this.context.fillText(
 			`${Math.floor(Math.floor(this.time) / 60)}:${sec < 10 ? `0${sec}` : sec}`,
-			500,
+			50,
 			100
 		);
 	}
 
-	static initConnectionToRenderer() {
-		Connection.socket.on('getEntities-from-server', entities => {
-			this.clear();
-			this.#entities = entities;
+	static #renderPlayersScore() {
+		this.context.font = '30px Arial';
+		this.context.fillStyle = 'white';
+		let txt = ``;
+		this.playersScore.forEach(player => {
+			txt += `${player.name}: ${player.pts} `;
 		});
+		this.context.fillText(txt, 50, 50);
+	}
+
+	static initConnectionToRenderer() {
 		Connection.socket.on('getGameSize-from-server', gameSize => {
 			const maxWidth = window.innerWidth;
 			const maxHeight = window.innerHeight;
@@ -133,6 +143,12 @@ export class Renderer {
 		});
 		Connection.socket.on('getTime-from-server', time => {
 			this.time = time;
+		});
+		Connection.socket.on('getPlayersScore-from-server', scoreTab => {
+			this.playersScore = [];
+			scoreTab.forEach(score => {
+				this.playersScore.push(score);
+			});
 		});
 	}
 }
