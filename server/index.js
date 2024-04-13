@@ -8,6 +8,7 @@ import { WeaponEntity } from './entity/WeaponEntity.js';
 import { weaponList } from './weapons/WeaponList.js';
 import { SpawnerEntity } from './entity/SpawnerEntity.js';
 import { Vector2 } from './math/Vector2.js';
+import { difficulties } from './Difficulty.js';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -42,7 +43,7 @@ const avatarsAssociation = {
 
 export const io = new IOServer(httpServer);
 io.on('connection', socket => {
-	if (players.length == maxPlayers) {
+	if (players.length == maxPlayers || gameArea.gameStarted) {
 		socket.disconnect();
 		return;
 	}
@@ -61,6 +62,11 @@ io.on('connection', socket => {
 	console.log(players);
 	socket.emit('avatar selection update', avatarsAssociation);
 	socket.emit('getGameSize-from-server', gameArea.maxSize);
+	socket.emit(
+		'getDifficulties-from-server',
+		difficulties,
+		gameArea.defaultDifficulty
+	);
 
 	socket.on('disconnect', () => {
 		players.removeIf(
@@ -78,9 +84,10 @@ io.on('connection', socket => {
 		console.log(players);
 	});
 
-	socket.on('difficulty change', newDifficulty => {
-		gameArea.difficulty = newDifficulty;
-		io.emit('difficulty update', gameArea.difficulty);
+	socket.on('difficulty change', difficulty => {
+		gameArea.difficulty = difficulties[difficulty];
+		console.log(gameArea.difficulty);
+		io.emit('difficulty update', difficulty);
 	});
 
 	socket.on('launch', () => {
@@ -131,14 +138,22 @@ Array.prototype.removeIf = function (callback) {
 function init() {
 	console.log('initializing game ...');
 	gameArea.entities.length = 0;
-	const spawnerDatas = {
-		pos: new Vector2(500, 900),
-	};
-	gameArea.add_entity(new WeaponEntity(750, 450, weaponList.gun));
-	gameArea.add_entity(new WeaponEntity(650, 450, weaponList.bigGun));
-	gameArea.add_entity(new WeaponEntity(550, 450, weaponList.laser));
-	gameArea.add_entity(new WeaponEntity(450, 450, weaponList.zone));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas));
+	const spawnerDatas1 = {
+			pos: new Vector2(-50, -50),
+		},
+		spawnerDatas2 = {
+			pos: new Vector2(gameArea.maxSize.x + 50, gameArea.maxSize.y + 50),
+		},
+		spawnerDatas3 = {
+			pos: new Vector2(-50, gameArea.maxSize.y + 50),
+		},
+		spawnerDatas4 = {
+			pos: new Vector2(gameArea.maxSize.x + 50, -50),
+		};
+	gameArea.add_entity(new SpawnerEntity(spawnerDatas1));
+	gameArea.add_entity(new SpawnerEntity(spawnerDatas2));
+	gameArea.add_entity(new SpawnerEntity(spawnerDatas3));
+	gameArea.add_entity(new SpawnerEntity(spawnerDatas4));
 	players.forEach(socket => {
 		const player = new PlayerEntity(
 			{

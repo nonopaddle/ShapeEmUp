@@ -5,14 +5,11 @@ import { randInt } from '../math/MathUtils.js';
 
 export class SpawnerEntity extends Entity {
 	nbMonsterPerSpawn = 4;
+
 	constructor(datas) {
 		super(datas);
 		this.radius = 5;
 		this.spawnCooldown = 0;
-	}
-
-	render(ctx) {
-		this.hitbox.render(ctx);
 	}
 
 	update() {
@@ -20,12 +17,13 @@ export class SpawnerEntity extends Entity {
 		this.spawnCooldown -= 1;
 		if (this.spawnCooldown <= 0) {
 			this.spawn_monster();
-			this.spawnCooldown = 500;
+			this.spawnCooldown = 100 + Math.random() * 400;
+			this.nbMonsterPerSpawn =
+				Math.floor(Math.random() * 2) + gameArea.difficulty.spawner.spawn_rate;
 		}
 	}
 
 	spawn_monster() {
-		console.log('update');
 		for (let i = 0; i < this.nbMonsterPerSpawn; i++) {
 			const randMult = randInt(1, 3);
 			const datas = {
@@ -33,9 +31,10 @@ export class SpawnerEntity extends Entity {
 				radius: 20 * (randMult / 1.5),
 				default_hp: 25 * randMult,
 				speedMult: 10 - randMult,
-				damage: 5,
+				damages: 5,
 				color: 'red',
-				difficulty: gameArea.difficulty,
+				difficulty: gameArea.difficulty.monster,
+				xp: 5,
 			};
 			const players = gameArea.get_players();
 			const playerAgro = players[randInt(0, players.length - 1)];

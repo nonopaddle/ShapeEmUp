@@ -14,11 +14,11 @@ describe('Weapon entity tests', () => {
 			radius: 1 / 2,
 		};
 		const pt = new PlayerEntity(PDatas);
-		const we = new WeaponEntity(0, 0, weaponList.gun);
+		const we = new WeaponEntity(0, 0, weaponList.normal.gun);
 		gameArea.add_entity(pt);
 		gameArea.add_entity(we);
 		pt.update();
-		compareWeapons(pt.weapons.active1, weaponList.gun);
+		compareWeapons(pt.weapons.active1, weaponList.normal.gun);
 	});
 
 	it('gives the player weapons to the correct slots', () => {
@@ -27,20 +27,20 @@ describe('Weapon entity tests', () => {
 			radius: 1 / 2,
 		};
 		const pt = new PlayerEntity(PDatas);
-		const weA1 = new WeaponEntity(0, 0, weaponList.bigGun);
-		const weA2 = new WeaponEntity(0, 0, weaponList.gun);
-		const weP = new WeaponEntity(0, 0, weaponList.zone);
-		const weU = new WeaponEntity(0, 0, weaponList.laser);
+		const weA1 = new WeaponEntity(0, 0, weaponList.normal.bigGun);
+		const weA2 = new WeaponEntity(0, 0, weaponList.normal.gun);
+		const weP = new WeaponEntity(0, 0, weaponList.normal.zone);
+		const weU = new WeaponEntity(0, 0, weaponList.normal.laser);
 		gameArea.add_entity(weA1);
 		gameArea.add_entity(weA2);
 		gameArea.add_entity(weP);
 		gameArea.add_entity(weU);
 		pt.update();
 		pt.update();
-		compareWeapons(pt.weapons.active1, weaponList.bigGun);
-		compareWeapons(pt.weapons.active2, weaponList.gun);
-		compareWeapons(pt.weapons.passive, weaponList.zone);
-		compareWeapons(pt.weapons.ultimate, weaponList.laser);
+		compareWeapons(pt.weapons.active1, weaponList.normal.gun);
+		compareWeapons(pt.weapons.active2, weaponList.normal.bigGun);
+		compareWeapons(pt.weapons.passive, weaponList.normal.zone);
+		compareWeapons(pt.weapons.ultimate, weaponList.normal.laser);
 	});
 });
 

@@ -1,14 +1,16 @@
-import { difficulty } from './Difficulty.js';
+import { difficulties } from './Difficulty.js';
 import fs from 'fs';
 import { Vector2 } from './math/Vector2.js';
 
 class GameArea {
 	maxSize = new Vector2(3000, 1800);
-	difficulty = difficulty.normal;
+	defaultDifficulty = 'normal';
+	difficulty = difficulties[this.defaultDifficulty];
 	scoreTab = [];
 	entities = [];
 	delta = 16 / 1000;
 	friction = 400;
+	gameStarted = false;
 	#main_loop;
 
 	add_entity(entity) {
@@ -25,11 +27,13 @@ class GameArea {
 			this.delta * 1000
 		);
 		this.time = 0;
+		this.gameStarted = true;
 		console.log('loop started');
 	}
 
 	end() {
 		this.stop_loop();
+		this.gameStarted = false;
 		fs.readFile('server/datas/scores.json', 'utf8', (err, data) => {
 			if (err) {
 				console.log(err);
@@ -58,6 +62,7 @@ class GameArea {
 		if (this.io != undefined) {
 			this.send_entitiesDatas();
 			this.send_current_time();
+			this.send_players_score();
 		}
 	}
 
@@ -76,8 +81,8 @@ class GameArea {
 
 	add_score(name, value) {
 		this.scoreTab
-			.filter(score => (score.name = name))
-			.map(score => (score.pts += value * this.difficulty));
+			.filter(score => score.name == name)
+			.map(score => (score.pts += value));
 	}
 
 	set_io(io) {
@@ -92,9 +97,10 @@ class GameArea {
 				angle: entity.angle,
 				name: entity.name,
 				type: entity.type,
-				owner: entity.owner.name,
 				maxHP: entity.maxHP,
 				HP: entity.HP,
+				stats: entity.type == 'player' ? entity.stats : {},
+				owner: entity.owner.name,
 			};
 		});
 		this.io.emit('update-entities', datas);
@@ -102,6 +108,10 @@ class GameArea {
 
 	send_current_time() {
 		this.io.emit('getTime-from-server', this.time);
+	}
+
+	send_players_score() {
+		this.io.emit('getPlayersScore-from-server', this.scoreTab);
 	}
 }
 
