@@ -6,6 +6,7 @@ export class Renderer {
 	static #entities;
 	static time;
 	static playersScore = [];
+	static cameraOffset = undefined;
 	static canvas;
 	static context;
 	static #reqAnim;
@@ -27,7 +28,7 @@ export class Renderer {
 	static start_rendering() {
 		if (this.context == undefined) throw new Error('context is null !');
 		this.clear();
-		this.#renderEntities();
+		this.#renderEnvironment();
 		this.#renderTime();
 		this.#renderPlayersScore();
 		this.#reqAnim = requestAnimationFrame(this.start_rendering.bind(this));
@@ -40,6 +41,14 @@ export class Renderer {
 	static clear() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
+	static #renderEnvironment() {
+		if (this.cameraOffset == undefined) return;
+
+		this.#renderBackground();
+		this.#renderEntities();
+	}
+
+	static #renderBackground() {}
 
 	static #renderEntities() {
 		if (this.#entities != undefined)
@@ -47,14 +56,15 @@ export class Renderer {
 				if (entity.name == undefined) return;
 				switch (entity.type) {
 					case 'player':
-						this.context.scale(this.w_ratio, this.h_ratio);
 						Object.values(avatarsList)
 							.filter(avatar => avatar.owner == entity.name)
 							.map(avatar => {
-								console.log(entity);
 								avatar.draw(
 									this.context,
-									entity.origin,
+									{
+										x: entity.origin.x - this.cameraOffset.x,
+										y: entity.origin.y - this.cameraOffset.y,
+									},
 									entity.radius,
 									-entity.angle,
 									entity.maxHP,
@@ -64,10 +74,12 @@ export class Renderer {
 							});
 						break;
 					case 'bullet':
-						this.context.scale(this.w_ratio, this.h_ratio);
 						bulletsList[entity.name].draw(
 							this.context,
-							entity.origin,
+							{
+								x: entity.origin.x - this.cameraOffset.x,
+								y: entity.origin.y - this.cameraOffset.y,
+							},
 							entity.radius,
 							Object.values(avatarsList)
 								.filter(avatar => avatar.owner == entity.owner)
@@ -75,18 +87,22 @@ export class Renderer {
 						);
 						break;
 					case 'weapon':
-						this.context.scale(this.w_ratio, this.h_ratio);
 						weapons[entity.name].draw(
 							this.context,
-							entity.origin,
+							{
+								x: entity.origin.x - this.cameraOffset.x,
+								y: entity.origin.y - this.cameraOffset.y,
+							},
 							entity.radius
 						);
 						break;
 					case 'monster':
-						this.context.scale(this.w_ratio, this.h_ratio);
 						monsters[entity.name].draw(
 							this.context,
-							entity.origin,
+							{
+								x: entity.origin.x - this.cameraOffset.x,
+								y: entity.origin.y - this.cameraOffset.y,
+							},
 							entity.radius,
 							entity.maxHP,
 							entity.HP
@@ -96,6 +112,16 @@ export class Renderer {
 						break;
 				}
 			});
+		this.context.beginPath();
+		this.context.arc(
+			MouseControls.proxyCoords.x,
+			MouseControls.proxyCoords.y,
+			10,
+			0,
+			Math.PI * 2
+		);
+		this.context.closePath();
+		this.context.stroke();
 	}
 
 	static #renderTime() {
@@ -121,7 +147,9 @@ export class Renderer {
 
 	static initConnectionToRenderer() {
 		Connection.socket.on('getGameSize-from-server', gameSize => {
-			const maxWidth = window.innerWidth;
+			this.canvas.height = window.innerHeight;
+			this.canvas.width = window.innerWidth;
+			/*const maxWidth = window.innerWidth;
 			const maxHeight = window.innerHeight;
 
 			let window_ratio = maxWidth / maxHeight;
@@ -136,10 +164,22 @@ export class Renderer {
 			}
 
 			this.w_ratio = this.canvas.width / gameSize.x;
-			this.h_ratio = this.canvas.height / gameSize.y;
+			this.h_ratio = this.canvas.height / gameSize.y;*/
 		});
 		Connection.socket.on('update-entities', entities => {
 			this.#entities = entities;
+			entities
+				.filter(
+					entity =>
+						entity.type == 'player' &&
+						entity.name == sessionStorage.getItem('nickname')
+				)
+				.map(entity => {
+					this.cameraOffset = {
+						x: entity.origin.x - this.canvas.width / 2,
+						y: entity.origin.y - this.canvas.height / 2,
+					};
+				});
 		});
 		Connection.socket.on('getTime-from-server', time => {
 			this.time = time;

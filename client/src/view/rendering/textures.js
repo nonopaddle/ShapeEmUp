@@ -31,7 +31,7 @@ export const avatarsList = {
 
 			hpDisplay(ctx, radius, maxHP, HP);
 			xpDisplay(ctx, radius, stats.xp, stats.level);
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -48,7 +48,7 @@ export const avatarsList = {
 
 			hpDisplay(ctx, radius, maxHP, HP);
 			xpDisplay(ctx, radius, stats.xp, stats.level);
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -72,7 +72,7 @@ export const avatarsList = {
 
 			hpDisplay(ctx, radius, maxHP, HP);
 			xpDisplay(ctx, radius, stats.xp, stats.level);
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -96,7 +96,7 @@ export const avatarsList = {
 
 			hpDisplay(ctx, radius, maxHP, HP);
 			xpDisplay(ctx, radius, stats.xp, stats.level);
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -119,7 +119,7 @@ export const weapons = {
 			}
 			ctx.rotate(-Math.PI / 2);
 			ctx.stroke();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -139,7 +139,7 @@ export const weapons = {
 			}
 			ctx.rotate(Math.PI / 2);
 			ctx.stroke();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -152,7 +152,7 @@ export const weapons = {
 			ctx.translate(origin.x, origin.y);
 			ctx.arc(0, 0, radius, 0, Math.PI * 2);
 			ctx.stroke();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -172,7 +172,7 @@ export const weapons = {
 			}
 			ctx.rotate(Math.PI / 2);
 			ctx.stroke();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -185,7 +185,7 @@ export const weapons = {
 			ctx.translate(origin.x, origin.y);
 			ctx.arc(0, 0, radius, 0, Math.PI * 2);
 			ctx.stroke();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -206,7 +206,7 @@ export const bulletsList = {
 				ctx.lineTo(radius * Math.cos(i * angle), radius * Math.sin(i * angle));
 			}
 			ctx.fill();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -224,7 +224,7 @@ export const bulletsList = {
 				ctx.lineTo(radius * Math.cos(i * angle), radius * Math.sin(i * angle));
 			}
 			ctx.fill();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -237,7 +237,7 @@ export const bulletsList = {
 
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -255,7 +255,7 @@ export const bulletsList = {
 				ctx.lineTo(radius * Math.cos(i * angle), radius * Math.sin(i * angle));
 			}
 			ctx.fill();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -268,7 +268,7 @@ export const bulletsList = {
 
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
@@ -284,7 +284,7 @@ export const monsters = {
 			ctx.translate(origin.x, origin.y);
 			ctx.fillRect(-radius, -radius, radius * 2, radius * 2);
 			hpDisplay(ctx, radius, maxHP, HP);
-			ctx.resetTransform();
+			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
 		},
 	},
