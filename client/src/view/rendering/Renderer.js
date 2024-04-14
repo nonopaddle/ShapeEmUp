@@ -9,7 +9,7 @@ export class Renderer {
 	static playersScore = [];
 	static cameraOffset = undefined;
 	static gameSize = { x: 0, y: 0 };
-	static zoom = { val: 1, min: 0.5, max: 2, d: 0.1 };
+	static zoom = { val: 1, level: 1, min: 0.5, max: 2, step: 0.9 };
 	static canvas;
 	static context;
 	static #reqAnim;
@@ -44,17 +44,18 @@ export class Renderer {
 	}
 
 	static incrementZoom() {
-		if (this.zoom.val < this.zoom.max) this.zoom.val += this.zoom.d;
+		if (this.zoom.level < this.zoom.max) this.zoom.level /= this.zoom.step;
 	}
 	static decrementZoom() {
-		if (this.zoom.val > this.zoom.min) this.zoom.val -= this.zoom.d;
+		if (this.zoom.level > this.zoom.min) this.zoom.level *= this.zoom.step;
 	}
 
 	static #renderEnvironment() {
 		if (this.cameraOffset == undefined) return;
 		this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+		this.zoom.val = lerp(this.zoom.val, this.zoom.level, 0.2);
+		console.log(this.zoom);
 		this.context.scale(this.zoom.val, this.zoom.val);
-
 		this.#renderBackground();
 		this.#renderEntities();
 		this.#renderBoundaries();

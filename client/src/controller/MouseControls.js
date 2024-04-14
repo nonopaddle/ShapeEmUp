@@ -62,7 +62,6 @@ export class MouseControls {
 				} else {
 					Renderer.decrementZoom();
 				}
-				console.log(Renderer.zoom);
 			},
 			false
 		);
