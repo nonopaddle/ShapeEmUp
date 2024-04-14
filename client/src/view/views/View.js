@@ -1,24 +1,19 @@
-import { Router } from './Router.js';
+import { handleMenuLinkClick } from './Router.js';
+import $ from 'jquery';
 
 export class View {
 	constructor(element) {
 		this.element = element;
-		const buttons = this.element.querySelectorAll('a');
-		buttons.forEach(button => {
-			button.addEventListener('click', setNavigationToHref);
+		$('a').on('click', event => {
+			handleMenuLinkClick(event);
 		});
 	}
 
 	show() {
-		this.element.classList.add('active');
+		this.element.fadeIn();
 	}
 
 	hide() {
-		this.element.classList.remove('active');
+		this.element.fadeOut();
 	}
-}
-
-export function setNavigationToHref(event) {
-	event.preventDefault();
-	Router.navigate(event.currentTarget.getAttribute('href'));
 }

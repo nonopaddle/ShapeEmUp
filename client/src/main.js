@@ -8,35 +8,36 @@ import { ScoresView } from './view/views/ScoresView.js';
 import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
 import { LoginView } from './view/views/LoginView.js';
+import $ from 'jquery';
 
 const routes = [
 	{
 		path: '/main-menu',
-		view: new MainMenuView(document.querySelector('.main-menu')),
+		view: new MainMenuView($('.main-menu')),
 	},
 	{
 		path: '/waiting-room',
-		view: new WaitingRoomView(document.querySelector('.waiting-room')),
+		view: new WaitingRoomView($('.waiting-room')),
 	},
 	{
 		path: '/main-game',
-		view: new MainGameView(document.querySelector('.main-game')),
+		view: new MainGameView($('.main-game')),
 	},
 	{
 		path: '/end-screen',
-		view: new EndScreenView(document.querySelector('.end-screen')),
+		view: new EndScreenView($('.end-screen')),
 	},
 	{
 		path: '/scores',
-		view: new ScoresView(document.querySelector('.scores')),
+		view: new ScoresView($('.scores')),
 	},
 	{
 		path: '/credits',
-		view: new CreditsView(document.querySelector('.credits')),
+		view: new CreditsView($('.credits')),
 	},
 	{
 		path: '/login',
-		view: new LoginView(document.querySelector('.login')),
+		view: new LoginView($('.login')),
 	},
 ];
 

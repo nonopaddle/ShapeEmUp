@@ -1,4 +1,5 @@
 import { View } from './View.js';
+import $ from 'jquery';
 
 export class ScoresView extends View {
 	constructor(element) {
@@ -7,23 +8,21 @@ export class ScoresView extends View {
 	}
 
 	#updateTab() {
-		fetch('/scores')
-			.then(response => response.json())
-			.then(scores => {
-				let html = '';
-				scores
-					.sort((a, b) => b.pts - a.pts)
-					.slice(0, 10)
-					.forEach(score => {
-						html += `
+		$.ajax('/scores').done(scores => {
+			let html = '';
+			scores
+				.sort((a, b) => b.pts - a.pts)
+				.slice(0, 10)
+				.forEach(score => {
+					html += `
                         <tr>
                             <td>${score.name}</td>
                             <td>${score.pts} pts</td>
                         </tr>
                     `;
-					});
-				this.element.querySelector('.scores-tab tbody').innerHTML = html;
-			});
+				});
+			$('.scores-tab tbody', this.element).html(html);
+		});
 	}
 
 	show() {

@@ -1,29 +1,40 @@
 import { Router } from './Router.js';
 import { View } from './View.js';
+import $ from 'jquery';
 
 export class LoginView extends View {
 	constructor(element) {
 		super(element);
-		const input = this.element.querySelector('.login-nickname-input');
-		const loginButton = this.element.querySelector('.login-button');
-		loginButton.disabled = true;
-		input.addEventListener('input', event => {
+		this.input = $('.login-nickname-input', this.element);
+		this.loginButton = $('.login-button', this.element).attr('disabled', true);
+		this.#toggleButton();
+		this.input.on('input', event => {
 			event.preventDefault();
-			if (input.value.length == 0) {
-				loginButton.classList.remove('login-active');
-			} else {
-				loginButton.classList.add('login-active');
+			this.#toggleButton();
+		});
+		this.input.on('keypress', event => {
+			if (event.key === 'Enter') {
+				event.preventDefault();
+				this.#connect();
 			}
 		});
-		loginButton.addEventListener('click', event => {
+		this.loginButton.off('click').on('click', event => {
 			event.preventDefault();
-			if (!loginButton.classList.contains('login-active')) return;
-			sessionStorage.setItem('nickname', input.value);
-			Router.navigate('/main-menu');
+			this.#connect();
 		});
+	}
 
-		loginButton.addEventListener('mouseover', event => {
-			event.preventDefault();
-		});
+	#connect() {
+		if (!this.loginButton.hasClass('login-active')) return;
+		sessionStorage.setItem('nickname', this.input.val());
+		Router.navigate('/main-menu');
+	}
+
+	#toggleButton() {
+		if (this.input.val().length == 0) {
+			this.loginButton.removeClass('login-active');
+		} else {
+			this.loginButton.addClass('login-active');
+		}
 	}
 }

@@ -1,15 +1,17 @@
-import { View, setNavigationToHref } from './View.js';
+import { View } from './View.js';
 import { avatarsList } from '../rendering/textures.js';
 import Connection from '../../Connection.js';
-import { Router } from './Router.js';
+import { Router, handleMenuLinkClick } from './Router.js';
 import { Renderer } from '../rendering/Renderer.js';
 import { KeyBoardControls } from '../../controller/KeyboardControls.js';
+import $ from 'jquery';
+import 'jcanvas';
 
 export class WaitingRoomView extends View {
 	#buttonsize = { x: 200, y: 200 };
 	constructor(element) {
 		super(element);
-		const avatarListContainer = this.element.querySelector('.avatars-list');
+		const avatarListContainer = document.querySelector('.avatars-list');
 		Object.keys(avatarsList).forEach(avatarName => {
 			avatarListContainer.innerHTML += `<canvas class="${avatarName}">`;
 		});
@@ -17,7 +19,8 @@ export class WaitingRoomView extends View {
 		Object.entries(avatarsList).forEach(avatar => {
 			const [avatarName, datas] = avatar;
 			const canvas = avatarListContainer.querySelector(`.${avatarName}`);
-
+			canvas.width = this.#buttonsize.x;
+			canvas.height = this.#buttonsize.y;
 			canvas.addEventListener('click', event => {
 				event.preventDefault();
 				Connection.socket.emit('selection avatar', {
@@ -26,8 +29,6 @@ export class WaitingRoomView extends View {
 				});
 			});
 
-			canvas.width = this.#buttonsize.x;
-			canvas.height = this.#buttonsize.y;
 			const ctx = canvas.getContext('2d');
 			datas.draw(
 				ctx,
@@ -40,19 +41,19 @@ export class WaitingRoomView extends View {
 			);
 		});
 
-		const launchButton = this.element.querySelector('.launch');
-		launchButton.removeEventListener('click', setNavigationToHref);
-		launchButton.addEventListener('click', event => {
-			event.preventDefault();
-			Connection.socket.emit('launch');
-		});
+		$('.launch', this.element)
+			.off('click', handleMenuLinkClick)
+			.on('click', event => {
+				event.preventDefault();
+				Connection.socket.emit('launch');
+			});
 
-		const disconnectButton = this.element.querySelector('.disconnect');
-		disconnectButton.removeEventListener('click', setNavigationToHref);
-		disconnectButton.addEventListener('click', event => {
-			event.preventDefault();
-			Connection.disconnect();
-		});
+		$('.disconnect', this.element)
+			.off('click', handleMenuLinkClick)
+			.on('click', event => {
+				event.preventDefault();
+				Connection.disconnect();
+			});
 	}
 
 	static initConnectionToWaitingRoom() {
@@ -68,13 +69,13 @@ export class WaitingRoomView extends View {
 			Object.entries(avatarsAssociations).forEach(association => {
 				const [avatarLabel, playerNickname] = association;
 				avatarsList[avatarLabel].owner = playerNickname;
-				const canvas = document.querySelector(`.avatars-list .${avatarLabel}`);
-				canvas.classList.remove('selected-by-other');
-				canvas.classList.remove('selected-by-me');
+				const canvas = $(`.avatars-list .${avatarLabel}`)
+					.removeClass('selected-by-other')
+					.removeClass('selected-by-me');
 				if (playerNickname == currentUser) {
-					canvas.classList.add('selected-by-me');
-				} else if (playerNickname != null) {
-					canvas.classList.add('selected-by-other');
+					canvas.addClass('selected-by-me');
+				} else if (playerNickname != undefined) {
+					canvas.addClass('selected-by-other');
 				}
 			});
 		});
@@ -82,9 +83,8 @@ export class WaitingRoomView extends View {
 		Connection.socket.on(
 			'getDifficulties-from-server',
 			(difficulties, defaultDifficulty) => {
-				const difficultySlider = document.querySelector('.difficulty');
 				let i = 0;
-				difficultySlider.innerHTML = `
+				const difficultySlider = $('.difficulty').html(`
 					<h2 class="difficultyDisplay">${defaultDifficulty}</h2>
 					<form class="difficulty-slider">
 						<div >
@@ -95,20 +95,19 @@ export class WaitingRoomView extends View {
 							)}
 						</div>
 					</form>
-				`;
-				const difficultyOptions = difficultySlider.querySelectorAll('input');
-				difficultyOptions.forEach(difficulty =>
-					difficulty.addEventListener('input', event => {
-						Connection.socket.emit('difficulty change', event.target.value);
-					})
+				`);
+				const difficultyOptions = $('input', difficultySlider).on(
+					'input',
+					event =>
+						Connection.socket.emit('difficulty change', event.target.value)
 				);
 
 				Connection.socket.on('difficulty update', difficultyValue => {
-					difficultyOptions.forEach(difficulty => {
-						difficulty.checked = difficulty.id == difficultyValue;
+					difficultyOptions.prop('checked');
+					difficultyOptions.each(function () {
+						this.checked = this.id == difficultyValue;
 					});
-					difficultySlider.querySelector('.difficultyDisplay').innerHTML =
-						difficultyValue;
+					$('.difficultyDisplay', difficultySlider).html(difficultyValue);
 				});
 			}
 		);

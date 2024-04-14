@@ -1,5 +1,6 @@
 import Connection from '../../Connection.js';
 import { View } from './View.js';
+import $ from 'jquery';
 
 export class EndScreenView extends View {
 	constructor(element) {
@@ -7,9 +8,11 @@ export class EndScreenView extends View {
 	}
 
 	static initEndScreen() {
-		const endButton = document.querySelector('.endButton');
-		endButton.addEventListener('click', () => {
-			Connection.disconnect();
-		});
+		$('.endButton', this.element)
+			.off('click')
+			.on('click', event => {
+				event.preventDefault();
+				Connection.disconnect();
+			});
 	}
 }
