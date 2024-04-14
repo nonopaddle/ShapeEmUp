@@ -4,6 +4,8 @@ import { Renderer } from '../view/rendering/Renderer.js';
 export class MouseControls {
 	static canvas;
 
+	static delta = 60;
+
 	static #coords = { x: 0, y: 0 };
 	static #controls = {
 		left: false,
@@ -21,7 +23,10 @@ export class MouseControls {
 	static #coordsHandler = {
 		set(target, prop, value) {
 			target[prop] = value;
-			Connection.socket.emit('MouseCoordsEvent', target);
+			Connection.socket.emit('MouseCoordsEvent', {
+				x: target.x + Renderer.cameraOffset.x,
+				y: target.y + Renderer.cameraOffset.y,
+			});
 			return true;
 		},
 	};
@@ -34,21 +39,35 @@ export class MouseControls {
 		this.canvas.addEventListener('contextmenu', e => e.preventDefault());
 		this.canvas.addEventListener(
 			'mousedown',
-			this.button_pressed_event.bind(this)
+			this.#button_pressed_event.bind(this)
 		);
 		this.canvas.addEventListener(
 			'mouseup',
-			this.button_released_event.bind(this)
+			this.#button_released_event.bind(this)
 		);
+
 		this.canvas.addEventListener('mousemove', e => {
-			this.proxyCoords.x =
-				(e.clientX - this.canvas.offsetLeft) / Renderer.w_ratio;
-			this.proxyCoords.y =
-				(e.clientY - this.canvas.offsetTop) / Renderer.h_ratio;
+			if (Renderer.cameraOffset == undefined) return;
+			const rect = this.canvas.getBoundingClientRect();
+			this.proxyCoords.x = e.clientX - rect.left - this.canvas.width / 2;
+			this.proxyCoords.y = e.clientY - rect.top - this.canvas.height / 2;
 		});
+
+		let lastScroll = 0;
+		window.addEventListener(
+			'wheel',
+			e => {
+				if (e.deltaY < 0) {
+					Renderer.incrementZoom();
+				} else {
+					Renderer.decrementZoom();
+				}
+			},
+			false
+		);
 	}
 
-	static button_pressed_event(event) {
+	static #button_pressed_event(event) {
 		switch (event.button) {
 			case 0:
 				this.proxyControls.left = true;
@@ -64,7 +83,7 @@ export class MouseControls {
 		}
 	}
 
-	static button_released_event(event) {
+	static #button_released_event(event) {
 		switch (event.button) {
 			case 0:
 				this.proxyControls.left = false;

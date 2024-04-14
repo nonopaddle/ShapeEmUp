@@ -9,27 +9,41 @@ import { CreditsView } from './view/views/CreditsView.js';
 import { MainGameView } from './view/views/MainGameView.js';
 import { LoginView } from './view/views/LoginView.js';
 
-const loginView = new LoginView(document.querySelector('.login'));
-const mainMenuView = new MainMenuView(document.querySelector('.main-menu'));
-const waitingRoomView = new WaitingRoomView(
-	document.querySelector('.waiting-room')
-);
-const mainGameView = new MainGameView(document.querySelector('.main-game'));
-const endScreenView = new EndScreenView(document.querySelector('.end-screen'));
-const scoresView = new ScoresView(document.querySelector('.scores'));
-const creditsView = new CreditsView(document.querySelector('.credits'));
 const routes = [
-	{ path: '/login', view: loginView },
-	{ path: '/main-menu', view: mainMenuView },
-	{ path: '/waiting-room', view: waitingRoomView },
-	{ path: '/main-game', view: mainGameView },
-	{ path: '/end-screen', view: endScreenView },
-	{ path: '/scores', view: scoresView },
-	{ path: '/credits', view: creditsView },
+	{
+		path: '/main-menu',
+		view: new MainMenuView(document.querySelector('.main-menu')),
+	},
+	{
+		path: '/waiting-room',
+		view: new WaitingRoomView(document.querySelector('.waiting-room')),
+	},
+	{
+		path: '/main-game',
+		view: new MainGameView(document.querySelector('.main-game')),
+	},
+	{
+		path: '/end-screen',
+		view: new EndScreenView(document.querySelector('.end-screen')),
+	},
+	{
+		path: '/scores',
+		view: new ScoresView(document.querySelector('.scores')),
+	},
+	{
+		path: '/credits',
+		view: new CreditsView(document.querySelector('.credits')),
+	},
+	{
+		path: '/login',
+		view: new LoginView(document.querySelector('.login')),
+	},
 ];
 
 Router.routes = routes;
-Router.navigate('/login');
+
+const alreadyConnected = sessionStorage.getItem('nickname') != undefined;
+Router.navigate(alreadyConnected ? '/main-menu' : '/login');
 
 const canvas = document.querySelector('.canvas');
 Renderer.set_canvas(canvas);

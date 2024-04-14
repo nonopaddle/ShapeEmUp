@@ -144,6 +144,7 @@ export class PlayerEntity extends LivingEntity {
 		if (nextPos.y + this.radius > gameArea.maxSize.y)
 			this.velocity.y += gameArea.maxSize.y - nextPos.y - this.radius;
 		this.apply_vector_once(this.velocity);
+		this.cursorPosition.add(this.velocity);
 	}
 
 	move(delta, friction) {
