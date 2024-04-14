@@ -49,9 +49,23 @@ export class MouseControls {
 		this.canvas.addEventListener('mousemove', e => {
 			if (Renderer.cameraOffset == undefined) return;
 			const rect = this.canvas.getBoundingClientRect();
-			this.proxyCoords.x = e.clientX - rect.left;
-			this.proxyCoords.y = e.clientY - rect.top;
+			this.proxyCoords.x = e.clientX - rect.left - this.canvas.width / 2;
+			this.proxyCoords.y = e.clientY - rect.top - this.canvas.height / 2;
 		});
+
+		let lastScroll = 0;
+		window.addEventListener(
+			'wheel',
+			e => {
+				if (e.deltaY < 0) {
+					Renderer.incrementZoom();
+				} else {
+					Renderer.decrementZoom();
+				}
+				console.log(Renderer.zoom);
+			},
+			false
+		);
 	}
 
 	static #button_pressed_event(event) {

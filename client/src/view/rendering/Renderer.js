@@ -8,6 +8,8 @@ export class Renderer {
 	static time;
 	static playersScore = [];
 	static cameraOffset = undefined;
+	static gameSize = { x: 0, y: 0 };
+	static zoom = { val: 1, min: 0.5, max: 2, d: 0.1 };
 	static canvas;
 	static context;
 	static #reqAnim;
@@ -18,8 +20,8 @@ export class Renderer {
 		const canvasResizeObserver = new ResizeObserver(resampleCanvas.bind(this));
 		canvasResizeObserver.observe(this.canvas);
 		function resampleCanvas() {
-			this.canvas.width = this.canvas.clientWidth;
-			this.canvas.height = this.canvas.clientHeight;
+			this.canvas.height = window.innerHeight;
+			this.canvas.width = window.innerWidth;
 		}
 	}
 
@@ -40,11 +42,24 @@ export class Renderer {
 	static clear() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
+
+	static incrementZoom() {
+		if (this.zoom.val < this.zoom.max) this.zoom.val += this.zoom.d;
+	}
+	static decrementZoom() {
+		if (this.zoom.val > this.zoom.min) this.zoom.val -= this.zoom.d;
+	}
+
 	static #renderEnvironment() {
 		if (this.cameraOffset == undefined) return;
+		this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+		this.context.scale(this.zoom.val, this.zoom.val);
 
 		this.#renderBackground();
 		this.#renderEntities();
+		this.#renderBoundaries();
+		this.context.scale(1 / this.zoom.val, 1 / this.zoom.val);
+		this.context.translate(-this.canvas.width / 2, -this.canvas.height / 2);
 	}
 
 	static #renderBackground() {
@@ -60,8 +75,12 @@ export class Renderer {
 			for (let j = 0; j < nbRow; j++) {
 				if ((i % 2 != 0) ^ (j % 2 == 0))
 					this.context.fillRect(
-						-this.cameraOffset.x - this.canvas.width / 2 + i * cellSize,
-						-this.cameraOffset.y - this.canvas.height / 2 + j * cellSize,
+						-this.cameraOffset.x -
+							(this.canvas.width * (this.zoom.max + 1)) / 2 +
+							i * cellSize,
+						-this.cameraOffset.y -
+							(this.canvas.height * (this.zoom.max + 1)) / 2 +
+							j * cellSize,
 						cellSize,
 						cellSize
 					);
@@ -133,12 +152,34 @@ export class Renderer {
 			});
 		this.context.beginPath();
 		this.context.arc(
-			MouseControls.proxyCoords.x,
-			MouseControls.proxyCoords.y,
+			(MouseControls.proxyCoords.x * 1) / this.zoom,
+			(MouseControls.proxyCoords.y * 1) / this.zoom,
 			10,
 			0,
 			Math.PI * 2
 		);
+		this.context.closePath();
+		this.context.stroke();
+	}
+
+	static #renderBoundaries() {
+		this.context.strokeStyle = 'blue';
+		this.context.lineWidth = 4;
+		this.context.beginPath();
+		this.context.moveTo(-this.cameraOffset.x, -this.cameraOffset.y);
+		this.context.lineTo(
+			-this.cameraOffset.x + this.gameSize.x,
+			-this.cameraOffset.y
+		);
+		this.context.lineTo(
+			-this.cameraOffset.x + this.gameSize.x,
+			-this.cameraOffset.y + this.gameSize.y
+		);
+		this.context.lineTo(
+			-this.cameraOffset.x,
+			-this.cameraOffset.y + this.gameSize.y
+		);
+		this.context.lineTo(-this.cameraOffset.x, -this.cameraOffset.y);
 		this.context.closePath();
 		this.context.stroke();
 	}
@@ -166,24 +207,7 @@ export class Renderer {
 
 	static initConnectionToRenderer() {
 		Connection.socket.on('getGameSize-from-server', gameSize => {
-			this.canvas.height = window.innerHeight;
-			this.canvas.width = window.innerWidth;
-			/*const maxWidth = window.innerWidth;
-			const maxHeight = window.innerHeight;
-
-			let window_ratio = maxWidth / maxHeight;
-			let game_ratio = gameSize.x / gameSize.y;
-
-			if (window_ratio >= game_ratio) {
-				this.canvas.height = maxHeight;
-				this.canvas.width = maxHeight * game_ratio;
-			} else {
-				this.canvas.height = maxWidth / game_ratio;
-				this.canvas.width = maxWidth;
-			}
-
-			this.w_ratio = this.canvas.width / gameSize.x;
-			this.h_ratio = this.canvas.height / gameSize.y;*/
+			this.gameSize = gameSize;
 		});
 		Connection.socket.on('update-entities', entities => {
 			this.#entities = entities;
@@ -202,12 +226,12 @@ export class Renderer {
 					} else {
 						this.cameraOffset.x = lerp(
 							this.cameraOffset.x,
-							entity.origin.x - this.canvas.width / 2,
+							entity.origin.x,
 							0.2
 						);
 						this.cameraOffset.y = lerp(
 							this.cameraOffset.y,
-							entity.origin.y - this.canvas.height / 2,
+							entity.origin.y,
 							0.2
 						);
 					}
