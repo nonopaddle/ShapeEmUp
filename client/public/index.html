@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="w-full h-full">
     <head>
         <title>Shape Them Up</title>
-        <link rel="stylesheet" type="text/css" href="css/mainMenu.css">
+        <link rel="stylesheet" type="text/css" href="css/output.css">
+        <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <script src="build/main.bundle.js" defer></script>
     </head>
-    <body>
-        <section class="login">
-            <h1>WHO ARE YOU ?</h1>
+    <body class="m-0 p-0 bg-white font-sans w-full h-full">
+        <section class="login w-full h-full absolute top-0 left-0 border-none hidden">
+            <h1 class="text-sky-400 text-center">WHO ARE YOU ?</h1>
             <form action="" class="login-form">
                 <input type="text" name="nickname" class="login-nickname-input">
-                <div class="login-button">LOGIN</div>
+                <div class="login-button cursor-pointer">LOGIN</div>
             </form>
         </section>
-        <section class="main-menu">
-            <h1>Shape Them Up</h1>
-            <div class="buttons">
-                <a class="playButton" href="/waiting-room">Play</a>
-                <a class="scoresButton" href="/scores">Scores</a>
-                <a class="creditsButton" href="/credits">Credits</a>
-                <a class="logoutButton" href="/login">log out</a>
+        <section class="main-menu w-full h-full bg-lightpurple">
+            <h1 class="text-center text-9xl">Shape Them Up</h1>
+            <div class="flex flex-row justify-around">
+                <div class="scoresButton w-36 h-36 mx-4 my-auto border-4 rounded-3xl text-center flex flex-col justify-center text-3xl cursor-pointer" href="/scores">Scores</div>
+                <div class="playButton bg-pink text-yellow w-72 h-72 border-4 rounded-xl text-center flex flex-col justify-center text-7xl cursor-pointer" href="/waiting-room"><span class="ease-in duration-300">Play</span></div>
+                <div class="creditsButton w-36 h-36 mx-4 my-auto border-4 rounded-3xl text-center flex flex-col justify-center text-3xl cursor-pointer" href="/credits">Credits</div>
             </div>
+            <div class="logoutButton w-16 h-16 mx-auto my-20 border-2 rounded-3xl text-center flex flex-col justify-center text-xl cursor-pointer" href="/login">log out</div>
         </section>
         <section class="waiting-room">
             <h2>CHOOSE AN AVATAR</h2>
@@ -36,9 +38,7 @@
         </section>
         <section class="end-screen">
             <h2 class="score"></h2>
-            <div class="buttons">
-                <a class="endButton" href="/main-menu">HOME</a>
-            </div>
+            <div class="endButton cursor-pointer">HOME</div>
         </section>
         <section class="scores">
             <table class="scores-tab">
@@ -50,9 +50,7 @@
                 </thead>
                 <tbody></tbody>
             </table>
-            <div class="buttons">
-                <a href="/main-menu">HOME</a>
-            </div>
+            <div class="home cursor-pointer">HOME</div>
         </section>
         <section class="credits">
             <div class="members-container">
@@ -71,9 +69,7 @@
                     <h4 class="note-claim">GRADE PERCENTAGE : 40%</h3>
                 </div>
             </div>
-            <div class="buttons">
-                <a href="/main-menu">HOME</a>
-            </div>
+            <a class="home cursor-pointer">HOME</a>
         </section>
     </body>
 </html>

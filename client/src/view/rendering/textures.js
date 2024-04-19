@@ -117,7 +117,7 @@ export const weapons = {
 			for (let i = 1; i <= weapons.gun.nbSides + 1; i++) {
 				ctx.lineTo(radius * Math.cos(i * alpha), radius * Math.sin(i * alpha));
 			}
-			ctx.rotate(-Math.PI / 2);
+			ctx.rotate(Math.PI / 2);
 			ctx.stroke();
 			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
@@ -234,8 +234,8 @@ export const bulletsList = {
 			ctx.lineWidth = 0.04 * radius;
 
 			ctx.beginPath();
-
-			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
+			ctx.translate(origin.x, origin.y);
+			ctx.arc(0, 0, radius, 0, Math.PI * 2);
 			ctx.stroke();
 			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();
@@ -265,6 +265,7 @@ export const bulletsList = {
 			ctx.lineWidth = 0.04 * radius;
 
 			ctx.beginPath();
+			ctx.translate(origin.x, origin.y);
 
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();

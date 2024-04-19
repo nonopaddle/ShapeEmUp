@@ -4,6 +4,7 @@ import { Action } from './action/Action.js';
 import { Vector2 } from '../math/Vector2.js';
 import { randomWeapon } from '../weapons/WeaponList.js';
 import { WeaponEntity } from './WeaponEntity.js';
+import { lerp } from '../math/MathUtils.js';
 
 export class ProjectileEntity extends DynamicEntity {
 	memory = new Map();
@@ -78,8 +79,8 @@ export class ProjectileEntity extends DynamicEntity {
 
 	move() {
 		if (this.speedMult == -1) {
-			this.pos.x = this.owner.pos.x;
-			this.pos.y = this.owner.pos.y;
+			this.pos.x = lerp(this.pos.x, this.owner.pos.x, 0.5);
+			this.pos.y = lerp(this.pos.y, this.owner.pos.y, 0.5);
 		} else {
 			this.apply_impulse_vector(this.trajectory);
 		}

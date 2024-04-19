@@ -5,6 +5,7 @@ import { View } from './View.js';
 export class MainGameView extends View {
 	constructor(element) {
 		super(element);
+		const play_button = this.element.querySelector('.playButton');
 	}
 
 	static initConnectionToEndScreen() {

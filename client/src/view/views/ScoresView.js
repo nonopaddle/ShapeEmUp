@@ -1,9 +1,15 @@
+import { Router } from './Router.js';
 import { View } from './View.js';
 
 export class ScoresView extends View {
 	constructor(element) {
 		super(element);
 		this.#updateTab();
+		const home_button = this.element.querySelector('.home');
+		home_button.addEventListener('click', e => {
+			e.preventDefault();
+			Router.navigate('/main-menu');
+		});
 	}
 
 	#updateTab() {
@@ -27,7 +33,7 @@ export class ScoresView extends View {
 	}
 
 	show() {
-		super.show();
 		this.#updateTab();
+		super.show();
 	}
 }

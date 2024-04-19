@@ -1,4 +1,4 @@
-import { View, setNavigationToHref } from './View.js';
+import { View } from './View.js';
 import { avatarsList } from '../rendering/textures.js';
 import Connection from '../../Connection.js';
 import { Router } from './Router.js';
@@ -41,14 +41,12 @@ export class WaitingRoomView extends View {
 		});
 
 		const launchButton = this.element.querySelector('.launch');
-		launchButton.removeEventListener('click', setNavigationToHref);
 		launchButton.addEventListener('click', event => {
 			event.preventDefault();
 			Connection.socket.emit('launch');
 		});
 
 		const disconnectButton = this.element.querySelector('.disconnect');
-		disconnectButton.removeEventListener('click', setNavigationToHref);
 		disconnectButton.addEventListener('click', event => {
 			event.preventDefault();
 			Connection.disconnect();

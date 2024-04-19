@@ -150,14 +150,15 @@ function init() {
 		spawnerDatas4 = {
 			pos: new Vector2(gameArea.maxSize.x + 50, -50),
 		};
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas1));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas2));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas3));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas4));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas1));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas2));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas3));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas4));
+	gameArea.add_entity(new WeaponEntity(200, 200, weaponList.normal.zone));
 	players.forEach(socket => {
 		const player = new PlayerEntity(
 			{
-				pos: { x: 200, y: 200 },
+				pos: { x: 300, y: 200 },
 				radius: 25,
 				name: socket.handshake.query.nickname,
 				default_hp: 50,
