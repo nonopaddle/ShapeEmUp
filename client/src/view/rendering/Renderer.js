@@ -27,6 +27,7 @@ export class Renderer {
 
 	static start_rendering() {
 		if (this.context == undefined) throw new Error('context is null !');
+		console.log(performance.now());
 		this.clear();
 		this.#renderEnvironment();
 		this.#renderTime();
@@ -54,7 +55,6 @@ export class Renderer {
 		if (this.cameraOffset == undefined) return;
 		this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
 		this.zoom.val = lerp(this.zoom.val, this.zoom.level, 0.2);
-		console.log(this.zoom);
 		this.context.scale(this.zoom.val, this.zoom.val);
 		this.#renderBackground();
 		this.#renderEntities();
