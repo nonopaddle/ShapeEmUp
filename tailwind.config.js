@@ -3,13 +3,16 @@ export default {
 	content: ['./client/**/*.{html,js}'],
 	theme: {
 		colors: {
-			darkpurple: '#22162B',
-			purple: '#451F55',
-			lightpurple: '#724E91',
-			darkred: '#801a2e',
-			red: '#a7253f',
-			pink: '#E54F6D',
-			yellow: '#F8C630',
+			richblack: '#001219',
+			midnightgreen: '#005f73',
+			darkdyan: '#a99396',
+			tiffanyblue: '#94d2bd',
+			vanilla: '#e9d8a6',
+			gamboge: '#ee9b00',
+			alloworange: '#ca6702',
+			rust: '#bb3e03',
+			rufous: 'ae2012',
+			aubrun: '9b2226',
 		},
 		extend: {
 			height: {
