@@ -11,8 +11,8 @@ export default {
 			gamboge: '#ee9b00',
 			alloworange: '#ca6702',
 			rust: '#bb3e03',
-			rufous: 'ae2012',
-			aubrun: '9b2226',
+			rufous: '#ae2012',
+			aubrun: '#9b2226',
 		},
 		extend: {
 			height: {

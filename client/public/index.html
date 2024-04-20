@@ -22,10 +22,10 @@
             <div class="bg-richblack w-1/5 h-full -translate-x-1/2 absolute skew-x-12"></div>
             <div class="bg-richblack w-1/5 h-full right-0 translate-x-1/2 absolute -skew-x-12"></div>
             <h1 class="text-richblack text-center text-9xl">Shape Them Up</h1>
-            <div class="scoresButton text-richblack text-[2em] w-[150px] h-[150px] flex felx-col justify-center items-center border-richblack border-[4px] absolute left-1/4 top-1/2 -translate-x-1/2 -translate-y-1/2" href="/scores">Scores</div>
-            <div class="playButton text-richblack text-[5em] w-[300px] h-[300px] flex felx-col justify-center items-center border-richblack border-[6px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" href="/waiting-room"><span class="ease-in duration-300">Play</span></div>
-            <div class="creditsButton text-richblack text-[2em] w-[150px] h-[150px] flex felx-col justify-center items-center border-richblack border-[4px] absolute left-3/4 top-1/2 -translate-x-1/2 -translate-y-1/2" href="/credits">Credits</div>
-            <div class="logoutButton text-vanilla text-[2em] absolute bottom-[5%] left-[2%]" href="/login">log out</div>
+            <div class="scoresButton text-richblack text-[2em] w-[150px] h-[150px] flex felx-col justify-center items-center border-richblack border-[4px] absolute left-1/4 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" href="/scores">Scores</div>
+            <div class="playButton text-richblack text-[5em] w-[300px] h-[300px] flex felx-col justify-center items-center border-richblack border-[6px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" href="/waiting-room"><span class="ease-in duration-300">Play</span></div>
+            <div class="creditsButton text-richblack text-[2em] w-[150px] h-[150px] flex felx-col justify-center items-center border-richblack border-[4px] absolute left-3/4 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" href="/credits">Credits</div>
+            <div class="logoutButton text-vanilla text-[2em] absolute bottom-[5%] left-[2%] cursor-pointer" href="/login">log out</div>
         </section>
 
         <section class="waiting-room">
@@ -47,34 +47,34 @@
             <div class="endButton cursor-pointer">HOME</div>
         </section>
 
-        <section class="scores">
-            <table class="scores-tab">
+        <section class="scores w-full h-full absolute top-0 left-0 border-none bg-vanilla overflow-hidden">
+            <div class="bg-richblack w-full h-1/5 -translate-y-1/2 absolute skew-y-3"></div>
+            <div class="text-[white] absolute right-10 text-[5em] skew-y-3">HIGH SCORES</div>
+            <table class="scores-tab absolute left-[40%] top-[55%] -translate-x-1/2 -translate-y-1/2 border-richblack text-[2em] text-center border-spacing-0">
                 <thead>
-                    <tr>
-                        <th>NAME</th>
-                        <th>SCORE</th>
+                    <tr class="px-20 py-10 w-full">
+                        <th class="border-2">NAME</th>
+                        <th class="border-2">SCORE</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
-            <div class="home cursor-pointer">HOME</div>
+            <div class="home absolute text-[2em] bottom-[5%] right-[2%] flex flex-row justify-center items-center cursor-pointer">MAIN&nbsp;MENU<img src="./img/chevron-right-solid.svg" alt="" srcset="" class="scale-[25%]"></div>
         </section>
 
-        <section class="credits">
+        <section class="credits w-full h-full absolute top-0 left-0 border-none bg-vanilla overflow-hidden">
             <div class="members-container">
                 <div class="member">
-                    <h2 class="name">DELIN Noé</h2>
-                    <h3 class="alias">NONO</h3>
+                    <div class="name">DELIN Noé</div>
+                    <div class="alias">NONO</div>
                     <h4 class="group">GROUP : I</h2>
                     <h4 class="fav-game">FAVORITE GAME : MINECRAFT</h3>
-                    <h4 class="note-claim">GRADE PERCENTAGE : 60%</h3>
                 </div>
                 <div class="member">
                     <h2 class="name">BLOT Maxime</h2>
                     <h3 class="alias">Mistyk__</h3>
                     <h4 class="group">GROUPE : I</h2>
                     <h4 class="fav-game">FAVORITE GAME : MINECRAFT</h3>
-                    <h4 class="note-claim">GRADE PERCENTAGE : 40%</h3>
                 </div>
             </div>
             <a class="home cursor-pointer">HOME</a>
