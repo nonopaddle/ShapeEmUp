@@ -23,8 +23,8 @@ export class ScoresView extends View {
 					.forEach(score => {
 						html += `
                         <tr>
-                            <td>${score.name}</td>
-                            <td>${score.pts} pts</td>
+                            <td class="border-2 px-20 py-2">${score.name}</td>
+                            <td class="border-2 px-20 py-2">${score.pts} pts</td>
                         </tr>
                     `;
 					});

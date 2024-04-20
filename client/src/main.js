@@ -43,7 +43,7 @@ const routes = [
 Router.routes = routes;
 
 const alreadyConnected = sessionStorage.getItem('nickname') != undefined;
-Router.navigate(alreadyConnected ? '/scores' : '/login');
+Router.navigate(alreadyConnected ? '/main-menu' : '/login');
 
 const canvas = document.querySelector('.canvas');
 Renderer.set_canvas(canvas);
