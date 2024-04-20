@@ -150,10 +150,10 @@ function init() {
 		spawnerDatas4 = {
 			pos: new Vector2(gameArea.maxSize.x + 50, -50),
 		};
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas1));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas2));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas3));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas4));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas1));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas2));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas3));
+	//gameArea.add_entity(new SpawnerEntity(spawnerDatas4));
 	players.forEach(socket => {
 		const player = new PlayerEntity(
 			{

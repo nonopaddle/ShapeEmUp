@@ -117,7 +117,7 @@ export const weapons = {
 			for (let i = 1; i <= weapons.gun.nbSides + 1; i++) {
 				ctx.lineTo(radius * Math.cos(i * alpha), radius * Math.sin(i * alpha));
 			}
-			ctx.rotate(-Math.PI / 2);
+			ctx.rotate(Math.PI / 2);
 			ctx.stroke();
 			ctx.translate(-origin.x, -origin.y);
 			ctx.closePath();

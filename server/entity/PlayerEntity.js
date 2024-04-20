@@ -108,7 +108,6 @@ export class PlayerEntity extends LivingEntity {
 	}
 
 	update() {
-		super.update();
 		Object.values(this.weapons).forEach(element => {
 			if (element != weaponList.null) {
 				element.update();

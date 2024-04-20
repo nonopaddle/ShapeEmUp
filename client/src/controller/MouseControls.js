@@ -23,10 +23,6 @@ export class MouseControls {
 	static #coordsHandler = {
 		set(target, prop, value) {
 			target[prop] = value;
-			Connection.socket.emit('MouseCoordsEvent', {
-				x: target.x + Renderer.cameraOffset.x,
-				y: target.y + Renderer.cameraOffset.y,
-			});
 			return true;
 		},
 	};
@@ -47,7 +43,6 @@ export class MouseControls {
 		);
 
 		this.canvas.addEventListener('mousemove', e => {
-			if (Renderer.cameraOffset == undefined) return;
 			const rect = this.canvas.getBoundingClientRect();
 			this.proxyCoords.x = e.clientX - rect.left - this.canvas.width / 2;
 			this.proxyCoords.y = e.clientY - rect.top - this.canvas.height / 2;
