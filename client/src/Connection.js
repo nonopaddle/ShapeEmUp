@@ -13,6 +13,7 @@ export default class Connection {
 			query: {
 				nickname: sessionStorage.getItem('nickname'),
 			},
+			reconnection: false,
 		});
 		this.socket.on('disconnect', () => {
 			Router.navigate('/main-menu');

@@ -86,7 +86,6 @@ io.on('connection', socket => {
 
 	socket.on('difficulty change', difficulty => {
 		gameArea.difficulty = difficulties[difficulty];
-		console.log(gameArea.difficulty);
 		io.emit('difficulty update', difficulty);
 	});
 

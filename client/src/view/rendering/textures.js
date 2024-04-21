@@ -18,7 +18,7 @@ function xpDisplay(ctx, radius, xp, level) {
 
 export const avatarsList = {
 	square: {
-		color: 'lightblue',
+		color: '#ef476f',
 		owner: null,
 		draw: (ctx, origin, radius, angle, maxHP, HP, stats) => {
 			ctx.fillStyle = avatarsList.square.color;
@@ -36,7 +36,7 @@ export const avatarsList = {
 		},
 	},
 	circle: {
-		color: 'lightgreen',
+		color: '#ffd166',
 		owner: null,
 		draw: (ctx, origin, radius, angle, maxHP, HP, stats) => {
 			ctx.fillStyle = avatarsList.circle.color;
@@ -53,43 +53,73 @@ export const avatarsList = {
 		},
 	},
 	triangle: {
-		color: 'gold',
+		color: '#06d6a0',
 		owner: null,
 		nbSides: 3,
 		draw: (ctx, origin, radius, angle, maxHP, HP, stats) => {
-			const alpha = (2 * Math.PI) / avatarsList.triangle.nbSides;
 			ctx.fillStyle = avatarsList.triangle.color;
 			ctx.beginPath();
 
-			ctx.translate(origin.x, origin.y);
+			ctx.translate(origin.x, origin.y + 15);
+
 			ctx.rotate(angle);
-			ctx.moveTo(radius, 0);
-			for (let i = 1; i <= avatarsList.triangle.nbSides + 1; i++) {
-				ctx.lineTo(radius * Math.cos(i * alpha), radius * Math.sin(i * alpha));
+			ctx.moveTo(radius * 1.3, 0);
+			for (let i = 0; i < avatarsList.triangle.nbSides; i++) {
+				// calculate the rotation
+				const rotation = ((Math.PI * 2) / avatarsList.triangle.nbSides) * i;
+
+				// for the first point move to
+				if (i === 0) {
+					ctx.moveTo(
+						radius * 1.3 * Math.cos(rotation),
+						radius * 1.3 * Math.sin(rotation)
+					);
+				} else {
+					// for the rest draw a line
+					ctx.lineTo(
+						radius * 1.3 * Math.cos(rotation),
+						radius * 1.3 * Math.sin(rotation)
+					);
+				}
 			}
 			ctx.rotate(-angle);
 			ctx.fill();
 
 			hpDisplay(ctx, radius, maxHP, HP);
 			xpDisplay(ctx, radius, stats.xp, stats.level);
-			ctx.translate(-origin.x, -origin.y);
+			ctx.translate(-origin.x, -origin.y - 15);
 			ctx.closePath();
 		},
 	},
 	pentagon: {
-		color: 'lightpink',
+		color: '#118ab2',
 		owner: null,
 		nbSides: 5,
 		draw: (ctx, origin, radius, angle, maxHP, HP, stats) => {
-			const aplha = (2 * Math.PI) / avatarsList.pentagon.nbSides;
 			ctx.fillStyle = avatarsList.pentagon.color;
 			ctx.beginPath();
 
 			ctx.translate(origin.x, origin.y);
+
 			ctx.rotate(angle);
-			ctx.moveTo(radius, 0);
-			for (let i = 1; i <= avatarsList.pentagon.nbSides + 1; i++) {
-				ctx.lineTo(radius * Math.cos(i * aplha), radius * Math.sin(i * aplha));
+			ctx.moveTo(radius * 1.3, 0);
+			for (let i = 0; i < avatarsList.pentagon.nbSides; i++) {
+				// calculate the rotation
+				const rotation = ((Math.PI * 2) / avatarsList.pentagon.nbSides) * i;
+
+				// for the first point move to
+				if (i === 0) {
+					ctx.moveTo(
+						radius * 1.3 * Math.cos(rotation),
+						radius * 1.3 * Math.sin(rotation)
+					);
+				} else {
+					// for the rest draw a line
+					ctx.lineTo(
+						radius * 1.3 * Math.cos(rotation),
+						radius * 1.3 * Math.sin(rotation)
+					);
+				}
 			}
 			ctx.rotate(-angle);
 			ctx.fill();

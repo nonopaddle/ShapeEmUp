@@ -27,7 +27,7 @@ export class KeyBoardControls {
 
 	static stopListening() {
 		this.proxyKeyMap = null;
-
+		console.log('stop listening to keyboard');
 		window.removeEventListener(
 			'keydown',
 			KeyBoardControls.keydownEventHandler.bind(this)
