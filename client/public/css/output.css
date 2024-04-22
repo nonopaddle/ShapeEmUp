@@ -686,6 +686,10 @@ video {
   aspect-ratio: 7;
 }
 
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
 .h-1\/2 {
   height: 50%;
 }
@@ -766,6 +770,22 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[200px\] {
+  width: 200px;
+}
+
+.w-\[100px\] {
+  width: 100px;
+}
+
+.w-\[75px\] {
+  width: 75px;
+}
+
+.w-\[85px\] {
+  width: 85px;
 }
 
 .flex-1 {
@@ -902,6 +922,14 @@ video {
   border-width: 6px;
 }
 
+.border-4 {
+  border-width: 4px;
+}
+
+.border-\[3px\] {
+  border-width: 3px;
+}
+
 .border-none {
   border-style: none;
 }
@@ -998,6 +1026,46 @@ video {
 
 .text-\[5em\] {
   font-size: 5em;
+}
+
+.text-8xl {
+  font-size: 6rem;
+  line-height: 1;
+}
+
+.text-7xl {
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
+.text-6xl {
+  font-size: 3.75rem;
+  line-height: 1;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .text-\[white\] {
@@ -1165,6 +1233,18 @@ video {
     height: 7rem;
   }
 
+  .xl\:h-24 {
+    height: 6rem;
+  }
+
+  .xl\:border-\[6px\] {
+    border-width: 6px;
+  }
+
+  .xl\:border-\[5px\] {
+    border-width: 5px;
+  }
+
   .xl\:text-5xl {
     font-size: 3rem;
     line-height: 1;
@@ -1176,8 +1256,58 @@ video {
     height: 11rem;
   }
 
+  .\32xl\:w-\[300px\] {
+    width: 300px;
+  }
+
+  .\32xl\:w-\[150px\] {
+    width: 150px;
+  }
+
+  .\32xl\:border-8 {
+    border-width: 8px;
+  }
+
+  .\32xl\:border-\[6px\] {
+    border-width: 6px;
+  }
+
+  .\32xl\:border-\[5px\] {
+    border-width: 5px;
+  }
+
   .\32xl\:text-8xl {
     font-size: 6rem;
     line-height: 1;
+  }
+
+  .\32xl\:text-9xl {
+    font-size: 8rem;
+    line-height: 1;
+  }
+
+  .\32xl\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+  }
+
+  .\32xl\:text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+
+  .\32xl\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .\32xl\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .\32xl\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 }
