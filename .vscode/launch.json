@@ -1,0 +1,51 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug server",
+			"type": "node",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": ["run-script", "server:watch", "Thomas"],
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"env": {
+				"PORT": "8000"
+			}
+		},
+		{
+			"name": "Chromium Debug",
+			"type": "chrome",
+			"request": "launch",
+			"url": "http://localhost:8000",
+			"webRoot": "${workspaceFolder}",
+			"runtimeExecutable": "/bin/chromium"
+		},
+		{
+			"name": "Chrome Debug",
+			"type": "chrome",
+			"request": "launch",
+			"url": "http://localhost:8000",
+			"webRoot": "${workspaceFolder}"
+		},
+		{
+			"name": "Firefox Debug",
+			"type": "firefox",
+			"request": "launch",
+			"reAttach": true,
+			"port": 8008,
+			"timeout": 25,
+			"url": "http://localhost:8000",
+			"webRoot": "${workspaceFolder}",
+			"pathMappings": [
+				{
+					"url": "webpack://jsae/src",
+					"path": "${workspaceFolder}/src"
+				},
+				{ "url": "http://localhost:8000/build", "path": null }
+			]
+		}
+	]
+}
