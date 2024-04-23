@@ -6,7 +6,6 @@ import { Renderer } from '../rendering/Renderer.js';
 import { KeyBoardControls } from '../../controller/KeyboardControls.js';
 
 export class WaitingRoomView extends View {
-	#buttonsize = { x: 200, y: 200 };
 	constructor(element) {
 		super(element);
 		const avatarListContainer = this.element.querySelector('.avatars-list');
@@ -14,7 +13,7 @@ export class WaitingRoomView extends View {
 			avatarListContainer.innerHTML += `
 				<div class="bg-midnightgreen w-1/6 h-full relative top-1/4 cursor-pointer">
 					<div class="bg-tiffanyblue w-full h-1/6 -translate-y-1/2" style="clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
-					<canvas class="${avatarName} absolute left-1/2 -translate-x-1/2 -translate-y-[130%]"></canvas>
+					<canvas class="${avatarName} aspect-square w-full absolute left-1/2 -translate-x-1/2 lg:-translate-y-[105%] xl:-translate-y-[100%]"></canvas>
 					<div class="bg-richblack w-1/2 h-full absolute -translate-y-[16.66667%]" style="clip-path: polygon(0% 0%, 100% 8.5%, 100% 100%, 0% 100%);">
 				</div>
 				`;
@@ -32,12 +31,12 @@ export class WaitingRoomView extends View {
 				});
 			});
 
-			canvas.width = this.#buttonsize.x;
-			canvas.height = this.#buttonsize.y;
+			console.log(canvas.width, canvas.height);
 			const ctx = canvas.getContext('2d');
+			ctx.scale(1, 1/2);
 			datas.draw(
 				ctx,
-				{ x: canvas.width / 2, y: canvas.height / 2 },
+				{ x: canvas.width / 2, y: canvas.height },
 				50,
 				-Math.PI / 2,
 				0,
@@ -123,15 +122,6 @@ export class WaitingRoomView extends View {
 							flex-col
 							content-stretch
 							h-100%
-							before:content-[' ']
-							before:absolute
-							before:w-2
-							before:h-[66.66666666666667%]
-							before:top-1/2
-							before:left-1/2
-							before:-translate-x-1/2
-							before:-translate-y-1/2
-							before:bg-vanilla
 						">
 							${Object.keys(difficulties).map(
 								difficulty => `
