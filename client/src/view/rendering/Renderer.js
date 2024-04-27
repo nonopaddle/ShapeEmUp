@@ -80,20 +80,23 @@ export class Renderer {
 	}
 
 	static #renderDebugBackground() {
-		this.context.fillStyle = 'lightgrey';
 		for (let i = 0; i < this.debugBackground.nbCol; i++) {
 			for (let j = 0; j < this.debugBackground.nbRow; j++) {
-				if ((i % 2 != 0) ^ (j % 2 == 0))
-					this.context.fillRect(
-						-this.cameraOffset.x -
-							(this.canvas.width * (this.zoom.max + 1)) / 2 +
-							i * this.debugBackground.cellSize,
-						-this.cameraOffset.y -
-							(this.canvas.height * (this.zoom.max + 1)) / 2 +
-							j * this.debugBackground.cellSize,
-						this.debugBackground.cellSize,
-						this.debugBackground.cellSize
-					);
+				if ((i % 2 != 0) ^ (j % 2 == 0)) {
+					this.context.fillStyle = '#f8f9fa';
+				} else {
+					this.context.fillStyle = '#e9ecef';
+				}
+				this.context.fillRect(
+					-this.cameraOffset.x -
+						(this.canvas.width * (this.zoom.max + 1)) / 2 +
+						i * this.debugBackground.cellSize,
+					-this.cameraOffset.y -
+						(this.canvas.height * (this.zoom.max + 1)) / 2 +
+						j * this.debugBackground.cellSize,
+					this.debugBackground.cellSize,
+					this.debugBackground.cellSize
+				);
 			}
 		}
 	}

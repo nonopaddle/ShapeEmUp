@@ -103,7 +103,7 @@ export const avatarsList = {
 };
 
 export const weapons = {
-	color: 'white',
+	color: 'black',
 	gun: {
 		nbSides: 6,
 		draw: (ctx, origin, radius) => {
@@ -234,7 +234,7 @@ export const bulletsList = {
 			ctx.lineWidth = 0.04 * radius;
 
 			ctx.beginPath();
-
+			ctx.translate(origin.x, origin.y);
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
 			ctx.translate(-origin.x, -origin.y);

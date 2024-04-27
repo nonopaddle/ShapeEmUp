@@ -7,7 +7,7 @@ export class MonsterEntity extends LivingEntity {
 	static monsterNb = 0;
 	type = 'monster';
 	name = 'monster';
-	knockback_speed = 20;
+	knockback_speed = 40;
 
 	constructor(datas, pl) {
 		super(datas);
