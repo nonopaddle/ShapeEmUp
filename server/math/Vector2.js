@@ -2,6 +2,8 @@ export class Vector2 {
 	x;
 	y;
 
+	static ZERO = new Vector2(0, 0);
+
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
@@ -67,5 +69,9 @@ export class Vector2 {
 
 	to(v) {
 		return new Vector2(v.x - this.x, v.y - this.y);
+	}
+
+	static lerp(v1, v2, t) {
+		return new Vector2(v1.x + (v2.x - v1.x) * t, v1.y + (v2.y - v1.y) * t);
 	}
 }

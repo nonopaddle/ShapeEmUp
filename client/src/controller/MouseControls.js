@@ -23,6 +23,10 @@ export class MouseControls {
 	static #coordsHandler = {
 		set(target, prop, value) {
 			target[prop] = value;
+			Connection.socket.emit('MouseCoordsEvent', {
+				x: MouseControls.proxyCoords.x + Renderer.cameraOffset.x,
+				y: MouseControls.proxyCoords.y + Renderer.cameraOffset.y,
+			});
 			return true;
 		},
 	};
@@ -48,13 +52,12 @@ export class MouseControls {
 			this.proxyCoords.y = e.clientY - rect.top - this.canvas.height / 2;
 		});
 
-		let lastScroll = 0;
 		window.addEventListener(
 			'wheel',
 			e => {
 				if (e.deltaY < 0) {
 					Renderer.incrementZoom();
-				} else {
+				} else if (e.deltaY > 0) {
 					Renderer.decrementZoom();
 				}
 			},

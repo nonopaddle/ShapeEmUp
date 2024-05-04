@@ -117,8 +117,7 @@ export class PlayerEntity extends LivingEntity {
 			item.update();
 		});
 		this.apply_stats();
-		this.move(gameArea.delta, gameArea.friction);
-		this.apply_impulse_vector(this.move_vector);
+		this.move(gameArea.delta);
 		super.update();
 
 		if (this.stats.shoot_cooldown <= 0) {
@@ -146,21 +145,19 @@ export class PlayerEntity extends LivingEntity {
 		this.cursorPosition.add(this.velocity);
 	}
 
-	move(delta, friction) {
-		if (this.direction.distance() == 0) {
-			if (this.move_vector.distance() > delta * friction) {
-				this.move_vector.substract(
-					this.move_vector.normalize().multiply(delta * friction)
-				);
-			} else {
-				this.move_vector = new Vector2(0, 0);
-			}
-		} else {
+	move(delta) {
+		if (this.direction.distance() != 0) {
 			this.move_vector.add(this.direction.multiply(this.accel * delta));
 			this.move_vector = this.move_vector.limit_distance(
 				this.speedMult * this.stats.speed
 			);
 		}
+		this.apply_impulse_vector(this.move_vector);
+		this.move_vector = Vector2.lerp(
+			this.move_vector,
+			Vector2.ZERO,
+			gameArea.friction
+		);
 	}
 
 	shoot(bool) {
@@ -183,6 +180,7 @@ export class PlayerEntity extends LivingEntity {
 						.to(this.cursorPosition)
 						.normalize()
 						.multiply(bullet.speedMult);
+					bullet.trajectory.add(this.move_vector);
 					gameArea.entities.push(bullet);
 				}
 			}

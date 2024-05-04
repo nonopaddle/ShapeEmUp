@@ -11,7 +11,7 @@ export class Renderer {
 		monsters: [],
 	};
 	static debugBackground = {
-		cellSize: 100,
+		cellRadius: 100,
 		nbCol: 100,
 		nbRow: 50,
 	};
@@ -37,12 +37,13 @@ export class Renderer {
 
 	static start_rendering() {
 		if (this.context == undefined) throw new Error('context is null !');
-		Connection.socket.emit('MouseCoordsEvent', {
+		/*Connection.socket.emit('MouseCoordsEvent', {
 			x: MouseControls.proxyCoords.x + Renderer.cameraOffset.x,
 			y: MouseControls.proxyCoords.y + Renderer.cameraOffset.y,
-		});
+		});*/
 		this.clear();
 		this.#renderEnvironment();
+
 		this.#renderTime();
 		this.#renderPlayersScore();
 
@@ -64,22 +65,55 @@ export class Renderer {
 		if (this.zoom.level > this.zoom.min) this.zoom.level *= this.zoom.step;
 	}
 
-	static #renderEnvironment() {
+	static #renderWithCameraView(drawFunc) {
 		this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
 		this.zoom.val = lerp(this.zoom.val, this.zoom.level, 0.2);
 		this.context.scale(this.zoom.val, this.zoom.val);
-		this.#renderBackground();
-		this.#renderEntities();
-		this.#renderBoundaries();
+		this.context.translate(-this.cameraOffset.x, -this.cameraOffset.y);
+
+		drawFunc();
+
+		this.context.translate(this.cameraOffset.x, this.cameraOffset.y);
 		this.context.scale(1 / this.zoom.val, 1 / this.zoom.val);
+
+		Object.values(avatarsList)
+			.filter(avatar => avatar.owner == sessionStorage.getItem('nickname'))
+			.map(avatar => (this.context.strokeStyle = avatar.color));
+
+		this.context.beginPath();
+		this.context.arc(
+			MouseControls.proxyCoords.x,
+			MouseControls.proxyCoords.y,
+			10,
+			0,
+			Math.PI * 2
+		);
+		this.context.closePath();
+		this.context.stroke();
+
 		this.context.translate(-this.canvas.width / 2, -this.canvas.height / 2);
 	}
 
-	static #renderBackground() {
-		this.#renderDebugBackground();
+	static #renderEnvironment() {
+		this.#renderWithCameraView(() => {
+			this.#renderBackground();
+			this.#renderEntities();
+			this.#renderBoundaries();
+			this.#debugRenderOrigin();
+		});
 	}
 
-	static #renderDebugBackground() {
+	static #renderBackground() {
+		this.#debugRenderBackground();
+	}
+
+	static #debugRenderBackground() {
+		const o_x =
+				Math.round(this.canvas.width / 100) * 100 +
+				this.debugBackground.cellRadius,
+			o_y =
+				Math.round(this.canvas.height / 100) * 100 +
+				this.debugBackground.cellRadius;
 		for (let i = 0; i < this.debugBackground.nbCol; i++) {
 			for (let j = 0; j < this.debugBackground.nbRow; j++) {
 				if ((i % 2 != 0) ^ (j % 2 == 0)) {
@@ -88,17 +122,20 @@ export class Renderer {
 					this.context.fillStyle = '#e9ecef';
 				}
 				this.context.fillRect(
-					-this.cameraOffset.x -
-						(this.canvas.width * (this.zoom.max + 1)) / 2 +
-						i * this.debugBackground.cellSize,
-					-this.cameraOffset.y -
-						(this.canvas.height * (this.zoom.max + 1)) / 2 +
-						j * this.debugBackground.cellSize,
-					this.debugBackground.cellSize,
-					this.debugBackground.cellSize
+					-(o_x * (this.zoom.max + 1)) / 2 +
+						i * this.debugBackground.cellRadius,
+					-(o_y * (this.zoom.max + 1)) / 2 +
+						j * this.debugBackground.cellRadius,
+					this.debugBackground.cellRadius,
+					this.debugBackground.cellRadius
 				);
 			}
 		}
+	}
+
+	static #debugRenderOrigin() {
+		this.context.fillStyle = 'red';
+		this.context.fillRect(-10, -10, 20, 20);
 	}
 
 	static #renderEntities() {
@@ -109,8 +146,8 @@ export class Renderer {
 					avatar.draw(
 						this.context,
 						{
-							x: player.origin.x - this.cameraOffset.x,
-							y: player.origin.y - this.cameraOffset.y,
+							x: player.origin.x,
+							y: player.origin.y,
 						},
 						player.radius,
 						-player.angle,
@@ -124,8 +161,8 @@ export class Renderer {
 			bulletsList[bullet.name].draw(
 				this.context,
 				{
-					x: bullet.origin.x - this.cameraOffset.x,
-					y: bullet.origin.y - this.cameraOffset.y,
+					x: bullet.origin.x,
+					y: bullet.origin.y,
 				},
 				bullet.radius,
 				Object.values(avatarsList)
@@ -137,8 +174,8 @@ export class Renderer {
 			weapons[weapon.name].draw(
 				this.context,
 				{
-					x: weapon.origin.x - this.cameraOffset.x,
-					y: weapon.origin.y - this.cameraOffset.y,
+					x: weapon.origin.x,
+					y: weapon.origin.y,
 				},
 				weapon.radius
 			);
@@ -147,44 +184,25 @@ export class Renderer {
 			monsters[monster.name].draw(
 				this.context,
 				{
-					x: monster.origin.x - this.cameraOffset.x,
-					y: monster.origin.y - this.cameraOffset.y,
+					x: monster.origin.x,
+					y: monster.origin.y,
 				},
 				monster.radius,
 				monster.maxHP,
 				monster.HP
 			);
 		});
-		this.context.beginPath();
-		this.context.arc(
-			(MouseControls.proxyCoords.x * 1) / this.zoom,
-			(MouseControls.proxyCoords.y * 1) / this.zoom,
-			10,
-			0,
-			Math.PI * 2
-		);
-		this.context.closePath();
-		this.context.stroke();
 	}
 
 	static #renderBoundaries() {
 		this.context.strokeStyle = 'blue';
 		this.context.lineWidth = 4;
 		this.context.beginPath();
-		this.context.moveTo(-this.cameraOffset.x, -this.cameraOffset.y);
-		this.context.lineTo(
-			-this.cameraOffset.x + this.gameSize.x,
-			-this.cameraOffset.y
-		);
-		this.context.lineTo(
-			-this.cameraOffset.x + this.gameSize.x,
-			-this.cameraOffset.y + this.gameSize.y
-		);
-		this.context.lineTo(
-			-this.cameraOffset.x,
-			-this.cameraOffset.y + this.gameSize.y
-		);
-		this.context.lineTo(-this.cameraOffset.x, -this.cameraOffset.y);
+		this.context.moveTo(0, 0);
+		this.context.lineTo(this.gameSize.x, 0);
+		this.context.lineTo(this.gameSize.x, this.gameSize.y);
+		this.context.lineTo(0, this.gameSize.y);
+		this.context.lineTo(0, 0);
 		this.context.closePath();
 		this.context.stroke();
 	}
@@ -249,12 +267,12 @@ export class Renderer {
 						this.cameraOffset.x = lerp(
 							this.cameraOffset.x,
 							player.origin.x,
-							0.2
+							0.3
 						);
 						this.cameraOffset.y = lerp(
 							this.cameraOffset.y,
 							player.origin.y,
-							0.2
+							0.3
 						);
 					}
 				});

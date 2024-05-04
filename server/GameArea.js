@@ -8,8 +8,8 @@ class GameArea {
 	difficulty = difficulties[this.defaultDifficulty];
 	scoreTab = [];
 	entities = [];
-	delta = 16 / 1000;
-	friction = 400;
+	delta = 8 / 1000;
+	friction = 0.1;
 	gameStarted = false;
 	#main_loop;
 

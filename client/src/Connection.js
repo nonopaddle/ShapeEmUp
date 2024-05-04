@@ -26,5 +26,6 @@ export default class Connection {
 
 	static disconnect() {
 		this.socket.disconnect();
+		this.socket = null;
 	}
 }

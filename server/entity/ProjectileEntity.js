@@ -4,11 +4,12 @@ import { Action } from './action/Action.js';
 import { Vector2 } from '../math/Vector2.js';
 import { randomWeapon } from '../weapons/WeaponList.js';
 import { WeaponEntity } from './WeaponEntity.js';
+import { lerp } from '../math/MathUtils.js';
 
 export class ProjectileEntity extends DynamicEntity {
 	memory = new Map();
 	type = 'bullet';
-	trajectory = new Vector2(0, 0);
+	trajectory = Vector2.ZERO;
 
 	constructor(datas) {
 		super(datas);
@@ -52,18 +53,20 @@ export class ProjectileEntity extends DynamicEntity {
 				}
 			})
 		);
-		this.ttl = datas.ttl;
+		this.ttl = { max: datas.ttl, remain: datas.ttl, progression: 0 };
 		this.name = datas.texture;
 	}
 
 	update() {
-		if (this.ttl > 0) {
-			this.ttl -= 1;
-			if (this.ttl == 0) {
+		if (this.ttl.remain > 0) {
+			this.ttl.remain -= 1;
+			this.ttl.progression = 1 - this.ttl.remain / this.ttl.max;
+			if (this.ttl.remain == 0) {
 				this.die();
 				return;
 			}
 		}
+		console.log(this.ttl.progression);
 		this.memory.forEach((value, key) => {
 			this.memory[key] -= 1;
 		});
@@ -82,6 +85,11 @@ export class ProjectileEntity extends DynamicEntity {
 			this.pos.y = this.owner.pos.y;
 		} else {
 			this.apply_impulse_vector(this.trajectory);
+			this.trajectory = this.trajectory
+				.normalize()
+				.multiply(
+					lerp(this.speedMult, 0, 1 - Math.pow(1 - this.ttl.progression, 5))
+				);
 		}
 	}
 

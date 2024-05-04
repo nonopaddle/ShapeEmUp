@@ -30,7 +30,7 @@ export class SpawnerEntity extends Entity {
 				pos: { x: this.pos.x, y: this.pos.y },
 				radius: 20 * (randMult / 1.5),
 				default_hp: 25 * randMult,
-				speedMult: 10 - randMult,
+				speedMult: 400 - randMult,
 				damages: 2,
 				color: 'red',
 				difficulty: gameArea.difficulty.monster,

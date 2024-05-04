@@ -150,10 +150,13 @@ function init() {
 		spawnerDatas4 = {
 			pos: new Vector2(gameArea.maxSize.x + 50, -50),
 		};
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas1));
+	/*gameArea.add_entity(new SpawnerEntity(spawnerDatas1));
 	gameArea.add_entity(new SpawnerEntity(spawnerDatas2));
 	gameArea.add_entity(new SpawnerEntity(spawnerDatas3));
-	gameArea.add_entity(new SpawnerEntity(spawnerDatas4));
+	gameArea.add_entity(new SpawnerEntity(spawnerDatas4));*/
+	gameArea.add_entity(new WeaponEntity(300, 500, weaponList.normal.zone));
+	gameArea.add_entity(new WeaponEntity(300, 600, weaponList.normal.bigGun));
+	gameArea.add_entity(new WeaponEntity(300, 700, weaponList.normal.laser));
 	players.forEach(socket => {
 		const player = new PlayerEntity(
 			{

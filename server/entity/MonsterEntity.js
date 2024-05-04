@@ -7,7 +7,7 @@ export class MonsterEntity extends LivingEntity {
 	static monsterNb = 0;
 	type = 'monster';
 	name = 'monster';
-	knockback_speed = 40;
+	knockback_speed = 50;
 
 	constructor(datas, pl) {
 		super(datas);
@@ -51,7 +51,7 @@ export class MonsterEntity extends LivingEntity {
 		const direction = this.pos
 			.to(this.playerAggro.pos)
 			.normalize()
-			.multiply(this.speedMult);
+			.multiply(this.speedMult * gameArea.delta);
 		this.apply_vector_once(direction);
 	}
 
