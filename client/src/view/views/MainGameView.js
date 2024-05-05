@@ -1,4 +1,5 @@
 import Connection from '../../Connection.js';
+import { MouseControls } from '../../controller/MouseControls.js';
 import { Router } from './Router.js';
 import { View } from './View.js';
 
@@ -9,6 +10,7 @@ export class MainGameView extends View {
 
 	static initConnectionToEndScreen() {
 		Connection.socket.on('game-end', scores => {
+			MouseControls.off();
 			const score = scores
 				.filter(score => score.name == sessionStorage.getItem('nickname'))
 				.map(score => score.pts);

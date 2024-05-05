@@ -8,17 +8,62 @@ class GameArea {
 	difficulty = difficulties[this.defaultDifficulty];
 	scoreTab = [];
 	entities = [];
-	delta = 8 / 1000;
+	delta = 32 / 1000;
 	friction = 0.1;
 	gameStarted = false;
 	#main_loop;
 
+	// main loop
+	t = 0;
+	dt = 32 / 1000;
+	currentTime;
+	accumulator = 0;
+
 	add_entity(entity) {
 		if (entity.type == 'player') {
 			this.scoreTab.push({ name: entity.name, pts: 0 });
-			console.log(this.scoreTab);
 		}
 		this.entities.push(entity);
+	}
+
+	lastTick = Date.now();
+
+	tick_event() {
+		const newTime = Date.now();
+		if (this.currentTime) {
+			let frameTime = newTime - this.currentTime;
+			if (frameTime > 0.25) frameTime = 0.25;
+			this.accumulator += frameTime;
+
+			while (this.accumulator >= this.dt) {
+				console.log(this.accumulator, this.dt);
+				this.entities.forEach(entity => entity.update(this.dt));
+				this.t += this.dt;
+				this.accumulator -= this.dt;
+			}
+
+			if (this.no_players_left() || this.time_is_up()) this.end();
+
+			if (this.io != undefined) {
+				this.send_entitiesDatas();
+				this.send_current_time();
+				this.send_players_score();
+			}
+		}
+		this.currentTime = newTime;
+
+		/*const now = Date.now();
+		const dt = now - this.lastTick;
+		this.lastTick = now;
+		console.log(dt);
+		this.entities.forEach(entity => entity.update());
+		this.time += this.delta;
+		if (this.no_players_left() || this.time_is_up()) this.end();
+		if (this.io != undefined) {
+			this.send_entitiesDatas();
+			this.send_current_time();
+			this.send_players_score();
+		}*/
 	}
 
 	start_loop() {
@@ -53,17 +98,6 @@ class GameArea {
 	stop_loop() {
 		clearInterval(this.#main_loop);
 		console.log('loop stopped');
-	}
-
-	tick_event() {
-		this.entities.forEach(entity => entity.update());
-		this.time += this.delta;
-		if (this.no_players_left() || this.time_is_up()) this.end();
-		if (this.io != undefined) {
-			this.send_entitiesDatas();
-			this.send_current_time();
-			this.send_players_score();
-		}
 	}
 
 	get_players() {

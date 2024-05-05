@@ -12,7 +12,18 @@ export class PlayerEntity extends LivingEntity {
 	direction = new Vector2(0, 0);
 	shootDirection = new Vector2(0, 0);
 	cursorPosition = new Vector2(0, 0);
+
 	move_vector = new Vector2(0, 0);
+	accel = 10;
+
+	dash = {
+		vector: Vector2.ZERO,
+		available: true,
+		cooldown_preset: 1,
+		cooldown_before_use: 0,
+		accel: 7000,
+	};
+
 	stats = {
 		speed: 20,
 		regen: { amount: 0, cooldown: 100 },
@@ -27,8 +38,18 @@ export class PlayerEntity extends LivingEntity {
 		ultimate: weaponList.null,
 	};
 	items = [];
-	mouseState = { z: false, q: false, s: false, d: false, space: false };
-	accel = 400;
+	keyboardState = {
+		z: false,
+		q: false,
+		s: false,
+		d: false,
+		space: false,
+	};
+	mouseState = {
+		left: false,
+		middle: false,
+		right: false,
+	};
 
 	constructor(datas, socket) {
 		super(datas);
@@ -94,6 +115,7 @@ export class PlayerEntity extends LivingEntity {
 				this.direction = new Vector2(0, 0);
 				this.direction.x = -(keyboardEvent.q - keyboardEvent.d);
 				this.direction.y = -(keyboardEvent.z - keyboardEvent.s);
+				this.keyboardState = keyboardEvent;
 				this.direction = this.direction.normalize();
 			});
 
@@ -107,7 +129,7 @@ export class PlayerEntity extends LivingEntity {
 		}
 	}
 
-	update() {
+	update(delta) {
 		Object.values(this.weapons).forEach(element => {
 			if (element != weaponList.null) {
 				element.update();
@@ -117,8 +139,9 @@ export class PlayerEntity extends LivingEntity {
 			item.update();
 		});
 		this.apply_stats();
-		this.move(gameArea.delta);
-		super.update();
+		this.#move(delta);
+		this.#dash(delta);
+		super.update(delta);
 
 		if (this.stats.shoot_cooldown <= 0) {
 			if (this.mouseState.left) {
@@ -145,7 +168,7 @@ export class PlayerEntity extends LivingEntity {
 		this.cursorPosition.add(this.velocity);
 	}
 
-	move(delta) {
+	#move(delta) {
 		if (this.direction.distance() != 0) {
 			this.move_vector.add(this.direction.multiply(this.accel * delta));
 			this.move_vector = this.move_vector.limit_distance(
@@ -155,6 +178,30 @@ export class PlayerEntity extends LivingEntity {
 		this.apply_impulse_vector(this.move_vector);
 		this.move_vector = Vector2.lerp(
 			this.move_vector,
+			Vector2.ZERO,
+			gameArea.friction
+		);
+	}
+
+	#dash(delta) {
+		if (
+			this.keyboardState.space &&
+			this.dash.available &&
+			this.direction.distance() != 0
+		) {
+			this.dash.vector = this.direction.multiply(this.dash.accel * delta);
+			this.dash.available = false;
+			this.dash.cooldown_before_use = this.dash.cooldown_preset;
+		}
+		if (this.dash.cooldown_before_use <= 0) {
+			this.dash.available = true;
+		} else {
+			this.dash.cooldown_before_use -= gameArea.delta;
+		}
+
+		this.apply_impulse_vector(this.dash.vector);
+		this.dash.vector = Vector2.lerp(
+			this.dash.vector,
 			Vector2.ZERO,
 			gameArea.friction
 		);

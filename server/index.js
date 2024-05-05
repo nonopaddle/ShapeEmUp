@@ -167,7 +167,6 @@ function init() {
 			},
 			socket
 		);
-		console.log(player);
 		gameArea.add_entity(player);
 	});
 	gameArea.start_loop();

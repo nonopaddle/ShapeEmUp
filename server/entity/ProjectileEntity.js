@@ -66,11 +66,10 @@ export class ProjectileEntity extends DynamicEntity {
 				return;
 			}
 		}
-		console.log(this.ttl.progression);
 		this.memory.forEach((value, key) => {
 			this.memory[key] -= 1;
 		});
-		this.move();
+		this.#move();
 		super.update();
 	}
 
@@ -79,7 +78,7 @@ export class ProjectileEntity extends DynamicEntity {
 		this.trajectory.y = y;
 	}
 
-	move() {
+	#move() {
 		if (this.speedMult == -1) {
 			this.pos.x = this.owner.pos.x;
 			this.pos.y = this.owner.pos.y;

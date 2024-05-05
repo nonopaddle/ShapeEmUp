@@ -16,5 +16,5 @@ export class Entity {
 		this.hitbox.update();
 	}
 
-	move() {}
+	#move() {}
 }

@@ -209,7 +209,7 @@ export class Renderer {
 
 	static #renderTime() {
 		this.context.font = '30px Arial';
-		this.context.fillStyle = 'white';
+		this.context.fillStyle = 'black';
 		const sec = Math.floor(this.time) % 60;
 		this.context.fillText(
 			`${Math.floor(Math.floor(this.time) / 60)}:${sec < 10 ? `0${sec}` : sec}`,
@@ -220,7 +220,7 @@ export class Renderer {
 
 	static #renderPlayersScore() {
 		this.context.font = '30px Arial';
-		this.context.fillStyle = 'white';
+		this.context.fillStyle = 'black';
 		let txt = ``;
 		this.playersScore.forEach(player => {
 			txt += `${player.name}: ${player.pts} `;

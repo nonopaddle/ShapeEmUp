@@ -57,6 +57,7 @@ export class KeyBoardControls {
 					KeyBoardControls.proxyKeyMap.d = true;
 				break;
 			case ' ':
+				console.log('space');
 				if (!KeyBoardControls.proxyKeyMap.space)
 					KeyBoardControls.proxyKeyMap.space = true;
 				break;

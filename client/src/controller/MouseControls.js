@@ -4,7 +4,8 @@ import { Renderer } from '../view/rendering/Renderer.js';
 export class MouseControls {
 	static canvas;
 
-	static delta = 60;
+	static delta = 8;
+	static loop;
 
 	static #coords = { x: 0, y: 0 };
 	static #controls = {
@@ -23,10 +24,6 @@ export class MouseControls {
 	static #coordsHandler = {
 		set(target, prop, value) {
 			target[prop] = value;
-			Connection.socket.emit('MouseCoordsEvent', {
-				x: MouseControls.proxyCoords.x + Renderer.cameraOffset.x,
-				y: MouseControls.proxyCoords.y + Renderer.cameraOffset.y,
-			});
 			return true;
 		},
 	};
@@ -52,7 +49,47 @@ export class MouseControls {
 			this.proxyCoords.y = e.clientY - rect.top - this.canvas.height / 2;
 		});
 
+		this.loop = setInterval(() => {
+			Connection.socket.emit('MouseControlsEvent', this.#controls);
+			Connection.socket.emit('MouseCoordsEvent', {
+				x: this.#coords.x + Renderer.cameraOffset.x,
+				y: this.#coords.y + Renderer.cameraOffset.y,
+			});
+		}, this.delta);
+
 		window.addEventListener(
+			'wheel',
+			e => {
+				if (e.deltaY < 0) {
+					Renderer.incrementZoom();
+				} else if (e.deltaY > 0) {
+					Renderer.decrementZoom();
+				}
+			},
+			false
+		);
+	}
+
+	static off() {
+		this.canvas.removeEventListener('contextmenu', e => e.preventDefault());
+		this.canvas.removeEventListener(
+			'mousedown',
+			this.#button_pressed_event.bind(this)
+		);
+		this.canvas.removeEventListener(
+			'mouseup',
+			this.#button_released_event.bind(this)
+		);
+
+		this.canvas.removeEventListener('mousemove', e => {
+			const rect = this.canvas.getBoundingClientRect();
+			this.proxyCoords.x = e.clientX - rect.left - this.canvas.width / 2;
+			this.proxyCoords.y = e.clientY - rect.top - this.canvas.height / 2;
+		});
+
+		clearInterval(this.loop);
+
+		window.removeEventListener(
 			'wheel',
 			e => {
 				if (e.deltaY < 0) {
